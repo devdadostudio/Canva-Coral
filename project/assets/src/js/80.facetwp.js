@@ -1,0 +1,129 @@
+/**
+ * FacetWP Filtri e cotrolli mobile canva
+ */
+(function ($) {
+
+	/**
+	 * load overlay loader and filter on facetwp refresh\
+	 */
+	$(document).on('facetwp-refresh', function() {
+		open_modal('._overlay-loader', 'ani-fade-in', 300);
+		open_modal('._overlay-filter', 'ani-fade-in', 300);
+	});
+
+	/**
+	 * hide overlay loader and filter on facetwp loaded
+	 */
+	$(document).on('facetwp-loaded', function() {
+		close_modal('._overlay-loader._is-on', 'ani-fade-out', 300);
+		close_modal('._overlay-filter._is-on', 'ani-fade-out', 300);
+	});
+
+	$(window).on('facetwp-loaded facetwp-refresh', function () {
+
+		$('.loading').hide();
+
+		var scroll = $(window).scrollTop();
+		var viewPortWidth = $(window).width();
+		var viewPortHeight = $(window).height();
+		// var results = $('#facet-results'); // Hap
+
+		if (viewPortWidth < 640) {
+
+			$('.facetwp-filters-show').show();
+			$('.facetwp-filters-hide').hide();
+			$('.facetwp-filters-container').hide();
+
+			$(document).on('click', '.facetwp-filters-show', function () {
+				$('.facetwp-filters-container').slideDown();
+				$('.facetwp-filters-show').hide();
+				$('.facetwp-filters-hide').show();
+				$('.facetwp-filters-container').addClass('overflow-y h-100vh');
+			});
+
+			$(document).on('click', '.facetwp-filters-hide', function () {
+				$('.facetwp-filters-container').slideUp();
+				$('.facetwp-filters-hide').hide();
+				$('.facetwp-filters-show').show();
+				$('.facetwp-filters-container').removeClass('overflow-y h-100vh');
+				// $('html,body').animate({ scrollTop: results.offset().top }, 'slow'); // Hap
+				$('.loading').show();
+				setTimeout(function () {
+					$('.facetwp-filters-container').hide();
+					$('.loading').hide();
+				}, 350);
+			});
+
+		}
+	});
+
+
+	$(window).on('facetwp-loaded facetwp-refresh scroll', function () {
+
+		var scroll = $(window).scrollTop();
+		var viewPortWidth = $(window).width();
+		var viewPortHeight = $(window).height();
+		var mobileNavigationBarHeight = $("._nav-mob").outerHeight();
+		var filtersPosition = $('.facetwp-filters').position();
+
+		if (viewPortWidth < 640 && filtersPosition) {
+
+			if (scroll > (filtersPosition.top - mobileNavigationBarHeight)) {
+				$('.facetwp-filters').removeClass('sticky');
+				$('.facetwp-filters').css({
+					'position': 'fixed',
+					'z-index': '10',
+					'width': '100%',
+					'top': mobileNavigationBarHeight + 'px',
+					'left': '0',
+					'padding': '.5rem 1rem',
+					'border-bottom': '1px solid #b8b8b6',
+				});
+
+				$('.facetwp-filters-container').addClass('overflow-y h-100vh');
+
+			} else {
+				$('.facetwp-filters').removeAttr('style');
+				$('.facetwp-filters-container').removeClass('overflow-y h-100vh');
+			}
+
+		} else {
+			// metti sticky se i filtri in desktop stanno dentro il viewPortHeight
+			if ($('.facetwp-filters').outerHeight < viewPortHeight) {
+				$('.facetwp-filters').addClass('sticky');
+			}
+
+		}
+
+	});
+
+	/* invia il pageview a google analytics mentre si utilizzano i filtri */
+	$(document).on('facetwp-loaded', function () {
+		var gtagCheck = isGtagLoaded();
+		if (FWP.loaded && gtagCheck === true) {
+			gtag('event', 'page_view', { 'page_location': window.location.pathname + window.location.search });
+		}
+	});
+
+	/* scrolla la pagina all'inizio dei risultati */
+	$(document).on("facetwp-loaded", function () {
+		// console.log(FWP.is_load_more);
+		var viewPortWidth = $(window).width();
+		var viewPortHeight = $(window).height();
+		if (FWP.loaded && FWP.load_more_paged == 1) {
+			// scrollToAnchor('facetwp-results');
+			if (viewPortWidth < 640) {
+				scrollToClass('facetwp-template', 200);
+			}
+		}
+	});
+
+	/* riattiva il b-lazy per il facetwp */
+	$(document).on("facetwp-loaded", function () {
+		// if (FWP.loaded || FWP.is_load_more != false) {
+		if (FWP.loaded && FWP.load_more_paged >= 1) {
+			var bLazy = new Blazy();
+			bLazy.revalidate();
+		}
+	});
+})(jQuery);

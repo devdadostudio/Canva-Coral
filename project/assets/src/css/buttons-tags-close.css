@@ -1,0 +1,321 @@
+/*------------------------------------*\
+
+		Buttons
+		Tags
+		Close button
+
+\*------------------------------------
+
+
+/*------------------------------------*\
+	Button Regular
+\*------------------------------------*/
+
+
+button, .button, .tag,
+.facetwp-load-more {
+    @apply inline-flex items-center justify-center cursor-pointer fill-current;
+	padding: var(--btn-py) var(--btn-px);
+	color: var(--btn-color);
+	font-family: var(--btn-ff);
+	font-size: var(--btn-fs);
+	font-weight: var(--btn-fw);
+	line-height: var(--btn-lh);
+	margin-bottom: var(--btn-mb);
+	border-radius: var(--btn-rounded);
+	border: 1px solid var(--btn-border-color);
+	background-color: var(--btn-bg);
+	transition: var(--btn-transition);
+	text-transform: var(--btn-tt);
+	text-decoration: var(--btn-txtdec);
+}
+
+
+	button .icon, .button .icon, .tag .icon,
+	.facet-wp-load-more .icon {
+		color: var(--btn-icon-color);
+		fill: var(--btn-icon-color);
+	}
+
+@media (min-width:640px) {
+    .button,
+    .facetwp-load-more {
+    }
+}
+
+
+.button .text-wrapper {
+	transition: var(--btn-transition);
+	color: var(--btn-color);
+}
+
+
+
+/* Hover ----- */
+
+.button:hover, .tag:hover,
+.facetwp-load-more:hover {
+	background-color: var(--btn-hov-bg);
+    border-color: var(--btn-hov-border-color);
+	text-decoration: var(--btn-hov-txtdec) !important;
+	shadow: var(--btn-hov-shadow);
+	transform: var(--btn-hov-transformation);
+}
+
+.button:hover .icon, .tag:hover .icon,
+.facetwp-load-more:hover .icon {
+	color: var(--btn-hov-icon-color);
+	fill: var(--btn-hov-icon-color);
+}
+
+
+/* Specifiche Tag ----- */
+
+.tag {
+
+}
+
+
+/* Primary -----
+Si aggiunge comunque la versione primary perché in alcuni casi il colore del pulsante potrebbe essere assegnato alle variabili come non primary
+*/
+
+
+.button.primary:not(.hollow) {
+	@apply bg-primary border-primary;
+}
+
+.button.primary:hover:not(.hollow) {
+	@apply bg-primary-300 border-primary-300;
+}
+
+
+/* Secondary ----- */
+
+.button.secondary:not(.hollow) {
+	@apply bg-secondary border-secondary;
+}
+
+.button.secondary:hover:not(.hollow) {
+	@apply bg-secondary-300 border-secondary-300;
+}
+
+
+/* Accent ----- */
+
+.button.accent:not(.hollow) {
+	@apply bg-accent border-accent;
+}
+
+.button.accent:hover:not(.hollow) {
+	@apply bg-accent-300 border-accent-300;
+}
+
+
+/* Black ----- */
+
+.button.black:not(.hollow) {
+	@apply bg-black border-black;
+}
+
+.button.black:hover:not(.hollow) {
+	@apply bg-white border-black text-black;
+}
+
+.button.black:hover:not(.hollow) .text-wrapper {
+	@apply text-black;
+}
+
+
+
+/* Success ----- */
+
+.button.success:not(.hollow) {
+	@apply bg-success border-success;
+}
+
+.button.success:hover:not(.hollow) {
+	@apply bg-success-300 border-success-300;
+}
+
+
+/* warning ----- */
+
+.button.warning:not(.hollow) {
+	@apply bg-warning border-warning;
+}
+
+.button.warning:hover:not(.hollow) {
+	@apply bg-warning-300 border-warning-300;
+}
+
+
+/* alert ----- */
+
+.button.alert:not(.hollow) {
+	@apply bg-alert border-alert;
+}
+
+.button.alert:hover:not(.hollow) {
+	@apply bg-alert-300 border-alert-300;
+}
+
+
+
+
+
+/*------------------------------------*\
+	Button Hollow
+\*------------------------------------*/
+
+.button.hollow {
+	background: var(--btn-hollow-bg);
+	color: var(--btn-hollow-color);
+	border: 1px solid var(--btn-hollow-border-color);
+}
+
+	.button.hollow .text-wrapper {
+		color: var(--btn-hollow-color);
+	}
+
+.button.hollow:hover,
+.facetwp-load-more:hover {
+	background: var(--btn-hollow-hov-bg);
+	color: var(--btn-hollow-hov-color);
+	border: 1px solid var(--btn-hollow-hov-border-color);
+}
+
+	.button.hollow:hover .text-wrapper {
+		color: var(--btn-hollow-hov-color);
+	}
+
+
+/* Hollow white ----- */
+
+.button.hollow.white {
+	@apply text-white border-white;
+}
+
+.button.hollow.white:hover {
+	color: var(--color-primary);
+	@apply bg-white;
+}
+
+
+/* Hollow secondary ----- */
+
+.button.hollow.secondary {
+	@apply text-secondary border-secondary;
+}
+
+.button.hollow.secondary:hover {
+	color: var(--btn-hollow-hov-color);
+	@apply bg-secondary;
+}
+
+
+/* Hollow success ----- */
+
+.button.hollow.success {
+	@apply text-success border-success;
+}
+
+.button.hollow.success:hover {
+	color: var(--btn-hollow-hov-color);
+	@apply bg-success;
+}
+
+
+/* Hollow warning ----- */
+
+.button.hollow.warning {
+	@apply text-warning border-warning;
+}
+
+.button.hollow.warning:hover {
+	color: var(--btn-hollow-hov-color);
+	@apply bg-warning;
+}
+
+
+/* Hollow alert ----- */
+
+.button.hollow.alert {
+	@apply text-alert border-alert;
+}
+
+.button.hollow.alert:hover {
+	color: var(--btn-hollow-hov-color);
+	@apply bg-alert;
+}
+
+
+
+/*------------------------------------*\
+	Button Disabled
+\*------------------------------------*/
+
+:disabled, .disabled {
+	@apply bg-gray-500 border-gray-500 cursor-not-allowed opacity-50 !important;
+}
+
+
+
+
+/*------------------------------------*\
+	Button con Icona
+\*------------------------------------*/
+
+
+.button ._icon-wrap {
+	height: var(--btn-icon-ratio);
+	width: var(--btn-icon-ratio);
+	margin-right: calc(var(--btn-icon-ratio) / 2);
+	position: relative;
+}
+
+
+
+
+/*------------------------------------*\
+	TAG
+\*------------------------------------*/
+
+/* I tag sono generalmente identici ai button, solo cambiano di solito lo spessore del testo dentro e il colore */
+
+
+
+
+/*------------------------------------*\
+	Close Button
+\*------------------------------------*/
+
+/* Il close button si applica come classe all'a ogni volta che si vuole fare un close che abbia icona e comportamento standard.
+Non si può impostare con ratio-1-1 perché in vari casi dà risultati non voluti. Si usa quindi w-XY e h-XY */
+
+
+._x-button {
+	@apply z-5 cursor-pointer bg-no-repeat bg-center;
+	width: var(--x-btn-size-xs);
+	height: var(--x-btn-size-xs);
+	border-radius: var(--x-btn-border-radius);
+	border: var(--x-btn-border);
+	background-color: var(--x-btn-bg-color);
+	background-image: var(--x-btn-icon);
+	background-size: var(--x-btn-bg-size);
+	opacity: var(--x-btn-opacity);
+	transition: var(--x-btn-transition);
+}
+
+@media (min-width: 960px) {
+	._x-button {
+		width: var(--x-btn-size-lg);
+		height: var(--x-btn-size-lg);
+	}
+}
+
+	._x-button:hover {
+		transform: var(--x-btn-hov-transform);
+		background-color: var(--x-btn-hov-bg-color);
+		opacity: var(--x-btn-hov-opacity);
+	}

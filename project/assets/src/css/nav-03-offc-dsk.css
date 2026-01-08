@@ -1,0 +1,211 @@
+/*------------------------------------*\
+****************************************
+/*------------------------------------*\
+
+	NAV 03 Off Canvas Desktop
+	- Variabili
+	- Css
+
+\*------------------------------------*\
+****************************************
+\*------------------------------------*/
+
+
+
+/* Le navigazioni NON si includono in layer base se no filtra un sacco di classi come gli hover i current etc... */
+/* @layer base { */
+
+
+/*------------------------------------*\
+/*------------------------------------*\
+	Variabili Off Canvas Desktop
+\*------------------------------------*\
+\*------------------------------------*/
+
+:root {
+
+
+	/* Area esterna di tutto il menu Off Canvas Desktop */
+	--nav-offc-dsk-w: clamp( 320px, 90%, 480px); /* valore minimo, preferito, massimo */
+	--nav-offc-dsk-h: 100vh; /* --nav-mob-h è l'altezza della nav calcolata in js e inserita nel DOM */
+	--nav-offc-dsk-l: auto;
+	--nav-offc-dsk-r: 0;
+	--nav-offc-dsk-p: 2rem 0 2rem;
+	--nav-offc-dsk-bg: linear-gradient(var(--color-secondary), var(--color-accent));
+	--nav-offc-dsk-shadow: none;
+	--nav-offc-dsk-transition: var(--a-transition);
+
+
+		/* Voci Menu */
+		--menu-offc-dsk-item-p: .75em; /* padding */
+		--menu-offc-dsk-item-ff: var(--primary-ff); /* var(--menu-offc-mob-ff); */
+		--menu-offc-dsk-item-fs: 1.25em; /* var(--menu-offc-mob-fs); */
+		--menu-offc-dsk-item-fw: 700; /* var(--menu-offc-mob-fw); */
+		--menu-offc-dsk-item-lh: 1; /* var(--menu-offc-mob-line-height); */
+		--menu-offc-dsk-item-color: var(--color-primary); /* var(--menu-offc-mob-color); */
+		--menu-offc-dsk-item-tt: none; /* var(--menu-offc-mob-transform); */
+		--menu-offc-dsk-item-txtdec: underline solid transparent; /* var(--menu-offc-mob-text-decoration); */  /* es. underline solid red */
+		/* --menu-offc-dsk-item-transition: var(--menu-offc-mob-transition); */
+		--menu-offc-dsk-item-border-b: 1px solid rgba(255,255,255,.15); /* es. Border-bttom solo per voci di primo livello */
+		--menu-offc-dsk-item-hov-color: var(--color-primary-300); /* var(--menu-offc-mob-hover-color); */
+		--menu-offc-dsk-item-hov-txtdec: underline solid transparent; /* var(--menu-offc-mob-hover-text-decoration); */ /* es. underline solid red */
+		--menu-offc-dsk-item-hov-bg: transparent; /* var(--menu-offc-mob-hover-bg); */
+		--menu-offc-dsk-item-current-color: var(--color-primary); /* var(--menu-offc-mob-current-color); */
+		--menu-offc-dsk-item-current-fw: 700; /* var(--menu-offc-mob-current-fw); */
+		--menu-offc-dsk-item-current-txtdec: underline solid transparent; /* var(--menu-offc-mob-current-txtdec); */ /* es. underline solid red */
+		--menu-offc-dsk-item-current-bg: transparent; /* var(--menu-offc-mob-current-bg); */
+
+			/* Off Canvas Desktop > Menu Subitems */
+			--menu-offc-dsk-has-subitem-icon: var(--icon-v-r);
+			--menu-offc-dsk-has-subitem-icon-opacity: .75;
+			--menu-offc-dsk-has-subitem-icon-rotate: rotate(0deg); /* permette di usare ad es l'icona X come + */
+			--menu-offc-dsk-has-subitem-is-on-icon-rotate: rotate(90deg);
+
+			--menu-offc-dsk-subitem-menu-dropdown-p: 0 0 0 1rem;
+			--menu-offc-dsk-subitem-menu-dropdown-bg: var(--color-abc-clear-gray);
+			--menu-offc-dsk-subitem-p: var(--menu-offc-dsk-item-p); /* var(--menu-itm-p); */
+			--menu-offc-dsk-subitem-ff: var(--secondary-ff); /* var(--menu-offc-dsk-item-ff); */
+			--menu-offc-dsk-subitem-fs: .875em; /* var(--menu-offc-dsk-item-fs); */
+			--menu-offc-dsk-subitem-fw: 400;
+			--menu-offc-dsk-subitem-color: var(--color-abc-light-gray); /* var(--menu-offc-dsk-item-color); */
+			--menu-offc-dsk-subitem-tt: none;
+			--menu-offc-dsk-subitem-hov-color: var(--color-black);
+			--menu-offc-dsk-subitem-hov-bg: transparent;
+
+
+/* Chiude :root */
+}
+
+
+
+
+/*------------------------------------*\
+/*------------------------------------*\
+	Css Off Canvas Desktop
+\*------------------------------------*\
+\*------------------------------------*/
+
+
+/* Di default appare con slide-in da destra, con top-0, altezza full e overflow-scroll. Qualsiasi altro comportamento si definisce interamente in style-project */
+
+
+._nav-offc-dsk {
+	@apply fixed h-full overflow-y-auto;
+	width: var(--nav-offc-dsk-w);
+	height: var(--nav-offc-dsk-h);
+	left: var(--nav-offc-dsk-l);
+	right: var(--nav-offc-dsk-r);
+	top: 0;
+	padding: var(--nav-offc-dsk-p);
+	background: var(--nav-offc-dsk-bg);
+	transition: var(--nav-offc-dsk-transition);
+	box-shadow: var(--nav-offc-dsk-shadow);
+	z-index: 72;
+}
+
+._nav-offc-dsk.below-the-top {
+	z-index: 42;
+	top: var(--nav-responsive-h);
+	height: calc(var(--nav-offc-dsk-h) - var(--nav-responsive-h));
+}
+
+._nav-offc-dsk._is-on { }
+
+._nav-offc-dsk._is-off { }
+
+
+
+	/* Menu Off Canvas Dsk */
+
+	._menu-offc-dsk {
+		@apply relative w-full;
+	}
+
+
+		/* Voci menu dentro Off Canvas Mobile */
+		._menu-offc-dsk .menu-item,
+		._menu-offc-dsk .menu-item a {
+			@apply block relative;
+		}
+
+			._menu-offc-dsk .menu-item a {
+				font-family: var(--menu-offc-dsk-item-ff);
+				font-size: var(--menu-offc-dsk-item-fs);
+				padding: var(--menu-offc-dsk-item-p);
+				font-weight: var(--menu-offc-dsk-item-fw);
+				line-height: var(--menu-offc-dsk-item-lh);
+				color: var(--menu-offc-dsk-item-color);
+				text-transform: var(--menu-offc-dsk-item-tt);
+				text-decoration: var(--menu-offc-dsk-item-txtdec);
+				border-bottom: var(--menu-offc-dsk-item-border-b);
+			}
+
+			._menu-offc-dsk .menu-item a:hover {
+				color: var(--menu-offc-dsk-item-hov-color);
+				text-decoration: var(--menu-offc-dsk-item-hov-txtdec);
+				background: var(--menu-offc-dsk-item-hov-bg);
+			}
+
+			._menu-offc-dsk .menu-item.current-menu-item a {
+				color: var(--menu-offc-dsk-item-current-color);
+				font-weight:  var(--menu-offc-dsk-item-current-fw);
+				text-decoration: var(--menu-offc-dsk-item-current-txtdec);
+				background: var(--menu-offc-dsk-item-current-bg);
+			}
+
+			._menu-offc-dsk .menu-item.current-menu-item a:hover {
+				text-decoration: var(--menu-itm-hov-txtdec);
+				background: var(--menu-offc-dsk-item-current-bg);
+			}
+
+
+			/* Sub Items */
+
+			._menu-offc-dsk .menu-item-has-children .dropdown {
+				padding: var(--menu-offc-dsk-subitem-menu-dropdown-p);
+				background: var(--menu-offc-dsk-subitem-menu-dropdown-bg);
+			}
+
+				._menu-offc-dsk .menu-item-has-children .menu-item a {
+					font-family: var(--menu-offc-dsk-subitem-ff);
+					font-size: var(--menu-offc-dsk-subitem-fs);
+					padding: var(--menu-offc-dsk-subitem-p);
+					font-weight: var(--menu-offc-dsk-subitem-fw);
+					line-height: var(--menu-offc-dsk-subitem-lh);
+					color: var(--menu-offc-dsk-subitem-color);
+					text-transform: var(--menu-offc-dsk-subitem-tt);
+					text-decoration: var(--menu-offc-dsk-subitem-txtdec);
+				}
+
+				._menu-offc-dsk .menu-item-has-children .menu-item a:hover {
+					color: var(--menu-offc-dsk-subitem-hov-color);
+					background: var(--menu-offc-dsk-subitem-hov-bg);
+				}
+
+					._menu-offc-dsk .menu-item.menu-item-has-children > a::before {
+						content: " ";
+						position: absolute;
+						display: flex;
+						height: .75rem; /* qui si usa rem se non vuoi avere dimensioni diverse tra liv 1 e sottolivelli */
+						width: .75rem;
+						margin-top: 0;
+						top: 50%;
+						right: 0;
+						background-image: var(--menu-offc-dsk-has-subitem-icon);
+						background-size: 100%;
+						background-repeat: no-repeat;
+						opacity: var(--menu-offc-dsk-has-subitem-icon-opacity);
+						transition: var(--a-transition);
+						transform: translateX(-100%) translateY(-50%) var(--menu-offc-dsk-has-subitem-icon-rotate);
+					}
+
+					._menu-offc-dsk .menu-item.menu-item-has-children.open > a::before {
+						transform: translateX(-100%) translateY(-50%) var(--menu-offc-dsk-has-subitem-is-on-icon-rotate);
+					}
+
+
+
+
+
+/* Chiude layer base */
+/* } */

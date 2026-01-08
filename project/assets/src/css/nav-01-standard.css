@@ -1,0 +1,704 @@
+/*------------------------------------*\
+****************************************
+/*------------------------------------*\
+
+	NAV 01 Standard
+	- menu desktop e relative sottovoci
+	- menu mobile
+	- offcanvas mobile e relative sottovoci
+	- menu-h menu-v
+	- footer menu
+
+\*------------------------------------*\
+****************************************
+\*------------------------------------*/
+
+/*
+
+Qui dentro ci sono le principali declinazioni delle nav standard.
+Sono escluse quelle particolari tipo menu curtain, menu custom etc.. che vanno in file css separato.
+
+*/
+
+
+
+body.page-template-page-lp main {
+	margin-top: 0;
+}
+
+
+/* Regole comuni ----- */
+
+.menu-item,
+.menu-item a {
+    @apply inline-flex relative;
+}
+
+.menu-item a {
+	font-family: var(--menu-itm-ff);
+	font-size: var(--menu-itm-fs);
+	padding: var(--menu-itm-p);
+	font-weight: var(--menu-itm-fw);
+	line-height: var(--menu-itm-lh);
+	color: var(--menu-itm-color);
+	text-transform: var(--menu-itm-tt);
+	text-decoration: var(--menu-itm-txtdec);
+	transition: var(--menu-itm-transition);
+}
+
+	.menu-item a:hover {
+		color: var(--menu-itm-color);
+		text-decoration: var(--menu-itm-txtdec);
+		background: var(--menu-itm-hov-bg);
+	}
+
+	.menu-item.current-menu-item a {
+		font-weight: var(--menu-itm-cur-fw);
+		color: var(--menu-itm-cur-color);
+		text-decoration: var(--menu-itm-cur-txtdec);
+		background: var(--menu-itm-cur-bg);
+	}
+
+	/* Blocca alcuni comportamenti di hover default sui current */
+	.menu-item.current-menu-item a:hover {
+		font-weight: var(--menu-itm-cur-fw);
+		text-decoration: var(--menu-itm-hov-txtdec);
+		background: var(--menu-itm-cur-bg);
+	}
+
+
+.menu-item-icon {
+	display: inline-flex;
+	align-items: center;
+}
+
+	.menu-item-icon a {
+		@apply inline-flex;
+		border-radius: var(--menu-itm-icon-border-radius);
+		padding: var(--menu-itm-icon-p-xs);
+		color: var(--menu-itm-icon-color);
+		transition: var(--menu-itm-icon-transition);
+	}
+
+		.menu-item-icon a:hover {
+			color: var(--menu-itm-icon-hov-color);
+			background: var(--menu-itm-icon-hov-bg);
+		}
+
+		.menu-item-icon a svg {
+			display: block;
+			width: var(--menu-itm-icon-svg-size-xs);
+			height: var(--menu-itm-icon-svg-size-xs);
+		}
+
+
+	@media (min-width:960px) {
+		.menu-item-icon a {
+			padding: var(--menu-itm-icon-p-lg);
+		}
+		.menu-item-icon a svg {
+			width: var(--menu-itm-icon-svg-size-lg);
+			height: var(--menu-itm-icon-svg-size-lg);
+		}
+	}
+
+
+
+/*------------------------------------*\
+		Desktop Navigation
+\*------------------------------------*/
+
+/* Contiene
+	- menu-desktop
+	- menu-aux
+*/
+
+._nav-dsk {
+    @apply w-full z-50 top-0;
+	position: var(--nav-dsk-position);
+	background: var(--nav-dsk-bg);
+	border-bottom: var(--nav-dsk-border-b);
+	box-shadow: var(--nav-dsk-shadow);
+}
+
+	@supports (backdrop-filter: blur(12px)) {
+		._nav-dsk {
+			backdrop-filter: var(--nav-dsk-bdrop-filter);
+			background: var(--nav-dsk-bg-bdrop-filter);
+		}
+	}
+
+
+	/* Desktop Navigation > Menu Desktop ----- */
+
+	._menu-dsk {
+		background: var(--menu-dsk-bg); /* copre il bg ._nav-dsk */
+	}
+
+		._menu-dsk .menu-item a {
+			font-family: var(--menu-dsk-itm-ff);
+			font-size: var(--menu-dsk-itm-fs);
+			padding: var(--menu-dsk-itm-pt) var(--menu-dsk-itm-pr) var(--menu-dsk-itm-pb) var(--menu-dsk-itm-pl);
+			font-weight: var(--menu-dsk-itm-fw);
+			line-height: var(--menu-dsk-itm-lh);
+			color: var(--menu-dsk-itm-color);
+			text-transform: var(--menu-dsk-itm-tt);
+			text-decoration: var(--menu-dsk-itm-txtdec);
+		}
+
+		._menu-dsk .menu-item a:hover {
+			color: var(--menu-dsk-itm-hov-color);
+			text-decoration: var(--menu-dsk-itm-hov-txtdec);
+			background: var(--menu-dsk-itm-hov-bg);
+		}
+
+		._menu-dsk .menu-item.current-menu-item a {
+			color: var(--menu-dsk-itm-cur-color);
+			font-weight:  var(--menu-dsk-itm-cur-fw);
+			text-decoration: var(--menu-dsk-itm-cur-txtdec);
+			background: var(--menu-dsk-itm-cur-bg);
+		}
+
+		._menu-dsk .menu-item.current-menu-item a:hover {
+			text-decoration: var(--menu-itm-hov-txtdec);
+			background: var(--menu-dsk-itm-cur-bg);
+		}
+
+
+		/* Voci menu dsk 1 liv che hanno figli */
+		/* Viene aggiunta icona e allargata la voce espandendo il padding-right in proporzione a dimensione icona */
+
+		._menu-dsk .menu-item.menu-item-has-children > a {
+			padding-right: calc(var(--menu-dsk-itm-pr) + var(--menu-dsk-itm-hasc-icon-size) * 1.75);
+		}
+
+		._menu-dsk .menu-item.menu-item-has-children > a::before {
+			content: " ";
+			position: absolute;
+			display: flex;
+			height: var(--menu-dsk-itm-hasc-icon-size); /* qui si usa rem se non vuoi avere dimensioni diverse tra liv 1 e sottolivelli */
+			width: var(--menu-dsk-itm-hasc-icon-size);
+			top: var(--menu-dsk-itm-pt);
+			right: var(--menu-dsk-itm-pr);
+			background-image: var(--menu-dsk-itm-hasc-icon);
+			background-size: 100%;
+			background-repeat: no-repeat;
+			opacity: var(--menu-dsk-itm-hasc-icon-opacity);
+			transition: var(--a-transition);
+			transform: var(--menu-dsk-itm-hasc-icon-rotate);
+		}
+
+		._menu-dsk .menu-item.menu-item-has-children._is-on > a::before {
+			transform: var(--menu-dsk-itm-hasc-is-on-icon-rotate);
+		}
+
+
+
+			/* Menu Desktop - Subitems */
+
+			/* Riquadro menu di 2-3° liv */
+			._menu-dsk .dropdown {
+				position: absolute;
+				z-index: 61;
+				top: calc(100% + var(--menu-dsk-l2-ddown-y-offset)); /* Solo per menu 2 liv */
+				left: var(--menu-dsk-l2-ddown-x-offset);
+				width: var(--menu-dsk-l2-ddown-w);
+				background: var(--menu-dsk-l2-ddown-bg);
+				border-radius: var(--menu-dsk-l2-ddown-border-radius);
+				box-shadow: var(--menu-dsk-l2-ddown-shadow);
+			}
+
+
+				._menu-dsk .dropdown .menu-item {
+					@apply flex; /* imposta li delle voci menu con flex in modo che prendano tutta larghezza rispetto a w del menu dropdown */
+				}
+
+					/* Voci 2 livello */
+					._menu-dsk .dropdown .menu-item a {
+						width: 100%; /* per riempire tutta la larghezza disponibile del li indipendentemente da lunghezza testo */
+						padding: var(--menu-dsk-l2-itm-p);
+						font-family: var(--menu-dsk-l2-itm-ff);
+						font-size: var(--menu-dsk-l2-itm-fs);
+						font-weight: var(--menu-dsk-l2-itm-fw);
+						color: var(--menu-dsk-l2-itm-color);
+						text-transform: var(--menu-dsk-l2-itm-tt);
+						transition: var(--a-transition);
+					}
+
+					._menu-dsk .dropdown .menu-item a:hover {
+						color: var(--menu-dsk-l2-itm-hov-color);
+						background: var(--menu-dsk-l2-itm-hov-bg);
+					}
+
+					._menu-dsk .dropdown .menu-item.menu-item-has-children > a {
+						position: relative;
+					}
+
+						._menu-dsk .dropdown .menu-item.menu-item-has-children > a::before {
+							content: " ";
+							position: absolute;
+							height: var(--menu-dsk-l2-itm-hasc-icon-size); /* qui si usa rem se non vuoi avere dimensioni diverse tra liv 1 e sottolivelli */
+							width: var(--menu-dsk-l2-itm-hasc-icon-size);
+							margin-top: 0;
+							top: 50%;
+							right: var(--menu-dsk-l2-itm-hasc-icon-size);
+							background-image: var(--menu-dsk-l2-itm-hasc-icon);
+							background-size: 100%;
+							background-repeat: no-repeat;
+							opacity: var(--menu-dsk-l2-itm-hasc-icon-opacity);
+							transition: var(--a-transition);
+							transform: translateY(-50%) var(--menu-dsk-l2-itm-hasc-icon-rotate);
+						}
+
+
+							._menu-dsk .dropdown .menu-item.menu-item-has-children._is-on > a {
+								color:var(--menu-dsk-l2-itm-hasc-is-on-color);
+								background: var(--menu-dsk-l2-itm-hasc-is-on-bg);
+							}
+
+								._menu-dsk .dropdown .menu-item.menu-item-has-children._is-on > a::before {
+									transform: translateY(-50%) var(--menu-dsk-l2-itm-hasc-is-on-icon-rotate);
+								}
+
+
+									/* Riquadro menu dal 3° liv in poi */
+									._menu-dsk .dropdown .dropdown {
+										top: var(--menu-dsk-l3-ddown-t);
+										left: var(--menu-dsk-l3-ddown-l);
+									}
+
+
+
+
+
+
+
+
+
+	/* Desktop Navigation > Menu Aux ----- */
+
+	/*
+	Variabili e css in
+	nav-02-dsk-aux.css
+	*/
+
+
+
+
+/*------------------------------------*\
+	Mobile navigation
+\*------------------------------------*/
+
+._nav-mob {
+    @apply w-full top-0;
+	z-index: 50;
+	position: var(--nav-mob-position);
+	background: var(--nav-mob-bg);
+	border-bottom: var(--nav-mob-border-b);
+	box-shadow: var(--nav-mob-shadow);
+}
+
+
+	@supports (backdrop-filter: blur(12px)) {
+		._nav-mob {
+			backdrop-filter: var(--nav-mob-bdrop-filter);
+			background: var(--nav-mob-bg-bdrop-filter);
+		}
+	}
+
+
+
+/*------------------------------------*\
+	Hamburger
+\*------------------------------------*/
+
+/* Area menu item-icon
+Reset dei valori di default per permettere regole diverse per hamburger */
+
+.menu-item-icon-hamburger a {
+	padding: 0; /* Sovrascrive lo spazio di default delle icone per il solo hamburger */
+}
+
+.menu-item-icon-hamburger a:hover {
+	background: transparent; /* Azzera bg hover del menu-item-icon perché hamburger lo ha dentro area di interazione non qui */
+}
+
+
+
+	/* Padding esterno al componente hamburger */
+
+	._nav-mob .menu-item-icon-hamburger {
+		padding: var(--hamburger-mob-p);
+	}
+
+
+
+	/* Area di interazione menu hamburger */
+
+	.ham-bars-container {
+		@apply flex items-center justify-center transform-gpu;
+		width: var(--hamburger-area-size);
+		height: var(--hamburger-area-size);
+		border-radius: var(--hamburger-area-border-radius);
+		background: var(--hamburger-area-bg);
+		transition: var(--hamburger-area-transition);
+	}
+
+		.ham-bars-container:hover {
+			background: var(--hamburger-area-hov-bg);
+			transform: var(--hamburger-area-hov-transformation);
+		}
+
+			/* Hamburger xs */
+
+			.ham-bars {
+				position: relative;
+				width: var(--ham-bars-w-xs);
+				height: var(--ham-bars-h-xs);
+				border-radius: var(--ham-bars-border-radius);
+				background: var(--ham-bars-bg);
+				transition: var(--ham-bars-transition);
+			}
+
+				.ham-bars::before,
+				.ham-bars::after {
+					position: absolute;
+					content: " ";
+					width: var(--ham-bars-w-xs);
+					height: var(--ham-bars-h-xs);
+					border-radius: var(--ham-bars-border-radius);
+					background: var(--ham-bars-bg);
+					transition: var(--ham-bars-transition);
+				}
+
+				.ham-bars::before {
+					top: calc(-1 * var(--ham-bars-distance-xs));
+				}
+
+				.ham-bars::after {
+					top: var(--ham-bars-distance-xs);
+				}
+
+			/* Hamburger lg */
+
+			@media (min-width:960px) {
+
+			.ham-bars {
+				width: var(--ham-bars-w-lg);
+				height: var(--ham-bars-h-lg);
+			}
+
+				.ham-bars::before,
+				.ham-bars::after {
+					top: calc(-1 * var(--ham-bars-distance-lg));
+					width: var(--ham-bars-w-lg);
+					height: var(--ham-bars-h-lg);
+				}
+
+				.ham-bars::after {
+					top: var(--ham-bars-distance-lg);
+				}
+
+			}
+
+			/* Hamburger Open */
+
+			.menu-item-icon-hamburger._is-on .ham-bars-container {
+				background: var(--hamburger-is-on-area-bg);
+			}
+
+				.menu-item-icon-hamburger._is-on .ham-bars {
+					@apply bg-transparent;
+				}
+
+				.menu-item-icon-hamburger._is-on .ham-bars::before {
+					transform: rotate(-225deg);
+					top: 0;
+				}
+
+				.menu-item-icon-hamburger._is-on .ham-bars::after {
+					transform: rotate(-135deg);
+					top: 0;
+				}
+
+
+
+
+
+/*------------------------------------*\
+	Overlay Off Canvas
+\*------------------------------------*/
+
+
+
+
+/*------------------------------------*\
+	Off Canvas mobile Navigation
+\*------------------------------------*/
+
+/* Di default appare con slide-in da destra, con top-0, altezza full e overflow-scroll. Qualsiasi altro comportamento si definisce interamente in style-project */
+
+
+._nav-offc-mob {
+	@apply fixed h-full overflow-y-auto;
+	width: var(--nav-offc-mob-w);
+	height: var(--nav-offc-mob-h);
+	left: var(--nav-offc-mob-l);
+	right: var(--nav-offc-mob-r);
+	top: 0;
+	padding: var(--nav-offc-mob-p);
+	background: var(--nav-offc-mob-bg);
+	transition: var(--nav-offc-mob-transition);
+	box-shadow: var(--nav-offc-mob-shadow);
+	z-index: 72;
+}
+
+._nav-offc-mob.below-the-top {
+	z-index: 42;
+	top: var(--nav-responsive-h);
+	height: calc(var(--nav-offc-mob-h) - var(--nav-responsive-h));
+}
+
+	._nav-offc-mob.below-the-top ._x-button {
+		display: none;
+	}
+
+._nav-offc-mob._is-on { }
+
+._nav-offc-mob._is-off { }
+
+
+
+	/* Menu Off Canvas Mobile */
+
+	._menu-offc-mob {
+		@apply relative w-full;
+	}
+
+
+		/* Voci menu dentro Off Canvas Mobile */
+		._menu-offc-mob .menu-item,
+		._menu-offc-mob .menu-item a {
+			@apply block relative;
+		}
+
+			._menu-offc-mob .menu-item a {
+				font-family: var(--menu-offc-mob-item-ff);
+				font-size: var(--menu-offc-mob-item-fs);
+				padding: var(--menu-offc-mob-item-p);
+				font-weight: var(--menu-offc-mob-item-fw);
+				line-height: var(--menu-offc-mob-item-lh);
+				color: var(--menu-offc-mob-item-color);
+				text-transform: var(--menu-offc-mob-item-tt);
+				text-decoration: var(--menu-offc-mob-item-txtdec);
+				border-bottom: var(--menu-offc-mob-item-border-b);
+			}
+
+			._menu-offc-mob .menu-item a:hover {
+				color: var(--menu-offc-mob-item-hov-color);
+				text-decoration: var(--menu-offc-mob-item-hov-txtdec);
+				background: var(--menu-offc-mob-item-hov-bg);
+			}
+
+			._menu-offc-mob .menu-item.current-menu-item a {
+				color: var(--menu-offc-mob-item-current-color);
+				font-weight:  var(--menu-offc-mob-item-current-fw);
+				text-decoration: var(--menu-offc-mob-item-current-txtdec);
+				background: var(--menu-offc-mob-item-current-bg);
+			}
+
+			._menu-offc-mob .menu-item.current-menu-item a:hover {
+				text-decoration: var(--menu-itm-hov-txtdec);
+				background: var(--menu-offc-mob-item-current-bg);
+			}
+
+
+			/* Sub Items */
+
+			._menu-offc-mob .menu-item-has-children .dropdown {
+				padding: var(--menu-offc-mob-subitem-menu-dropdown-p);
+				background: var(--menu-offc-mob-subitem-menu-dropdown-bg);
+			}
+
+				._menu-offc-mob .menu-item-has-children .menu-item a {
+					font-family: var(--menu-offc-mob-subitem-ff);
+					font-size: var(--menu-offc-mob-subitem-fs);
+					padding: var(--menu-offc-mob-subitem-p);
+					font-weight: var(--menu-offc-mob-subitem-fw);
+					line-height: var(--menu-offc-mob-subitem-lh);
+					color: var(--menu-offc-mob-subitem-color);
+					text-transform: var(--menu-offc-mob-subitem-tt);
+					text-decoration: var(--menu-offc-mob-subitem-txtdec);
+				}
+
+				._menu-offc-mob .menu-item-has-children .menu-item a:hover {
+					color: var(--menu-offc-mob-subitem-hov-color);
+					background: var(--menu-offc-mob-subitem-hov-bg);
+				}
+
+					._menu-offc-mob .menu-item.menu-item-has-children > a::before {
+						content: " ";
+						position: absolute;
+						display: flex;
+						height: .75rem; /* qui si usa rem se non vuoi avere dimensioni diverse tra liv 1 e sottolivelli */
+						width: .75rem;
+						margin-top: 0;
+						top: 50%;
+						right: 0;
+						background-image: var(--menu-offc-mob-has-subitem-icon);
+						background-size: 100%;
+						background-repeat: no-repeat;
+						opacity: var(--menu-offc-mob-has-subitem-icon-opacity);
+						transition: var(--a-transition);
+						transform: translateX(-100%) translateY(-50%) var(--menu-offc-mob-has-subitem-icon-rotate);
+					}
+
+					._menu-offc-mob .menu-item.menu-item-has-children.open > a::before {
+						transform: translateX(-100%) translateY(-50%) var(--menu-offc-mob-has-subitem-is-on-icon-rotate);
+					}
+
+
+
+/*------------------------------------*\
+	Off Canvas Desktop
+\*------------------------------------*/
+
+	/*
+	Variabili e css in
+	nav-03-offc-dsk.css
+	*/
+
+
+
+
+/*------------------------------------*\
+	+Menu H V
+\*------------------------------------*/
+
+/*
+Sono i menu generici usati come <ul class="menu-* fs-h*">
+Gli li che si trovano prendono
+	- la tipografia dalle variabili per le classi menu-*
+	- il font size dalla classe scelta nell'ul
+	- IN FUTURO: il text align dal contenitore (funziona solo con text-center non legato a nessun breakpoint, quindi no small/medium/large-text-center)
+NOTA: Qui non vengono usate proprietà come flex-direction / flex-wrap etc... perché aumenta la quantità di casi e regole da dare
+*/
+
+.menu-v,
+.menu-h {
+    list-style-type: none;
+    padding-left: 0; /* reset di sicurezza del padding default degli ul */
+}
+
+	.menu-v li,
+	.menu-h li {
+		display: flex;
+		margin-bottom: var(--menu-hv-mb);
+	}
+
+	.menu-v li:last-child {
+		margin-bottom: 0;
+	}
+
+		.menu-v li a,
+		.menu-h li a {
+            font-family: var(--menu-hv-ff);
+            font-weight: var(--menu-hv-fw);
+            line-height: var(--menu-hv-lh);
+            color: var(--menu-hv-color);
+			text-decoration: var(--menu-hv-txtdec);
+            transition: var(--menu-hv-transition);
+            }
+
+		.menu-v li a:hover,
+		.menu-h li a:hover {
+			color: var(--menu-hv-hov-color);
+			text-decoration: var(--menu-hv-hov-txtdec);
+		}
+
+
+.menu-h li {
+    display: inline-flex;
+    margin-left: 0;
+    margin-right: var(--menu-h-spacing-h);
+}
+
+
+
+/*------------------------------------*\
+	+Menu H V Footer
+\*------------------------------------*/
+
+/*
+Sono i menu generici usati come <ul class="menu-* fs-h*">
+Gli li che si trovano prendono
+	- la tipografia dalle variabili per le classi menu-*
+	- il font size dalla classe scelta nell'ul
+	- IN FUTURO: il text align dal contenitore (funziona solo con text-center non legato a nessun breakpoint, quindi no small/medium/large-text-center)
+NOTA: Qui non vengono usate proprietà come flex-direction / flex-wrap etc... perché aumenta la quantità di casi e regole da dare
+*/
+
+footer .menu-v,
+footer .menu-h {
+    list-style-type: none;
+    padding-left: 0; /* reset di sicurezza del padding default degli ul */
+}
+
+	footer .menu-v li,
+	footer .menu-h li {
+		display: flex;
+		margin-bottom: var(--menu-hv-foot-mb);
+	}
+
+	footer .menu-v li:last-child {
+		margin-bottom: 0;
+	}
+
+		footer .menu-v li a,
+		footer .menu-h li a {
+            font-family: var(--menu-hv-foot-ff);
+            font-weight: var(--menu-hv-foot-fw);
+            line-height: var(--menu-hv-foot-lh);
+            color: var(--menu-hv-foot-color);
+			text-decoration: var(--menu-hv-foot-txtdec);
+            transition: var(--menu-hv-foot-transition);
+            }
+
+		footer .menu-v li a:hover,
+		footer .menu-h li a:hover {
+			color: var(--menu-hv-foot-hov-color);
+			text-decoration: var(--menu-hv-foot-hov-txtdec);
+		}
+
+
+footer .menu-h li {
+    display: inline-flex;
+    margin-left: 0;
+    margin-right: var(--menu-h-footer-spacing-h);
+}
+
+
+
+
+
+/*------------------------------------*\
+		Resti classi di Michele
+
+
+		*************************
+
+
+\*------------------------------------*/
+
+/*
+.dropdown {
+    @apply hide;
+}
+
+@media (max-width: 960px) {
+    .dropdown {
+        display: block;
+    }
+} */
+
+

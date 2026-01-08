@@ -1,0 +1,295 @@
+/*------------------------------------*\
+	+B-Lazy Default transition
+\*------------------------------------*/
+
+
+/* Per i progetti semplici si può usare transizione default, ma essendo composta di un tempo di transizione può creare conflitti con altre proprietà di immagini, soprattutto con i sistemi che fanno il parallasse. In quel caso associarla ad una classe che chiama la transizione */
+
+
+.b-lazy {
+	opacity: 0;
+	transition: var(--btn-transition);
+}
+
+.b-lazy.b-loaded {
+	opacity: 1;
+}
+
+
+
+/*------------------------------------*\
+	+Transitions delays
+\*------------------------------------*/
+
+/* Per semplificare l'attribuzione delle classi le duration e i delay servono sia per le animazioni, sia per le transizioni */
+
+.duration-fast {
+	animation-duration: var(--duration-fast); /* perde anche se important contro animation-duration inserito nell'animazione stessa */
+	transition-duration: var(--duration-fast);
+}
+
+.duration-normal {
+	animation-duration: var(--duration-normal); /* perde anche se important contro animation-duration inserito nell'animazione stessa */
+	transition-duration: var(--duration-normal);
+}
+
+.duration-slow {
+	animation-duration: var(--duration-slow); /* perde anche se important contro animation-duration inserito nell'animazione stessa */
+	transition-duration: var(--duration-slow);
+}
+
+.duration-xslow {
+	animation-duration: var(--duration-xslow); /* perde anche se important contro animation-duration inserito nell'animazione stessa */
+	transition-duration: var(--duration-xslow);
+}
+
+.duration-xxslow {
+	animation-duration: var(--duration-xxslow); /* perde anche se important contro animation-duration inserito nell'animazione stessa */
+	transition-duration: var(--duration-xxslow);
+}
+
+
+
+.dly-1 { 	animation-delay: var(--tempo-unit);
+			transition-delay: var(--tempo-unit);
+}
+
+.dly-2 { 	animation-delay: calc(var(--tempo-unit) * 2);
+			transition-delay: calc(var(--tempo-unit) * 2);
+}
+
+.dly-3 { 	animation-delay: calc(var(--tempo-unit) * 3);
+			transition-delay: calc(var(--tempo-unit) * 3);
+}
+
+.dly-4 { 	animation-delay: calc(var(--tempo-unit) * 4);
+			transition-delay: calc(var(--tempo-unit) * 4);
+}
+
+/* Child-ani-dly
+Si applica a tutti gli elementi dentro un un'animazione di gruppo.
+Al padre viene data una classe tipo ".group-ani-XYnomeanimazionetransizione" che applica a tutti i figli diretti un'animazione e un group-child-dly che vale 0.
+Poi per ciascun elemento figlio a cui si vuole dare un delay nell'animazione si apre uno style es. style="--child-ani-dly:.5s;" che dà un nuovo valore alla variabile per quel figlio.
+Se si vogliono fare animazioni a cascata ciascun figlio può avere un delay diverso, come fatto ad es. in hero-primary Powy */
+
+.group-child-dly {
+			--group-child-dly: 0s;
+			animation-delay: var(--group-child-dly);
+			transition-delay: var(--group-child-dly);
+}
+
+
+
+
+
+
+/*------------------------------------*\
+	+Animations
+\*------------------------------------*/
+
+
+
+.ani-fade-in {
+    opacity: 0;
+    will-change: opacity;
+    animation-name: fade-in;
+    animation-duration: var(--duration-normal);
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.ani-fade-out {
+    will-change: opacity;
+    animation-name: fade-out;
+    animation-duration: var(--duration-normal);
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.ani-rotate-loop {
+    will-change: transform;
+    animation-name: rotate-loop;
+    animation-duration: var(--duration-xxslow);
+    animation-timing-function: ease-in-out;
+	animation-iteration-count: infinite;
+}
+
+@keyframes rotate-loop {
+    0% {
+        transform: none;
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.ani-slide-in-from-r {
+    opacity: 0;
+    will-change: transform, opacity;
+    animation-name: slide-in-from-r;
+    animation-duration: var(--duration-normal);
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes slide-in-from-r {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+		opacity: 1;
+        transform: translateX(0%);
+    }
+}
+
+.ani-slide-out-to-r {
+    opacity: 1;
+    will-change: transform, opacity;
+    animation-name: slide-out-to-r;
+    animation-duration: var(--duration-normal);
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes slide-out-to-r {
+    0% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
+    100% {
+		opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+
+
+
+/* Usata sia per modali sia per sottovoci menu desktop */
+.ani-modal-in {
+    opacity: 1;
+    will-change: transform, opacity;
+    animation-name: modal-dialog-in;
+    animation-duration: var(--duration-normal);
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes modal-dialog-in {
+    0% {
+        opacity: 0;
+        transform: scale(.995) translateY(4px);
+    }
+    100% {
+		opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.ani-modal-out {
+    opacity: 0;
+    will-change: transform, opacity;
+    animation-name: modal-dialog-out;
+    animation-duration: var(--duration-normal);
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes modal-dialog-out {
+    0% {
+        opacity: 1;
+		transform: scale(1) translateY(0);
+    }
+    100% {
+		opacity: 0;
+		transform: scale(.995) translateY(4px);
+    }
+}
+
+
+.ani-txt-in {
+    opacity: 1;
+    will-change: transform, opacity;
+    animation-name: ani-txt-in;
+    animation-duration: 1s;
+    animation-timing-function: transform cubic-bezier(0.16, 0.62, 0.33, 0.91), opacity linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes ani-txt-in {
+    0% {
+        opacity: 0;
+        transform: translateY(64px);
+    }
+    100% {
+		opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.ani-wave-y {
+    will-change: transform;
+    animation-name: ani-wave-y;
+    animation-duration: 2s;
+    animation-timing-function: transform cubic-bezier(0.16, 0.62, 0.33, 0.91);
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+    animation-fill-mode: forwards;
+}
+
+@keyframes ani-wave-y {
+    0% {
+        transform: translateY(-24px) scale(1.15);
+    }
+    100% {
+        transform: translateY(24px) scale(1);
+    }
+}
+
+
+/*------------------------------------*\
+	+Icons
+\*------------------------------------*/
+
+
+/* bg-icon è la classe di default che usiamo per includere icone come bg dentro un oggetto.
+Di solito bg-icon si affianca ad una classe icon-name che le associa un'icona inclusa nel css come uri oppure come chiamata https es:
+- bg-icon
+- icon-book
+*/
+
+
+.bg-icon {
+	background-position: 50%;
+	background-repeat: no-repeat;
+	background-size: 80%;
+}
+
+/* Qui solo le icone strutturali, le altre personalizzate nello style */
+.icon-x 		{ background-image: var(--icon-x); }
+.icon-v-u 		{ background-image: var(--icon-v-u); }
+.icon-v-r 		{ background-image: var(--icon-v-r); }
+.icon-v-d 		{ background-image: var(--icon-v-d); }
+.icon-v-l 		{ background-image: var(--icon-v-l); }
+.icon-load 		{ background-image: var(--icon-load); }

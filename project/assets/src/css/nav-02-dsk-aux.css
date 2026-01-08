@@ -1,0 +1,109 @@
+/*------------------------------------*\
+****************************************
+/*------------------------------------*\
+
+	NAV 02 Desktop Aux
+	- Variabili
+	- Css
+
+\*------------------------------------*\
+****************************************
+\*------------------------------------*/
+
+
+
+/* Incluso in layer base per filtrare tutte le classi non utilizzate */
+@layer base {
+
+
+/*------------------------------------*\
+/*------------------------------------*\
+	Variabili Desktop Aux
+\*------------------------------------*\
+\*------------------------------------*/
+
+:root {
+
+	/* Desktop navigation > Menu Aux ----- */
+
+	--menu-dsk-aux-bg: var(--menu-dektop-background);
+
+	--menu-dsk-aux-item-ff: var(--menu-dsk-itm-ff);
+	--menu-dsk-aux-item-fs: var(--menu-itm-fs);
+	--menu-dsk-aux-item-p: var(--menu-itm-p);
+	--menu-dsk-aux-item-fw: var(--menu-dsk-itm-fw);
+	--menu-dsk-aux-item-lh: var(--menu-dsk-itm-lh);
+	--menu-dsk-aux-item-color: var(--menu-dsk-itm-color);
+	--menu-dsk-aux-item-tt: var(--menu-dsk-itm-transform);
+	--menu-dsk-aux-item-txtdec: var(--menu-dsk-itm-txtdec); /* es. underline solid red */
+	--menu-dsk-aux-item-bg: var(--menu-dsk-itm-bg-color);
+	/* --menu-dsk-aux-item-transition: var(--menu-dsk-itm-transition); */
+	--menu-dsk-aux-item-hov-color: var(--menu-dsk-itm-hov-color);
+	--menu-dsk-aux-item-hov-bg: var(--menu-dsk-itm-hov-bg);
+	--menu-dsk-aux-item-hov-txtdec: var(--menu-dsk-itm-hov-txtdec);  /* es. underline solid red */
+	--menu-dsk-aux-item-current-color: var(--menu-dsk-itm-cur-color);
+	--menu-dsk-aux-item-current-fw: var(--menu-dsk-itm-cur-fw);
+	--menu-dsk-aux-item-current-bg: var(--menu-dsk-itm-cur-bg);
+	--menu-dsk-aux-item-current-txtdec: var(--menu-dsk-itm-cur-txtdec); /* es. underline solid red */
+
+		/* Menu Aux > Subitems */
+		/* Tutte da scrivere. Decidere se tenere solo i subitem del desktop oppure aggiungerle qui */
+
+
+/* Chiude :root */
+}
+
+
+
+
+/*------------------------------------*\
+/*------------------------------------*\
+	Css Desktop Aux
+\*------------------------------------*\
+\*------------------------------------*/
+
+/*
+._nav-dsk è tutta definita in
+nav-01-standard.css
+*/
+
+
+	/* Desktop Navigation > Menu Aux ----- */
+
+	._dsk-aux-menu {
+		background: var(--menu-dsk-aux-bg); /* copre il bg ._nav-dsk */
+	}
+
+	._dsk-aux-menu .menu-item a {
+		font-family: var(--menu-dsk-aux-item-ff);
+		font-size: var(--menu-dsk-aux-item-fs);
+		padding: var(--menu-dsk-aux-item-p);
+		font-weight: var(--menu-dsk-aux-item-fw);
+		line-height: var(--menu-dsk-aux-item-lh);
+		color: var(--menu-dsk-aux-item-color);
+		text-transform: var(--menu-dsk-aux-item-txtdec);
+		text-decoration: var(--menu-dsk-aux-item-txtdec);
+	}
+
+		._dsk-aux-menu .menu-item a:hover {
+			color: var(--menu-dsk-aux-item-hov-color);
+			text-decoration: var(--menu-dsk-aux-item-hov-txtdec);
+			background: var(--menu-dsk-aux-item-hov-bg);
+		}
+
+		._dsk-aux-menu .menu-item.current-menu-item a {
+			color: var(--menu-dsk-aux-item-current-color);
+			font-weight:  var(--menu-dsk-aux-item-current-fw);
+			text-decoration: var(--menu-dsk-aux-item-current-txtdec);
+			background: var(--menu-dsk-aux-item-current-bg);
+		}
+
+		._dsk-aux-menu .menu-item.current-menu-item a:hover {
+			text-decoration: var(--menu-itm-hov-txtdec);
+			background: var(--menu-dsk-aux-item-current-bg);
+		}
+
+
+
+/* Chiude layer base */
+}

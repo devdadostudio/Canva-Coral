@@ -1,0 +1,494 @@
+/*------------------------------------*\
+****************************************
+
+	Elementi custom Progetto
+	Add Editore
+
+****************************************
+\*------------------------------------*/
+
+
+/*------------------------------------*\
+    Lang
+\*------------------------------------*/
+
+html[lang="en"] .show-for-it,
+html[lang="es"] .show-for-it,
+html[lang="fr"] .show-for-it,
+html[lang="de"] .show-for-it {
+	display: none !important;
+}
+
+html[lang="it-IT"] .show-for-en,
+html[lang="es"] .show-for-en,
+html[lang="fr"] .show-for-en,
+html[lang="de"] .show-for-en {
+	display: none !important;
+}
+
+html[lang="it-IT"] .show-for-es,
+html[lang="en"] .show-for-es,
+html[lang="fr"] .show-for-es,
+html[lang="de"] .show-for-es {
+	display: none !important;
+}
+
+html[lang="it-IT"] .show-for-de,
+html[lang="en"] .show-for-de,
+html[lang="fr"] .show-for-de,
+html[lang="es"] .show-for-de {
+	display: none !important;
+}
+
+html[lang="it-IT"] .show-for-fr,
+html[lang="en"] .show-for-fr,
+html[lang="de"] .show-for-fr,
+html[lang="es"] .show-for-fr {
+	display: none !important;
+}
+
+
+
+/*------------------------------------*\
+    Grid
+\*------------------------------------*/
+
+main {
+	margin-top: 0;
+}
+
+/* _main__section viene definitio di default direttamente dentro il file grid-spacing.css */
+
+._main__section {
+	@apply py-16 mb-0;
+}
+
+.rounded-lg {
+	border-radius: 2.5rem !important;
+}
+
+
+
+
+/*------------------------------------*\
+    Colors e Background
+\*------------------------------------*/
+
+/* Ridefinire le varibaili dei grigi come da palette */
+
+.bg-gray-100 {
+	background: var(--color-add-gray-100);
+}
+
+.bg-white-alpha-10 {
+	background: rgba(255, 255, 255, .1);
+}
+
+.hover\:bg-white-alpha-10:hover {
+	@apply bg-white-alpha-10;
+}
+
+.bg-primary-alpha-10 {
+	background: rgba(199, 214, 79, .1);
+}
+
+.hover\:bg-primary-alpha-10:hover {
+	@apply bg-primary-alpha-10;
+}
+
+.bg-gradient-1-v {
+	background: linear-gradient(var(--color-pow-verde), var(--color-pow-blu-chiaro));
+}
+
+.bg-gradient-1-h {
+	background: linear-gradient(90deg, var(--color-pow-verde), var(--color-pow-blu-chiaro));
+}
+
+.bg-gradient-1-h-alpha {
+	background: linear-gradient(90deg, rgba(199, 214, 79, .5), rgba(17, 130, 163, .5));
+}
+
+.bg-gradient-card {
+	background: linear-gradient(transparent 50%, var(--color-secondary));
+}
+
+.bg-w-1 {
+	background-image: url(https://powy.energy/wp-content/uploads/2022/10/bg-w1.svg);
+	background-size: 50%;
+	background-position: left top;
+	background-repeat: no-repeat;
+}
+
+.bg-w-1-fixed {
+	@apply bg-w-1;
+	background-size: 50%;
+	background-attachment: fixed;
+}
+
+.bg-w-2 {
+	background-image: url(https://powy.energy/wp-content/uploads/2022/10/bg-w2.svg);
+	background-size: 20%;
+	background-size: 60%;
+	background-position: bottom left;
+	background-repeat: no-repeat;
+}
+
+.bg-w-2-fixed {
+	@apply bg-w-2;
+	background-size: 80%;
+	background-attachment: fixed;
+}
+
+.bg-w-3 {
+	background-image: url(https://powy.energy/wp-content/uploads/2022/10/bg-w3.svg);
+	background-size: 40%;
+	background-position: top right;
+	background-repeat: no-repeat;
+}
+
+.bg-w-4 {
+	background-image: url();
+	background-size: 20%;
+	background-position: bottom left;
+	background-repeat: no-repeat;
+}
+
+.bg-w-5 {
+	background-image: url(https://powy.energy/wp-content/uploads/2022/10/bg-w5-hero.svg);
+	background-size: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.bg-chi-siamo {
+	@apply bg-secondary bg-w-5;
+}
+
+
+/*------------------------------------*\
+    Utilities
+\*------------------------------------*/
+
+.multicolumn-2 {
+	columns: 2;
+}
+
+
+/*------------------------------------*\
+    Shadows
+\*------------------------------------*/
+
+
+
+
+/*------------------------------------*\
+    Animation
+\*------------------------------------*/
+
+.group-ani-txt-in>* {
+	@apply ani-txt-in opacity-0 group-child-dly;
+}
+
+
+/*------------------------------------*\
+    Icons
+\*------------------------------------*/
+
+.icon-x-primary {
+	background-image: var(--icon-x-primary);
+}
+
+.icon-arrow-r {
+	background-image: var(--icon-arrow-r);
+}
+
+.isdark .icon-arrow-r {
+	background-image: var(--icon-arrow-r-primary);
+}
+
+
+.icon-arrow-lg-b-primary {
+	background-image: var(--icon-arrow-lg-b-primary);
+}
+
+.isdark .icon-v-d {
+	background-image: var(--icon-v-d-isdark);
+}
+
+.icon-arrow-lg-d-primary {
+	background-image: var(--icon-arrow-lg-d-primary);
+}
+
+
+
+/*------------------------------------*\
+    Tipografia
+\*------------------------------------*/
+
+ul.wp-block-list:not([class*=menu-]) li:before,
+.isdark ul.wp-block-list:not([class*=menu-]) li:before {
+	@apply bg-icon icon-arrow-r;
+	background-size: 100%;
+}
+
+
+/*------------------------------------*\
+    UI
+\*------------------------------------*/
+
+.button.secondary:not(.hollow) {
+	@apply text-white;
+}
+
+.isdark .button.hollow,
+.isdark .button.hollow .text-wrapper {
+	color: var(--color-primary);
+}
+
+
+
+/* FAQ --------------- */
+
+._active ._faq-v-icon {
+	--tw-rotate: 180;
+}
+
+._faq-content>*:last-child {
+	@apply mb-0;
+}
+
+
+/* Modale --------------- */
+
+
+._overlay-modal._modal-post-opener ._modal-dialog-container {
+	width: clamp(320px, 85%, 640px);
+}
+
+._overlay-modal.modal-servizio ._modal-dialog-container {
+	@apply bg-w-1;
+	width: clamp(320px, 85%, 1280px);
+}
+
+._overlay-modal.modal-persona ._modal-dialog-container {
+	@apply bg-secondary;
+	@apply bg-w-2;
+	width: clamp(320px, 85%, 1280px);
+}
+
+
+
+
+
+/*------------------------------------*\
+	FacetWP
+\*------------------------------------*/
+
+/* .facetwp-checkbox[data-value="cabine-di-verniciatura"], */
+.facetwp-checkbox[data-value="sistemi-di-aspirazione"],
+.facetwp-checkbox[data-value="filtri"]
+{
+	@apply mt-8;
+}
+
+
+/*------------------------------------*\
+    Menu
+\*------------------------------------*/
+
+/* Menu Desktop */
+
+/* ._nav-dsk {
+	transition: var(--btn-transition);
+}
+
+._menu-dsk .menu-item a {}
+
+._menu-dsk .menu-center img.logo {
+	transition: var(--btn-transition);
+	@apply w-40 p-2;
+} */
+
+
+/* ._nav-dsk:not(._scrolled) {
+	background: transparent;
+}
+
+._scrolled ._menu-dsk .menu-center img.logo {
+	@apply w-32;
+} */
+
+
+.menu>.menu-item:not(.weglot-parent-menu-item):not(.weglot-lang)>a:not(.logo)::after {
+	content: "";
+	background: var(--color-accent);
+	position: absolute;
+	z-index: -1;
+	top: calc(50% - 1em);
+	left: calc(50% - 1em);
+	width: 2em;
+	height: 2em;
+	border-radius: 5em;
+	opacity: 0;
+	transform: scale(0);
+	transform-origin: center;
+	transition: all .3s cubic-bezier(.25, .46, .45, .94) 0s;
+	visibility: hidden;
+}
+
+.menu>.menu-item:not(.weglot-parent-menu-item):not(.weglot-lang)>a:not(.logo):hover::after {
+	opacity: 1 !important;
+	transform: scale(1);
+	visibility: visible;
+}
+
+/* azzera larghezza fissa dropdown quando è per weglot */
+.weglot-parent-menu-item .dropdown {
+	width: auto !important;
+	left: 0;
+	background: var(--color-secondary);
+}
+
+.dropdown .weglot-lang>a {
+	padding: .5rem !important;
+}
+
+
+
+/* Menu V */
+
+.ham-bars-container:hover .ham-bars,
+.ham-bars-container:hover .ham-bars:after,
+.ham-bars-container:hover .ham-bars:before {
+	width: 1.75rem;
+	transition: 150ms, ease-out;
+}
+
+
+
+/*------------------------------------*\
+    Menu mobile
+\*------------------------------------*/
+
+._menu-mob img.logo {
+	transition: var(--btn-transition);
+	@apply w-32 px-4;
+}
+
+
+
+/*------------------------------------*\
+	Swiper
+\*------------------------------------*/
+
+
+/* Swiper Hero --------------- */
+
+/* Posizione buttons in Swiper hero */
+
+/* Posizione pagination in Swiper hero */
+
+/* Swiper Gallery --------------- */
+
+
+
+/*------------------------------------*\
+    Blocks
+	(no block template che sono sotto)
+\*------------------------------------*/
+
+/* Icon Inner Text */
+
+/* Hero cta */
+
+/* Promo Button */
+
+
+
+/*------------------------------------*\
+    Grid Templates + Utilities
+\*------------------------------------*/
+/* Queste larghezze massime si applicano al row e simulano attraverso il padding in percentuale una larghezza di 8, 10, 11 moduli in griglia */
+
+/* Equivalente circa in large di 8/12 */
+/* ._gt-row-w-sm */
+.columns-reducer-8 {
+	padding-left: calc(13% + var(--gap-default));
+	padding-right: calc(13% + var(--gap-default));
+}
+
+/* Equivalente circa in large di 10/12 */
+/* ._gt-row-w-md */
+.columns-reducer-10 {
+	padding-left: calc(6.5% + var(--gap-default));
+	padding-right: calc(6.5% + var(--gap-default));
+}
+
+/* Equivalente circa in large di 11/12 */
+/* ._gt-row-w-lg */
+.columns-reducer-11 {
+	padding-left: 3%;
+	padding-right: 3%;
+}
+
+
+
+
+
+/*------------------------------------*\
+    Footer
+\*------------------------------------*/
+
+
+
+/*------------------------------------*\
+    WooCommerce misc
+\*------------------------------------*/
+
+/* Price */
+
+/* Cart */
+
+/* Checkout */
+
+
+
+/*------------------------------------*\
+    Archive Product
+\*------------------------------------*/
+
+
+
+/*------------------------------------*\
+    Single Product
+\*------------------------------------*/
+
+
+
+/*------------------------------------*\
+    Single Blog
+\*------------------------------------*/
+
+
+/*------------------------------------*\
+    Chi siamo
+\*------------------------------------*/
+
+.story-icon {
+	@apply w-32 mx-auto mb-4 p-4 rounded-full overflow-hidden;
+	background: rgba(160, 160, 160, .5);
+}
+
+
+/*------------------------------------*\
+    Contatti
+\*------------------------------------*/
+
+._contatti-staff-item {
+	@apply p-6;
+	outline: 1px solid var(--color-add-gray-200);
+}
+
+._contatti-staff-item>*:last-child {
+	@apply mb-0;
+}

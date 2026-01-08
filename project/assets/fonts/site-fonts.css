@@ -1,0 +1,31 @@
+@font-face {
+	font-family: 'TTHoves';
+	font-style: normal;
+	font-weight: 300;
+	font-display: swap;
+	src: url(tthovespro-light.woff2) format('woff2');
+}
+
+@font-face {
+	font-family: 'TTHoves';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url(tthovespro-regular.woff2) format('woff2');
+}
+
+@font-face {
+	font-family: 'TTHoves';
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url(tthovespro-medium.woff2) format('woff2');
+}
+
+/* @font-face {
+	font-family: 'TTHoves';
+	font-style: normal;
+	font-weight: 900;
+	font-display: swap;
+	src: url(tthovespro-demibold.woff2) format('woff2');
+} */

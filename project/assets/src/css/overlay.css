@@ -1,0 +1,154 @@
+/*------------------------------------*\
+****************************************
+/*------------------------------------*\
+
+	Overlay
+
+\*------------------------------------*\
+****************************************
+\*------------------------------------*/
+
+/* L'overlay è un componente di filtro fondamentale per
+	- nav
+	- modali
+	- messaggi di sistema bloccanti
+Sta sovrapposto a tutto il sito in due modi
+	- sotto la nav (per tutte le modali che vogliamo interne al sito)
+	- anche sopra la nav (per tutto quello che vogliamo sopra tutto)
+
+*/
+
+
+
+/* Incluso in layer base per filtrare tutte le classi non utilizzate */
+/* @layer base { */
+
+
+
+/*------------------------------------*\
+/*------------------------------------*\
+	Variabili
+\*------------------------------------*\
+\*------------------------------------*/
+
+
+:root {
+
+
+/* Overlay Filter ----- */
+
+--overlay-filter-bg: var(--color-secondary);
+--overlay-filter-opacity: .75;
+--overlay-filter-mixbm: multiply;
+--overlay-filter-bdrop-filter: blur(8px); /* Usarlo solo per blur. Se attivo richiede un bg del menu che che abbia una trasparenza almeno minima es rgba(255,255,255,.75) */
+--overlay-filter-bg-bdrop-filter: rgba(6,57,78,.75); /* var(--nav-dsk-bg); /* sostituisce --nav-dsk-bg in caso sia attivo backdrop filter */
+--overlay-filter-transition: var(--btn-transition);
+
+
+
+/* Overlay Loader ----- */
+
+--overlay-loader-icon: var(--icon-load);
+--overlay-loader-size: 4rem;
+--overlay-loader-border: none;
+--overlay-loader-border-radius: 50rem;
+--overlay-loader-bg-color: rgba(255,255,255,.2); /* solo per il bg dell'icona loader */
+--overlay-loader-bg-size: 80%; /* grandezza icona loader rispetto a size totale*/
+--overlay-loader-opacity: 1; /* si applica all'elemento after con l'icona */
+--overlay-loader-transition: var(--btn-transition);
+--overlay-loader-ani-duration: 1.5s;
+
+
+/* Chiude :root */
+}
+
+
+
+
+/*------------------------------------*\
+/*------------------------------------*\
+	Css
+\*------------------------------------*\
+\*------------------------------------*/
+
+
+
+
+/*------------------------------------*\
+	Overlay Filter
+\*------------------------------------*/
+
+/* Di default sta sopra tutto, in quel caso ha z-index 70
+Se chiamato con classe .below-the-top sta invece sotto la nav (mobile o desktop) e ha zindex 40, top = altezza della nav e altezza conseguente */
+
+
+._overlay-filter {
+	@apply fixed w-full h-full top-0 opacity-0;
+	z-index: 70; /* Default per menu offcanvas, in generale z-index viene sovrascrtto con classe del caso specifico */
+	background: var(--overlay-filter-bg);
+	mix-blend-mode: var(--overlay-filter-mixbm);
+	transition: var(--overlay-filter-transition);
+}
+
+	@supports (backdrop-filter: blur(12px)) {
+		._overlay-filter {
+			backdrop-filter: var(--overlay-filter-bdrop-filter);
+			background: var(--overlay-filter-bg-bdrop-filter);
+		}
+	}
+
+
+._overlay-filter.below-the-top {
+	z-index: 40;
+	top: var(--nav-responsive-h);
+	height: calc(100% - var(--nav-responsive-h));
+}
+
+._overlay-filter._is-on {
+	opacity: var(---overlay-filter-opacity);
+}
+
+
+
+/*------------------------------------*\
+	Overlay Loader
+\*------------------------------------*/
+
+/* Di default sta sopra tutto il sito e in quel caso ha z-index 71 (sta anche sopra overlay-filter-
+Se chiamato con classe .below-the-top sta invece sotto la nav (mobile o desktop) e ha zindex 41, top = altezza della nav e altezza conseguente */
+
+
+
+._overlay-loader {
+	/* z-index dato da js */
+	@apply fixed top-1/2 left-1/2 transform-gpu -translate-y-1/2 -translate-x-1/2 opacity-0;
+	z-index: 71;
+	width: var(--overlay-loader-size);
+	height: var(--overlay-loader-size);
+	border: var(--overlay-loader-border);
+	border-radius: var(--overlay-loader-border-radius);
+	background: var(--overlay-loader-bg-color);
+	transition: var(--overlay-loader-transition);
+}
+
+	._overlay-loader:after {
+		@apply block top-0 left-0 w-full h-full animate-pulse;
+		content: " ";
+		background: var(--overlay-loader-icon) center no-repeat;
+		background-size: var(--overlay-loader-bg-size);
+		animation-duration: var(--overlay-loader-ani-duration);
+		opacity: var(--overlay-loader-opacity);
+	}
+
+._overlay-loader.below-the-top {
+	z-index: 41;
+	top: calc(50% + var(--nav-responsive-h));
+}
+
+._overlay-loader._is-on {
+	opacity: var(---overlay-loader-opacity);
+}
+
+
+/* Chiude layer base */
+/* } */

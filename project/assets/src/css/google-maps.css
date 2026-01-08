@@ -1,0 +1,26 @@
+/* Google maps */
+
+.acf-map {
+    @apply w-full;
+    height: 100vw;
+}
+
+@media (min-width:960px) {
+    .acf-map {
+        height: 65vh;
+    }
+}
+
+.gm-style-iw {
+    min-width: 240px;
+}
+
+._google-maps {
+	height: var(--map-h-sm);
+}
+
+@media (min-width:960px) {
+	._google-maps {
+		height: var(--map-h-lg);
+	}
+}

@@ -1,0 +1,355 @@
+/*------------------------------------*\
+****************************************
+/*------------------------------------*\
+
+	Modals
+	Tooltips
+
+\*------------------------------------*\
+****************************************
+\*------------------------------------*/
+
+
+
+/* Incluso in layer base per filtrare tutte le classi non utilizzate */
+/* @layer base { */
+
+
+
+/*------------------------------------*\
+/*------------------------------------*\
+	Variabili
+\*------------------------------------*\
+\*------------------------------------*/
+
+
+:root {
+
+
+	/*------------------------------------*\
+		+Variabili Modal Types
+	\*------------------------------------*/
+
+	/* Esistono due tipi di modali
+		- _modal-type island
+		- _modal-type-drawer (left e right)
+		A questi due tipi di contenitore vengono applicate delle transizioni tra lo stato off e on direttamente dentro css sotto.
+	*/
+
+	/* Valori generali */
+	--modal-dialog-bg: var(--color-white);
+	--modal-dialog-border: none;
+	--modal-dialog-shadow: 0 0 12px 6px rgba(0,0,0,.15);
+	--modal-dialog-transition: transform cubic-bezier(0.16, 0.62, 0.33, 0.91) var(--duration-slow), opacity linear var(--duration-normal);
+
+	/* Modal Type Island */
+	--modal-island-w: min(90%, 480px);
+	--modal-island-h: auto;
+	--modal-island-m: 10vh auto 10vh; /* Il margin top e bottom definiscono a che altezza dello schermo comincia e finisce la modale, margin left e right in auto la fanno centrare rispetto allo schermo senza che serva un flex */
+	--modal-island-p: 1.5rem;
+	--modal-island-border-radius: 1.5rem;
+	/* --modal-island-is-off-opacity  non si usa tanto è sempre 0 */
+	--modal-island-is-off-transform: translateY(32px);
+
+	/* Modal Type Drawer */
+	--modal-drawer-w: clamp(320px, 90%, 480px); /* valore minimo, preferito, massimo */
+	--modal-drawer-p: 0;
+	--modal-drawer-border-radius: 0;
+	/* --modal-drawer-is-off-opacity non si usa tanto è sempre 0 */
+	/* --modal-drawer-is-off-transform non lo usiamo perché tanto è tranlate X per Left e right */
+
+
+
+
+	/*------------------------------------*\
+		+Variabili Tooltips
+	\*------------------------------------*/
+
+	--ttip-txt-color: var(--color-secondary);
+	--ttip-txt-fw: 300;
+	--ttip-txt-border-b: 2px dotted var(--color-accent);
+
+	--ttip-box-width: 180px; /* max-content; /* Valore in px oppure max-content per auto adattarlo */
+	--ttip-box-bg: rgba(255,255,255,.9);
+	--ttip-box-p-x: .75rem;
+	--ttip-box-p-y: .75rem;
+	--ttip-box-border-radius: .25rem;
+	--ttip-box-ff: var(--primary-ff);
+	--ttip-box-fs: .875rem;
+	--ttip-box-color: var(--color-black);
+	--ttip-box-text-align: center;
+	--ttip-box-arrow-size: .5rem; /* .5rem-1rem se no non ha senso */
+	--ttip-box-transition: var(--a-transition);
+
+
+
+	/* Chiude :root */
+	}
+
+
+
+
+	/*------------------------------------*\
+	/*------------------------------------*\
+		Css
+	\*------------------------------------*\
+	\*------------------------------------*/
+
+
+
+
+	/*------------------------------------*\
+		Overlay Filter
+	\*------------------------------------*/
+
+	/* E' definito nel file Overlay.css */
+
+
+	/*------------------------------------*\
+		Overlay Loader
+	\*------------------------------------*/
+
+	/* E' definito nel file Overlay.css */
+
+
+
+	/*------------------------------------*\
+		Overlay Modal
+	\*------------------------------------*/
+
+
+
+	._overlay-modal {
+		@apply fixed inset-0 w-full h-full bg-transparent overflow-y-auto;
+		z-index: 72;
+	}
+
+	._overlay-modal.below-the-top {
+		z-index: 42;
+		top: var(--nav-responsive-h);
+		height: calc(100vh - var(--nav-responsive-h));
+	}
+
+
+		/* Strato trasparente che sta sotto la modale per intercettare il click ovunque non sia coperto per chiuderla */
+		._layer-modal-close {
+			@apply absolute w-full h-full inset-0 cursor-pointer;
+		}
+
+
+		/* Modal Dialog Container
+		Contenitore della finestra di dialogo modale
+			-non può essere full size perché coprirebbe il layer di chiusura della modale, è grande sclusivamente quando la finestra del contenuto.
+			- su questo si applicano le regole comuni a tutti i tipi di modal-type. Poi le altre si collegano ai modal-type-island e modal-type-drawer. */
+
+		._modal-dialog-container {
+			@apply relative; /* serve per poterlo centrare con margin-auto e applicargli dentro il x-button */
+			background: var(--modal-dialog-bg);
+			border: var(--modal-dialog-border);
+			box-shadow: var(--modal-dialog-shadow);
+			transition: var(--modal-dialog-transition);
+		}
+
+		/* Modal Type Island */
+		/* Per la precisione è lo stato di partenza della _modal-dialog-container a cui è stato attribuito un _modal-type-island (a livello di _modal-overlay) */
+		._modal-type-island ._modal-dialog-container {
+			width: var(--modal-island-w);
+			height: var(--modal-island-h);
+			margin: var(--modal-island-m);
+			padding: var(--modal-island-p);
+			border-radius: var(--modal-island-border-radius);
+			/* Stato di partenza */
+			transform: var(--modal-island-is-off-transform);
+			opacity: 0;
+		}
+
+			/* Stato di arrivo */
+			._modal-type-island._is-on ._modal-dialog-container {
+				transform: none;
+				opacity: 1;
+			}
+
+
+		/* Modal Type Drawer L R */
+		/* Per la precisione è lo stato di partenza della _modal-dialog-container a cui è stato attribuito un _modal-type-drawer (a livello di _modal-overlay) */
+
+		._modal-type-drawer-l ._modal-dialog-container,
+		._modal-type-drawer-r ._modal-dialog-container {
+			@apply absolute top-0;
+			width: var(--modal-drawer-w);
+			height: 100vh;
+			left: auto;
+			right: 0;
+			padding: var(--modal-drawer-p);
+			/* Stato di partenza */
+			transform: translateX(100%);
+			opacity: 0;
+		}
+
+		/* Drawer L */
+		._modal-type-drawer-l ._modal-dialog-container {
+			transform: translateX(-100%);
+			left: 0;
+			right: auto;
+		}
+
+			/* Stato di arrivo */
+			._modal-type-drawer-l._is-on ._modal-dialog-container,
+			._modal-type-drawer-r._is-on ._modal-dialog-container {
+				transform: none;
+				opacity: 1;
+			}
+
+		/* Drawer Below the Top */
+		.below-the-top._modal-type-drawer-l ._modal-dialog-container,
+		.below-the-top._modal-type-drawer-r ._modal-dialog-container {
+			height: calc(100vh - var(--nav-responsive-h));
+			overflow-y: auto;
+		}
+
+
+
+	/* Attribuzioni Modal Types ai contenuti */
+		/* Possibili tipi di contenuti
+			_modal-contact => Contatto in modale da menu
+			_modal-search => Search in modale da menu
+			_modal-opener => Modali statiche da pulsante tipo hubspot o roba custom che ti serve aprire in modale
+			_modal-wooc-cart => Carrello Wooc Ajax in modale
+			_modal-post-opener => Qualsiasi cosa che è un post tipo autori, prodotti...
+		*/
+
+
+	._overlay-modal._modal-search,
+	._overlay-modal._modal-opener,
+	._overlay-modal._modal-post-opener {
+		@apply _modal-type-island;
+	}
+
+	._overlay-modal._modal-contact {
+		@apply _modal-type-drawer-l;
+	}
+
+	._overlay-modal._modal-wooc-cart {
+		@apply _modal-type-drawer-r;
+	}
+
+
+
+
+
+
+	/*------------------------------------*\
+		Tooltips - test
+	\*------------------------------------*/
+
+
+	/* Di base sono i tooltip presi da W3C
+	funzionano piuttosto bene i top e i bottom.
+	I left e right funzionano abbastanza con testi agganciati che siano dei p, su quelli grandi tipo h2 ancora da sistemare le formule.
+	*/
+
+
+	.tooltip {
+		position: relative;
+		display: inline-flex;
+		border-bottom: var(--ttip-txt-border-b);
+		color: var(--ttip-txt-link-color);
+		font-weight: var(--ttip-txt-fw);
+	}
+
+	.tooltip .tooltiptext {
+		visibility: hidden;
+		position: absolute;
+		width: var(--ttip-box-width);
+		height: var(--ttip-box-height);
+		padding: var(--ttip-box-p-y) var(--ttip-box-p-x);
+		font-size: var(--ttip-box-fs);
+		border-radius: var(--ttip-box-border-radius);
+		color: var(--ttip-box-color) !important; /* Important sovrascrive eventuali isdark nei contenitori */
+		background-color: var(--ttip-box-bg);
+		text-align: var(--ttip-box-text-align);
+		z-index: 1;
+		opacity: 0;
+		transition: var(--ttip-box-transition);
+		margin-top: 10px;
+	}
+
+	.tooltip:hover .tooltiptext {
+		visibility: visible;
+		opacity: 1;
+	}
+
+		.tooltiptext.tooltip-left {
+			margin-top: 0;
+			top: -1em; /* è in em e non rem perché è agganciato alla dimensione del testo che fa da tooltip */
+			right: 128%;
+		}
+
+		.tooltip-left::after {
+			content: "";
+			position: absolute;
+			/* top: calc(1em - (.25 * var(--ttip-box-arrow-size))); */
+			top: 1em;
+			left: 100%;
+			border-width: var(--ttip-box-arrow-size);
+			border-style: solid;
+			border-color: transparent transparent transparent var(--ttip-box-bg);
+		}
+
+		.tooltiptext.tooltip-right {
+			margin-top: 0;
+			top: -1em;  /* è in em e non rem perché è agganciato alla dimensione del testo che fa da tooltip */
+			left: 125%;
+		}
+
+		.tooltip-right::after {
+			content: "";
+			position: absolute;
+			/* top: calc(1em - (.25 * var(--ttip-box-arrow-size))); */
+			top: 1em;
+			right: 100%;
+			border-width: var(--ttip-box-arrow-size);
+			border-style: solid;
+			border-color: transparent var(--ttip-box-bg) transparent transparent;
+		}
+
+	.tooltip-top {
+		bottom: 125%;
+		left: 50%;
+		margin-left: calc(-.5 * var(--ttip-box-width));
+	}
+
+		.tooltip-top::after {
+			content: "";
+			position: absolute;
+			top: 100%;
+			left: 50%;
+			margin-left: calc(-1 * var(--ttip-box-p-x));
+			border-width: var(--ttip-box-arrow-size);
+			border-style: solid;
+			border-color: var(--ttip-box-bg) transparent transparent transparent;
+		}
+
+	.tooltip-bottom {
+		top: 135%;
+		left: 50%;
+		margin-left: calc(-.5 * var(--ttip-box-width));
+	}
+
+		.tooltip-bottom::after {
+			content: "";
+			position: absolute;
+			bottom: 100%;
+			left: 50%;
+			margin-left: calc(-1 * var(--ttip-box-p-x));
+			border-width: var(--ttip-box-arrow-size);
+			border-style: solid;
+			border-color: transparent transparent var(--ttip-box-bg) transparent;
+		}
+
+
+
+
+
+	/* Chiude layer base */
+	/* } */
