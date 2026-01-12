@@ -1,0 +1,138 @@
+.p-5 {
+  padding: 1.25rem;
+}
+
+.figure-60 {
+  height: 60px;
+}
+
+.pl-6 {
+  padding-left: 1.5rem;
+}
+
+.py-10 {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.page-template-page-catalogo-template .title-section {
+  color: #000;
+  font-size: 60px;
+  font-weight: 400;
+  line-height: 47px;
+  /* 78.333% */
+}
+
+.page-template-page-catalogo-template .figure-cat-thumbnail {
+  border-radius: 0 8px;
+}
+
+.page-template-page-catalogo-template .catalogo-parent-container {
+  border-radius: 8px;
+  background: #f5f5f5;
+}
+
+.page-template-page-catalogo-template .catalogo-child-container {
+  padding: 12px;
+  border: 0.639px solid #c3c3c3;
+  background: #fff;
+}
+
+.page-template-page-catalogo-template .catalogo-child-container > a {
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.page-template-page-catalogo-template .title-container {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.page-template-page-catalogo-template .catalogo-parent-cats-container {
+  padding-bottom: 5.5rem;
+}
+
+.page-template-page-catalogo-template .catalogo-parent-title {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+}
+
+._card-macro-famiglia-catalogo ._title {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+._card-macro-famiglia-catalogo ._description {
+  color: #4d4d4d;
+  font-weight: 300;
+}
+
+._card-macro-famiglia-catalogo .v-r {
+  color: #e31e24;
+}
+
+._card-macro-famiglia-catalogo .v-r:after {
+  top: 120%;
+  background-color: #e31e24;
+}
+
+.v-r-xs {
+  font-size: 0.8rem !important;
+  margin-bottom: 5px !important;
+}
+@media (min-width: 640px) {
+  .md\:p-4 {
+    padding: 1rem;
+  }
+
+  .md\:pb-6 {
+    padding-bottom: 1.5rem;
+  }
+
+  .md\:pb-8 {
+    padding-bottom: 2rem;
+  }
+
+  .md\:py-10 {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+
+  .md\:px-5 {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  .md\:mb-4 {
+    margin-bottom: 1rem !important;
+  }
+
+  .md\:lh-13 {
+    line-height: 130% !important;
+  }
+
+  .md\:gap-0 {
+    gap: 0 !important;
+  }
+  .page-template-page-catalogo-template .catalogo-parent-title {
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    line-height: normal;
+  }
+  .md\:mb-0 {
+    margin-bottom: 0 !important;
+  }
+  ._card-macro-famiglia-catalogo ._title {
+    font-size: 1.9rem;
+    line-height: 1.9rem;
+  }
+  ._description.md\:fs-p {
+    font-size: 1rem !important;
+  }
+}
+
+@media screen and (max-width: 959px) {
+  .page-template-page-catalogo-template ._breadcrumbs {
+    border-bottom: 1px solid #d9d9d9;
+    background: #fff;
+  }
+}

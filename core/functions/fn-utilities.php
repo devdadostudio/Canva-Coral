@@ -1,6 +1,6 @@
 <?php
 if (!defined('ABSPATH')) {
-	exit; // Exit if accessed directly
+  exit; // Exit if accessed directly
 }
 
 /**
@@ -11,14 +11,14 @@ if (!defined('ABSPATH')) {
  */
 function canva_desktop_nav_body_class($classes)
 {
-	global $post;
+  global $post;
 
-	if (get_post_type($post) == 'page') {
+  if (get_post_type($post) == 'page') {
 
-		$classes[] = get_field('desktop_navigation', $post->ID);
-	}
+    $classes[] = get_field('desktop_navigation', $post->ID);
+  }
 
-	return $classes;
+  return $classes;
 }
 add_filter('body_class', 'canva_desktop_nav_body_class');
 
@@ -33,15 +33,15 @@ add_filter('body_class', 'canva_desktop_nav_body_class');
 function get_post_by_slug($page_slug, $output = OBJECT, $post_type = 'page')
 {
 
-	global $wpdb;
+  global $wpdb;
 
-	$post = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_name = %s AND post_type= %s AND post_status = 'publish'", $page_slug, $post_type));
+  $post = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_name = %s AND post_type= %s AND post_status = 'publish'", $page_slug, $post_type));
 
-	if ($post)
+  if ($post)
 
-		return get_post($post, $output);
+    return get_post($post, $output);
 
-	return null;
+  return null;
 }
 
 /**
@@ -54,7 +54,7 @@ function get_post_by_slug($page_slug, $output = OBJECT, $post_type = 'page')
  */
 function get_page_by_slug($page_slug, $output = OBJECT, $post_type = 'page')
 {
-	return get_post_by_slug($page_slug, $output, $post_type);
+  return get_post_by_slug($page_slug, $output, $post_type);
 }
 
 /**
@@ -67,11 +67,11 @@ function get_page_by_slug($page_slug, $output = OBJECT, $post_type = 'page')
 function get_percent($total, $part)
 {
 
-	$percent = ($part * 100) / $total;
+  $percent = ($part * 100) / $total;
 
-	$percent = number_format((float)$percent, 2, '.', '');
+  $percent = number_format((float) $percent, 2, '.', '');
 
-	return $percent;
+  return $percent;
 }
 
 /**
@@ -83,18 +83,18 @@ function get_percent($total, $part)
 function canva_euro_format($euro)
 {
 
-	// $lang = get_bloginfo('language');
+  // $lang = get_bloginfo('language');
 
-	// $fmt = new NumberFormatter($lang, NumberFormatter::CURRENCY);
+  // $fmt = new NumberFormatter($lang, NumberFormatter::CURRENCY);
 
-	// echo $fmt->formatCurrency($euro, 'EUR');
-	if ($euro != 0) {
+  // echo $fmt->formatCurrency($euro, 'EUR');
+  if ($euro != 0) {
 
-		echo number_format(floatval($euro), 2, ',', '.') . '€';
-	} else {
+    echo number_format(floatval($euro), 2, ',', '.') . '€';
+  } else {
 
-		echo '0€';
-	}
+    echo '0€';
+  }
 }
 
 /**
@@ -107,21 +107,21 @@ function canva_euro_format($euro)
  */
 function array_key_replace($item, $replace_with, array $array)
 {
-	$updated_array = [];
+  $updated_array = [];
 
-	foreach ($array as $key => $value) {
+  foreach ($array as $key => $value) {
 
-		if (!is_array($value) && $key == $item) {
+    if (!is_array($value) && $key == $item) {
 
-			$updated_array = array_merge($updated_array, [$replace_with => $value]);
+      $updated_array = array_merge($updated_array, [$replace_with => $value]);
 
-			continue;
-		}
+      continue;
+    }
 
-		$updated_array = array_merge($updated_array, [$key => $value]);
-	}
+    $updated_array = array_merge($updated_array, [$key => $value]);
+  }
 
-	return $updated_array;
+  return $updated_array;
 }
 
 /**
@@ -133,10 +133,10 @@ function array_key_replace($item, $replace_with, array $array)
  */
 function get_user_id_by_display_name($display_name)
 {
-	global $wpdb;
+  global $wpdb;
 
-	$query = "SELECT ID FROM {$wpdb->prefix}users WHERE `display_name` = '{$display_name}'";
-	return (int) $wpdb->get_var($wpdb->prepare($query));
+  $query = "SELECT ID FROM {$wpdb->prefix}users WHERE `display_name` = '{$display_name}'";
+  return (int) $wpdb->get_var($wpdb->prepare($query));
 }
 
 /**
@@ -145,25 +145,65 @@ function get_user_id_by_display_name($display_name)
  * @param [type] $buffer
  * @return void
  */
-function canva_minifier($buffer) {
+function canva_minifier($buffer)
+{
 
-	// ob_start("canva_minifier"); //use this outside to minify all the html output
+  // ob_start("canva_minifier"); //use this outside to minify all the html output
 
-    $search = array(
-        '/\>[^\S ]+/s',     // strip whitespaces after tags, except space
-        '/[^\S ]+\</s',     // strip whitespaces before tags, except space
-        '/(\s)+/s',         // shorten multiple whitespace sequences
-        // '/<!--(.|\s)*?-->/' // Remove HTML comments
-    );
+  $search = array(
+    '/\>[^\S ]+/s',     // strip whitespaces after tags, except space
+    '/[^\S ]+\</s',     // strip whitespaces before tags, except space
+    '/(\s)+/s',         // shorten multiple whitespace sequences
+    // '/<!--(.|\s)*?-->/' // Remove HTML comments
+  );
 
-    $replace = array(
-        '>',
-        '<',
-        '\\1',
-        ''
-    );
+  $replace = array(
+    '>',
+    '<',
+    '\\1',
+    ''
+  );
 
-    $buffer = preg_replace($search, $replace, $buffer);
+  $buffer = preg_replace($search, $replace, $buffer);
 
-    return $buffer;
+  return $buffer;
+}
+add_filter('wpseo_breadcrumb_links', 'custom_breadcrumb_catalogo_fix');
+
+function custom_breadcrumb_catalogo_fix($links)
+{
+  // Applichiamo la modifica solo se siamo in una tassonomia 'catalogo'
+  if (is_tax('catalogo')) {
+
+    $count = count($links);
+    // Se abbiamo almeno 3 elementi (es. Home / Padre / Corrente)
+    if ($count >= 2) {
+
+      // Il termine corrente è sempre l'ultimo: $links[$count - 1]
+      // Il termine da sostituire (Saldatura) è il penultimo: $links[$count - 2]
+
+      // Recuperiamo l'URL dinamico della pagina catalogo (multilingua)
+      $page_obj = get_page_by_path('catalogo');
+      $url = $page_obj ? get_permalink($page_obj->ID) : home_url('/catalogo/');
+      $text = __('Catalogo', 'canva');
+
+      $name_parent_cat = strtolower($links[0]['text']);
+      $name_page = $links[$count - 1]['text'];
+      $name_last_link = $name_page . ' ' . __('per') . ' ' . $name_parent_cat;
+
+      // Sostituiamo il penultimo elemento
+      $links[$count - 2] = array(
+        'text' => $text,
+        'url' => $url,
+        'allow_html' => true,
+      );
+      $links[$count - 1] = array(
+        'text' => $name_last_link,
+        'url' => $url,
+        'allow_html' => true,
+      );
+    }
+  }
+
+  return $links;
 }
