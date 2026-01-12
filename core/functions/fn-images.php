@@ -1,13 +1,13 @@
 <?php
 if (!defined('ABSPATH')) {
-	exit; // Exit if accessed directly
+  exit; // Exit if accessed directly
 }
 
 /**
  * set jpg compression quality
  */
 add_filter('jpeg_quality', function ($arg) {
-	return 90;
+  return 90;
 });
 
 
@@ -20,30 +20,30 @@ add_filter('jpeg_quality', function ($arg) {
  */
 function canva_image_size_upload_limit($file)
 {
-	$is_image = strpos($file['type'], 'image') !== false;
+  $is_image = strpos($file['type'], 'image') !== false;
 
-	if ($is_image) {
-		$image = getimagesize($file['tmp_name']);
+  if ($is_image) {
+    $image = getimagesize($file['tmp_name']);
 
-		$maximum = array(
-			// 'width' => '1920',
-			// 'height' => '1920'
-			'width' => '3000',
-			'height' => '3000'
-		);
+    $maximum = array(
+      // 'width' => '1920',
+      // 'height' => '1920'
+      'width' => '3000',
+      'height' => '3000'
+    );
 
-		$image_height = $image[1];
+    $image_height = $image[1];
 
-		if ($image_width > $maximum['width'] || $image_height > $maximum['height']) {
-			//add in the field 'error' of the $file array the message
-			$file['error'] = sprintf(__('The image size exceeds the maximum limit. The maximum width and height limit is %s pixels.', 'canva-backend'), $maximum['width']);
-			return $file;
-		} else {
-			return $file;
-		}
-	} else {
-		return $file;
-	}
+    if ($image_width > $maximum['width'] || $image_height > $maximum['height']) {
+      //add in the field 'error' of the $file array the message
+      $file['error'] = sprintf(__('The image size exceeds the maximum limit. The maximum width and height limit is %s pixels.', 'canva-backend'), $maximum['width']);
+      return $file;
+    } else {
+      return $file;
+    }
+  } else {
+    return $file;
+  }
 }
 add_filter('wp_handle_upload_prefilter', 'canva_image_size_upload_limit');
 
@@ -54,19 +54,19 @@ add_filter('big_image_size_threshold', '__return_false');
 
 function canva_remove_wp_image_sizes()
 {
-	remove_image_size('1536x1536');
-	remove_image_size('2048x2048');
-	remove_image_size('1024x1024');
-	remove_image_size('768x768');
+  remove_image_size('1536x1536');
+  remove_image_size('2048x2048');
+  remove_image_size('1024x1024');
+  remove_image_size('768x768');
 }
 add_action('init', 'canva_remove_wp_image_sizes');
 
 function canva_remove_default_images($sizes)
 {
-	// unset( $sizes['small']); // 150px
-	unset($sizes['medium'], $sizes['medium_large'], $sizes['large']); // 300px
+  // unset( $sizes['small']); // 150px
+  unset($sizes['medium'], $sizes['medium_large'], $sizes['large']); // 300px
 
-	return $sizes;
+  return $sizes;
 }
 add_filter('intermediate_image_sizes_advanced', 'canva_remove_default_images');
 
@@ -120,23 +120,23 @@ add_image_size('1920-free', 1920);
  */
 function canva_custom_image_sizes($sizes)
 {
-	return array_merge($sizes, [
-		'160-free' 		=> __('160-free'),
-		'160-11' 		=> __('160-11'),
-		'320-free' 		=> __('320-free'),
-		'320-11' 		=> __('320-11'),
-		'640-free' 		=> __('640-free'),
-		'640-11' 		=> __('640-11'),
-		// '640-169' 		=> __('640-169'),
-		// '640-32' 		=> __('640-32'),
-		// '640-43' 		=> __('640-43'),
-		// '640-45' 		=> __('640-45'),
-		'960-free' 		=> __('960-free'),
-		// '960-32' 		=> __('960-32'),
-		'1280-free' 	=> __('1280-free'),
-		// '1600-free' 	=> __('1600-free'),
-		'1920-free' 	=> __('1920-free'),
-	]);
+  return array_merge($sizes, [
+    '160-free' => __('160-free'),
+    '160-11' => __('160-11'),
+    '320-free' => __('320-free'),
+    '320-11' => __('320-11'),
+    '640-free' => __('640-free'),
+    '640-11' => __('640-11'),
+    // '640-169' 		=> __('640-169'),
+    // '640-32' 		=> __('640-32'),
+    // '640-43' 		=> __('640-43'),
+    // '640-45' 		=> __('640-45'),
+    '960-free' => __('960-free'),
+    // '960-32' 		=> __('960-32'),
+    '1280-free' => __('1280-free'),
+    // '1600-free' 	=> __('1600-free'),
+    '1920-free' => __('1920-free'),
+  ]);
 }
 add_filter('image_size_names_choose', 'canva_custom_image_sizes');
 
@@ -149,26 +149,26 @@ add_filter('image_size_names_choose', 'canva_custom_image_sizes');
  */
 function canva_make_img_lazy($content)
 {
-	// Don't lazyload for feeds, previews, mobile
-	if (is_feed()) {
-		return $content;
-	}
+  // Don't lazyload for feeds, previews, mobile
+  if (is_feed()) {
+    return $content;
+  }
 
-	// Don't lazy-load if the content has already been run through previously
-	if (false !== strpos($content, 'data-src')) {
-		return $content;
-	}
+  // Don't lazy-load if the content has already been run through previously
+  if (false !== strpos($content, 'data-src')) {
+    return $content;
+  }
 
-	// $loading_img = canva_get_loading_img_url($size);
+  // $loading_img = canva_get_loading_img_url($size);
 
-	// In case you want to change the placeholder image
-	$placeholder_image = apply_filters('lazyload_images_placeholder_image', 'data:image/gif;base64,R0lGODlhAQABAIAA AAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+  // In case you want to change the placeholder image
+  $placeholder_image = apply_filters('lazyload_images_placeholder_image', 'data:image/gif;base64,R0lGODlhAQABAIAA AAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
 
-	// blazy add class
-	$blazy_class = 'b-lazy';
+  // blazy add class
+  $blazy_class = 'b-lazy';
 
-	// This is a pretty simple regex, but it works
-	return preg_replace('#<img([^>]+?)src=[\'"]?([^\'"\s>]+)[\'"]?([^>]*)>#', sprintf('<img${1}src="%s" data-src="${2}"${3}><noscript><img${1}src="${2}"${3}></noscript>', $placeholder_image), $content);
+  // This is a pretty simple regex, but it works
+  return preg_replace('#<img([^>]+?)src=[\'"]?([^\'"\s>]+)[\'"]?([^>]*)>#', sprintf('<img${1}src="%s" data-src="${2}"${3}><noscript><img${1}src="${2}"${3}></noscript>', $placeholder_image), $content);
 }
 
 // run this later, so other content filters have run, including image_add_wh on WP.com
@@ -207,30 +207,30 @@ function canva_make_img_lazy($content)
  */
 function canva_custom_image_html($html, $id, $caption, $title, $align, $url, $size, $alt)
 {
-	//First of all lets operate with image sizes
-	list($img_src, $width, $height) = image_downsize($id, $size);
-	//$hwstring = image_hwstring($width, $height);
+  //First of all lets operate with image sizes
+  list($img_src, $width, $height) = image_downsize($id, $size);
+  //$hwstring = image_hwstring($width, $height);
 
-	$class_figure = 'wp-figure-' . $id;
-	$class_img = 'wp-image-' . $id . ' size-' . $size . ' b-lazy';
+  $class_figure = 'wp-figure-' . $id;
+  $class_img = 'wp-image-' . $id . ' size-' . $size . ' b-lazy';
 
-	// return canva_get_attachment_thumbnail($post_id = $id, $type = 'img', $size, $class_figure, $class_img, $bg_content = '', $caption = 'on', $blazy = 'off', $data_attr = '');
-	return canva_get_img(
-		[
-			'img_id' => $id, //'post_id','attachment_id',
-			'img_type' => 'img', //'img', 'bg', 'url'
-			'thumb_size' => $size, //'640-free',
-			'wrapper_class' => $class_figure,
-			'img_class' => $class_img,
-			'bg_content' => '',
-			'caption' => 'on',
-			'blazy' => 'off',
-			'srcset' => 'off',
-			'data_attr' => '',
-			'width' => '',
-			'height' => '',
-		]
-	);
+  // return canva_get_attachment_thumbnail($post_id = $id, $type = 'img', $size, $class_figure, $class_img, $bg_content = '', $caption = 'on', $blazy = 'off', $data_attr = '');
+  return canva_get_img(
+    [
+      'img_id' => $id, //'post_id','attachment_id',
+      'img_type' => 'img', //'img', 'bg', 'url'
+      'thumb_size' => $size, //'640-free',
+      'wrapper_class' => $class_figure,
+      'img_class' => $class_img,
+      'bg_content' => '',
+      'caption' => 'on',
+      'blazy' => 'off',
+      'srcset' => 'off',
+      'data_attr' => '',
+      'width' => '',
+      'height' => '',
+    ]
+  );
 }
 add_filter('image_send_to_editor', 'canva_custom_image_html', 10, 9);
 
@@ -241,9 +241,9 @@ add_filter('image_send_to_editor', 'canva_custom_image_html', 10, 9);
  */
 function canva_default_attachment_display_settings()
 {
-	update_option('image_default_align', 'none');
-	update_option('image_default_link_type', 'none');
-	update_option('image_default_size', '640-free');
+  update_option('image_default_align', 'none');
+  update_option('image_default_link_type', 'none');
+  update_option('image_default_size', '640-free');
 }
 add_action('after_setup_theme', 'canva_default_attachment_display_settings');
 
@@ -261,24 +261,24 @@ add_action('after_setup_theme', 'canva_default_attachment_display_settings');
  */
 function canva_favicon()
 {
-	if (get_field('favicon', 'options')) {
-		$favicon_url = canva_get_img([
-			'img_id' => get_field('favicon', 'options'),
-			'img_type' => 'url', // img, bg, url
-			'thumb_size' => 'full',
-			'wrapper_class' => '',
-			'img_class' => '',
-			'bg_content' => '',
-			'caption' => 'off',
-			'blazy' => 'off',
-			'srcset' => 'off',
-			'data_attr' => '',
-			'width' => '',
-			'height' => '',
-		]);
+  if (get_field('favicon', 'options')) {
+    $favicon_url = canva_get_img([
+      'img_id' => get_field('favicon', 'options'),
+      'img_type' => 'url', // img, bg, url
+      'thumb_size' => 'full',
+      'wrapper_class' => '',
+      'img_class' => '',
+      'bg_content' => '',
+      'caption' => 'off',
+      'blazy' => 'off',
+      'srcset' => 'off',
+      'data_attr' => '',
+      'width' => '',
+      'height' => '',
+    ]);
 
-		echo apply_filters('canva_favicon', '<link rel="icon" href="' . esc_url($favicon_url) . '">');
-	}
+    echo apply_filters('canva_favicon', '<link rel="icon" href="' . esc_url($favicon_url) . '">');
+  }
 }
 // add_action('wp_head', 'canva_favicon');
 
@@ -291,99 +291,99 @@ function canva_favicon()
  */
 function canva_logo_dark_hover_trick_js()
 {
-	$logo_light_mode = get_field('logo_light_mode', 'options');
-	$logo_dark_mode = get_field('logo_dark_mode', 'options');
+  $logo_light_mode = get_field('logo_light_mode', 'options');
+  $logo_dark_mode = get_field('logo_dark_mode', 'options');
 
-	$logo_light_mode_large = canva_get_img([
-		'img_id' => $logo_light_mode['large'],
-		'img_type' => 'url', // img, bg, url
-		'thumb_size' => 'full',
-		'wrapper_class' => '',
-		'img_class' => '',
-		'bg_content' => '',
-		'caption' => 'off',
-		'blazy' => 'off',
-		'srcset' => 'off',
-		'data_attr' => '',
-		'width' => '',
-		'height' => '',
-	]);
+  $logo_light_mode_large = canva_get_img([
+    'img_id' => $logo_light_mode['large'],
+    'img_type' => 'url', // img, bg, url
+    'thumb_size' => 'full',
+    'wrapper_class' => '',
+    'img_class' => '',
+    'bg_content' => '',
+    'caption' => 'off',
+    'blazy' => 'off',
+    'srcset' => 'off',
+    'data_attr' => '',
+    'width' => '',
+    'height' => '',
+  ]);
 
-	$logo_dark_mode_large = canva_get_img([
-		'img_id' => $logo_dark_mode['large'],
-		'img_type' => 'url', // img, bg, url
-		'thumb_size' => 'full',
-		'wrapper_class' => '',
-		'img_class' => '',
-		'bg_content' => '',
-		'caption' => 'off',
-		'blazy' => 'off',
-		'srcset' => 'off',
-		'data_attr' => '',
-		'width' => '',
-		'height' => '',
-	]);
+  $logo_dark_mode_large = canva_get_img([
+    'img_id' => $logo_dark_mode['large'],
+    'img_type' => 'url', // img, bg, url
+    'thumb_size' => 'full',
+    'wrapper_class' => '',
+    'img_class' => '',
+    'bg_content' => '',
+    'caption' => 'off',
+    'blazy' => 'off',
+    'srcset' => 'off',
+    'data_attr' => '',
+    'width' => '',
+    'height' => '',
+  ]);
 
-	$logo_light_mode_small = canva_get_img([
-		'img_id' => $logo_light_mode['small'],
-		'img_type' => 'url', // img, bg, url
-		'thumb_size' => 'full',
-		'wrapper_class' => '',
-		'img_class' => '',
-		'bg_content' => '',
-		'caption' => 'off',
-		'blazy' => 'off',
-		'srcset' => 'off',
-		'data_attr' => '',
-		'width' => '',
-		'height' => '',
-	]);
+  $logo_light_mode_small = canva_get_img([
+    'img_id' => $logo_light_mode['small'],
+    'img_type' => 'url', // img, bg, url
+    'thumb_size' => 'full',
+    'wrapper_class' => '',
+    'img_class' => '',
+    'bg_content' => '',
+    'caption' => 'off',
+    'blazy' => 'off',
+    'srcset' => 'off',
+    'data_attr' => '',
+    'width' => '',
+    'height' => '',
+  ]);
 
-	$logo_dark_mode_small = canva_get_img([
-		'img_id' => $logo_dark_mode['small'],
-		'img_type' => 'url', // img, bg, url
-		'thumb_size' => 'full',
-		'wrapper_class' => '',
-		'img_class' => '',
-		'bg_content' => '',
-		'caption' => 'off',
-		'blazy' => 'off',
-		'srcset' => 'off',
-		'data_attr' => '',
-		'width' => '',
-		'height' => '',
-	]);
-?>
-	<script>
-		(function($) {
+  $logo_dark_mode_small = canva_get_img([
+    'img_id' => $logo_dark_mode['small'],
+    'img_type' => 'url', // img, bg, url
+    'thumb_size' => 'full',
+    'wrapper_class' => '',
+    'img_class' => '',
+    'bg_content' => '',
+    'caption' => 'off',
+    'blazy' => 'off',
+    'srcset' => 'off',
+    'data_attr' => '',
+    'width' => '',
+    'height' => '',
+  ]);
+  ?>
+  <script>
+    (function ($) {
 
-			var viewPortWidth = $(window).width();
+      var viewPortWidth = $(window).width();
 
-			if (mobileCheck() === true && viewPortWidth < 640) {
+      if (mobileCheck() === true && viewPortWidth < 640) {
 
-				$('.site-navigation').on('mouseenter', function() {
-					$('.site-navigation').find('.logo').attr('src', '<?php echo esc_url($logo_light_mode_small); ?>');
-				});
+        $('.site-navigation').on('mouseenter', function () {
+          $('.site-navigation').find('.logo').attr('src', '<?php echo esc_url($logo_light_mode_small); ?>');
+        });
 
-				$('.site-navigation').on('mouseleave', function() {
-					$('.site-navigation').find('.logo').attr('src', '<?php echo esc_url($logo_dark_mode_small); ?>');
-				});
+        $('.site-navigation').on('mouseleave', function () {
+          $('.site-navigation').find('.logo').attr('src', '<?php echo esc_url($logo_dark_mode_small); ?>');
+        });
 
-			} else {
+      } else {
 
-				$('.site-navigation').on('mouseenter', function() {
-					$('.site-navigation').find('.logo').attr('src', '<?php echo esc_url($logo_light_mode_large); ?>');
-				});
+        $('.site-navigation').on('mouseenter', function () {
+          $('.site-navigation').find('.logo').attr('src', '<?php echo esc_url($logo_light_mode_large); ?>');
+        });
 
-				$('.site-navigation').on('mouseleave', function() {
-					$('.site-navigation').find('.logo').attr('src', '<?php echo esc_url($logo_dark_mode_large); ?>');
-				});
+        $('.site-navigation').on('mouseleave', function () {
+          $('.site-navigation').find('.logo').attr('src', '<?php echo esc_url($logo_dark_mode_large); ?>');
+        });
 
-			}
+      }
 
-		})(jQuery);
-	</script>
-<?php
+    })(jQuery);
+  </script>
+  <?php
 }
 // hooked in fn-menu.php
 
@@ -401,15 +401,15 @@ function canva_logo_dark_hover_trick_js()
  */
 function canva_get_logo_url()
 {
-	$logo_light_mode = get_field('logo_light_mode', 'options');
+  $logo_light_mode = get_field('logo_light_mode', 'options');
 
-	canva_get_img([
-		'img_id' => $logo_light_mode['img'],
-		'img_type' => 'url', // img, bg, url
-		'thumb_size' => 'full',
-	]);
+  canva_get_img([
+    'img_id' => $logo_light_mode['img'],
+    'img_type' => 'url', // img, bg, url
+    'thumb_size' => 'full',
+  ]);
 
-	return $html;
+  return $html;
 }
 
 /**
@@ -424,162 +424,162 @@ function canva_get_logo_url()
  */
 function canva_get_logo($position = 'header')
 {
-	if ($position === 'header') {
-		$blazy = 'off';
-	} else {
-		$blazy = 'on';
-	}
+  if ($position === 'header') {
+    $blazy = 'off';
+  } else {
+    $blazy = 'on';
+  }
 
-	$logo_light_mode = get_field('logo_light_mode', 'options');
-	$logo_small_light_mode = get_field('logo_small_light_mode', 'options');
+  $logo_light_mode = get_field('logo_light_mode', 'options');
+  $logo_small_light_mode = get_field('logo_small_light_mode', 'options');
 
-	if (false !== strpos($logo_light_mode['css_classes'], '|')) {
-		$css_classes = explode('|', $logo_light_mode['css_classes']);
-	} else {
-		$css_classes = $logo_light_mode['css_classes'];
-	}
+  if (false !== strpos($logo_light_mode['css_classes'], '|')) {
+    $css_classes = explode('|', $logo_light_mode['css_classes']);
+  } else {
+    $css_classes = $logo_light_mode['css_classes'];
+  }
 
-	if (false !== strpos($logo_small_light_mode['css_classes'], '|')) {
-		$css_classes_small = explode('|', $logo_small_light_mode['css_classes']);
-	} else {
-		$css_classes_small = $logo_small_light_mode['css_classes'];
-	}
+  if (false !== strpos($logo_small_light_mode['css_classes'], '|')) {
+    $css_classes_small = explode('|', $logo_small_light_mode['css_classes']);
+  } else {
+    $css_classes_small = $logo_small_light_mode['css_classes'];
+  }
 
-	$parent_classes = '';
-	$child_classes = '';
+  $parent_classes = '';
+  $child_classes = '';
 
-	if (is_array($css_classes)) {
-		$parent_classes = $css_classes[0];
-		$child_classes = $css_classes[1];
-	}
+  if (is_array($css_classes)) {
+    $parent_classes = $css_classes[0];
+    $child_classes = $css_classes[1];
+  }
 
-	$parent_classes_small = '';
-	$child_classes_small = '';
+  $parent_classes_small = '';
+  $child_classes_small = '';
 
-	if (is_array($css_classes_small)) {
-		$parent_classes_small = $css_classes_small[0];
-		$child_classes_small = $css_classes_small[1];
-	}
+  if (is_array($css_classes_small)) {
+    $parent_classes_small = $css_classes_small[0];
+    $child_classes_small = $css_classes_small[1];
+  }
 
-	$html = '';
-	$html_small = '';
+  $html = '';
+  $html_small = '';
 
-	if ($logo_light_mode['svg_inline']) {
+  if ($logo_light_mode['svg_inline']) {
 
-		$svg = canva_get_svg_icon_from_url(get_attached_file($logo_light_mode['img']), $child_classes);
+    $svg = canva_get_svg_icon_from_url(get_attached_file($logo_light_mode['img']), $child_classes);
 
-		if ($parent_classes) {
-			$html = '<div class="' . $parent_classes . '">' . $svg . '</div>';
-		} else {
-			$html = '<div class="' . $css_classes . '">' . $svg . '</div>';
-		}
-	} else {
+    if ($parent_classes) {
+      $html = '<div class="' . $parent_classes . '">' . $svg . '</div>';
+    } else {
+      $html = '<div class="' . $css_classes . '">' . $svg . '</div>';
+    }
+  } else {
 
-		if ($parent_classes || $parent_classes_small) {
+    if ($parent_classes || $parent_classes_small) {
 
-			if (!$logo_small_light_mode['img']) {
-				$html = canva_get_img([
-					'img_id' => $logo_light_mode['img'],
-					'img_type' => 'img', // img, bg, url
-					'thumb_size' => '320-free',
-					'wrapper_class' => $parent_classes,
-					'img_class' => 'logo ' . $child_classes,
-					'bg_content' => '',
-					'caption' => 'off',
-					'blazy' => $blazy,
-					'srcset' => 'off',
-					'data_attr' => '',
-					'width' => '',
-					'height' => '',
-				]);
-			} else {
-				$html .= '<div class="_logo-wrap relative flex items-center justify-center ' . $css_classes . '">';
-				$html .= canva_get_img([
-					'img_id' => $logo_light_mode['img'],
-					'img_type' => 'img', // img, bg, url
-					'thumb_size' => '320-free',
-					'wrapper_class' => '_logo-large ' . $parent_classes,
-					'img_class' => 'logo ' . $child_classes,
-					'bg_content' => '',
-					'caption' => 'off',
-					'blazy' => $blazy,
-					'srcset' => 'off',
-					'data_attr' => '',
-					'width' => '',
-					'height' => '',
-				]);
-				$html .= canva_get_img([
-					'img_id' => $logo_small_light_mode['img'],
-					'img_type' => 'img', // img, bg, url
-					'thumb_size' => '320-free',
-					'wrapper_class' => '_logo-small ' . $parent_classes_small,
-					'img_class' => 'logo ' . $child_classes_small,
-					'bg_content' => '',
-					'caption' => 'off',
-					'blazy' => $blazy,
-					'srcset' => 'off',
-					'data_attr' => '',
-					'width' => '',
-					'height' => '',
-				]);
-				$html .= '</div>';
-			}
-		} else {
+      if (!$logo_small_light_mode['img']) {
+        $html = canva_get_img([
+          'img_id' => $logo_light_mode['img'],
+          'img_type' => 'img', // img, bg, url
+          'thumb_size' => '320-free',
+          'wrapper_class' => $parent_classes,
+          'img_class' => 'logo ' . $child_classes,
+          'bg_content' => '',
+          'caption' => 'off',
+          'blazy' => $blazy,
+          'srcset' => 'off',
+          'data_attr' => '',
+          'width' => '',
+          'height' => '',
+        ]);
+      } else {
+        $html .= '<div class="_logo-wrap relative flex items-center justify-center ' . $css_classes . '">';
+        $html .= canva_get_img([
+          'img_id' => $logo_light_mode['img'],
+          'img_type' => 'img', // img, bg, url
+          'thumb_size' => '320-free',
+          'wrapper_class' => '_logo-large ' . $parent_classes,
+          'img_class' => 'logo ' . $child_classes,
+          'bg_content' => '',
+          'caption' => 'off',
+          'blazy' => $blazy,
+          'srcset' => 'off',
+          'data_attr' => '',
+          'width' => '',
+          'height' => '',
+        ]);
+        $html .= canva_get_img([
+          'img_id' => $logo_small_light_mode['img'],
+          'img_type' => 'img', // img, bg, url
+          'thumb_size' => '320-free',
+          'wrapper_class' => '_logo-small ' . $parent_classes_small,
+          'img_class' => 'logo ' . $child_classes_small,
+          'bg_content' => '',
+          'caption' => 'off',
+          'blazy' => $blazy,
+          'srcset' => 'off',
+          'data_attr' => '',
+          'width' => '',
+          'height' => '',
+        ]);
+        $html .= '</div>';
+      }
+    } else {
 
-			if (!$logo_small_light_mode['img']) {
+      if (!$logo_small_light_mode['img']) {
 
-				$html = canva_get_img([
-					'img_id' => $logo_light_mode['img'],
-					'img_type' => 'img', // img, bg, url
-					'thumb_size' => '320-free',
-					'wrapper_class' => $css_classes,
-					'img_class' => 'logo',
-					'bg_content' => '',
-					'caption' => 'off',
-					'blazy' => $blazy,
-					'srcset' => 'off',
-					'data_attr' => '',
-					'width' => '',
-					'height' => '',
-				]);
-			} else {
+        $html = canva_get_img([
+          'img_id' => $logo_light_mode['img'],
+          'img_type' => 'img', // img, bg, url
+          'thumb_size' => '320-free',
+          'wrapper_class' => $css_classes,
+          'img_class' => 'logo',
+          'bg_content' => '',
+          'caption' => 'off',
+          'blazy' => $blazy,
+          'srcset' => 'off',
+          'data_attr' => '',
+          'width' => '',
+          'height' => '',
+        ]);
+      } else {
 
-				$html .= '<div class="_logo-wrap relative flex items-center justify-center ' . $css_classes . '">';
-				$html .= canva_get_img([
-					'img_id' => $logo_light_mode['img'],
-					'img_type' => 'img', // img, bg, url
-					'thumb_size' => '320-free',
-					'wrapper_class' => '_logo-large ' . $css_classes,
-					'img_class' => 'logo',
-					'bg_content' => '',
-					'caption' => 'off',
-					'blazy' => $blazy,
-					'srcset' => 'off',
-					'data_attr' => '',
-					'width' => '',
-					'height' => '',
-				]);
+        $html .= '<div class="_logo-wrap relative flex items-center justify-center ' . $css_classes . '">';
+        $html .= canva_get_img([
+          'img_id' => $logo_light_mode['img'],
+          'img_type' => 'img', // img, bg, url
+          'thumb_size' => '320-free',
+          'wrapper_class' => '_logo-large ' . $css_classes,
+          'img_class' => 'logo',
+          'bg_content' => '',
+          'caption' => 'off',
+          'blazy' => $blazy,
+          'srcset' => 'off',
+          'data_attr' => '',
+          'width' => '',
+          'height' => '',
+        ]);
 
-				$html .= canva_get_img([
-					'img_id' => $logo_small_light_mode['img'],
-					'img_type' => 'img', // img, bg, url
-					'thumb_size' => '320-free',
-					'wrapper_class' => '_logo-small hidden ' . $css_classes_small,
-					'img_class' => 'logo',
-					'bg_content' => '',
-					'caption' => 'off',
-					'blazy' => $blazy,
-					'srcset' => 'off',
-					'data_attr' => '',
-					'width' => '',
-					'height' => '',
-				]);
-				$html .= '</div>';
-			}
-		}
-	}
+        $html .= canva_get_img([
+          'img_id' => $logo_small_light_mode['img'],
+          'img_type' => 'img', // img, bg, url
+          'thumb_size' => '320-free',
+          'wrapper_class' => '_logo-small hidden ' . $css_classes_small,
+          'img_class' => 'logo',
+          'bg_content' => '',
+          'caption' => 'off',
+          'blazy' => $blazy,
+          'srcset' => 'off',
+          'data_attr' => '',
+          'width' => '',
+          'height' => '',
+        ]);
+        $html .= '</div>';
+      }
+    }
+  }
 
-	return $html;
+  return $html;
 }
 
 
@@ -594,11 +594,11 @@ function canva_get_logo($position = 'header')
  */
 function canva_get_logo_shortcode($atts)
 {
-	extract(shortcode_atts([
-		'position' => 'header',
-	], $args));
+  extract(shortcode_atts([
+    'position' => 'header',
+  ], $args));
 
-	return canva_get_logo($position);
+  return canva_get_logo($position);
 }
 add_shortcode('logo', 'canva_get_logo_shortcode');
 
@@ -612,22 +612,22 @@ add_shortcode('logo', 'canva_get_logo_shortcode');
  */
 function canva_get_theme_img_url($path = 'fontawesome/brands/facebook.svg')
 {
-	if (!$path) {
-		return;
-	}
+  if (!$path) {
+    return;
+  }
 
-	$file_url = '';
-	if (file_exists(CANVA_PROJECT_IMG . $path)) {
-		$file_url = CANVA_PROJECT_IMG_URI . $path;
-	} elseif (file_exists(CANVA_CORE_IMG . $path)) {
-		$file_url = CANVA_CORE_IMG_URI . $path;
-	}
+  $file_url = '';
+  if (file_exists(CANVA_PROJECT_IMG . $path)) {
+    $file_url = CANVA_PROJECT_IMG_URI . $path;
+  } elseif (file_exists(CANVA_CORE_IMG . $path)) {
+    $file_url = CANVA_CORE_IMG_URI . $path;
+  }
 
-	if (!$file_url) {
-		return;
-	}
+  if (!$file_url) {
+    return;
+  }
 
-	return $file_url;
+  return $file_url;
 }
 
 
@@ -642,45 +642,45 @@ function canva_get_theme_img_url($path = 'fontawesome/brands/facebook.svg')
  */
 function canva_get_svg_icon($name = 'fontawesome/brands/facebook', $css_classes = 'w-16')
 {
-	if (!$name) {
-		return;
-	}
+  if (!$name) {
+    return;
+  }
 
-	$svg_file = '';
-	if (file_exists(CANVA_PROJECT_IMG . $name . '.svg')) {
-		$svg_file = file_get_contents(CANVA_PROJECT_IMG . $name . '.svg');
-	} elseif (file_exists(CANVA_CORE_IMG . $name . '.svg')) {
-		$svg_file = file_get_contents(CANVA_CORE_IMG . $name . '.svg');
-	}
+  $svg_file = '';
+  if (file_exists(CANVA_PROJECT_IMG . $name . '.svg')) {
+    $svg_file = file_get_contents(CANVA_PROJECT_IMG . $name . '.svg');
+  } elseif (file_exists(CANVA_CORE_IMG . $name . '.svg')) {
+    $svg_file = file_get_contents(CANVA_CORE_IMG . $name . '.svg');
+  }
 
-	if (!$svg_file) {
-		return;
-	}
+  if (!$svg_file) {
+    return;
+  }
 
-	$position = strpos($svg_file, '<svg');
-	$svg = substr($svg_file, $position);
+  $position = strpos($svg_file, '<svg');
+  $svg = substr($svg_file, $position);
 
-	$dom = new \DOMDocument();
+  $dom = new \DOMDocument();
 
-	libxml_use_internal_errors(true);
+  libxml_use_internal_errors(true);
 
-	$dom->loadHTML($svg);
+  $dom->loadHTML($svg);
 
-	libxml_clear_errors();
+  libxml_clear_errors();
 
-	//# remove <!DOCTYPE
-	$dom->removeChild($dom->doctype);
+  //# remove <!DOCTYPE
+  $dom->removeChild($dom->doctype);
 
-	// remove <html><body></body></html>
-	$dom->replaceChild($dom->firstChild->firstChild->firstChild, $dom->firstChild);
+  // remove <html><body></body></html>
+  $dom->replaceChild($dom->firstChild->firstChild->firstChild, $dom->firstChild);
 
-	foreach ($dom->getElementsByTagName('svg') as $element) {
-		$element->setAttribute('class', '_icon ' . esc_attr(wp_basename($name) . ' ' . $css_classes));
-	}
+  foreach ($dom->getElementsByTagName('svg') as $element) {
+    $element->setAttribute('class', '_icon ' . esc_attr(wp_basename($name) . ' ' . $css_classes));
+  }
 
-	$svg = $dom->saveHTML();
+  $svg = $dom->saveHTML();
 
-	return $svg;
+  return $svg;
 }
 
 /**
@@ -692,12 +692,12 @@ function canva_get_svg_icon($name = 'fontawesome/brands/facebook', $css_classes 
  */
 function canva_icon_shortcode($atts)
 {
-	extract(shortcode_atts([
-		'name' => '',
-		'css_classes' => '',
-	], $atts));
+  extract(shortcode_atts([
+    'name' => '',
+    'css_classes' => '',
+  ], $atts));
 
-	return canva_get_svg_icon($name, $css_classes);
+  return canva_get_svg_icon($name, $css_classes);
 }
 add_shortcode('icon', 'canva_icon_shortcode');
 
@@ -712,41 +712,41 @@ add_shortcode('icon', 'canva_icon_shortcode');
  */
 function canva_get_svg_icon_from_url($url = '', $css_classes = 'w-16')
 {
-	if (!$url) {
-		return;
-	}
+  if (!$url) {
+    return;
+  }
 
-	$svg_file = '';
-	$svg_file = file_get_contents(esc_url($url));
+  $svg_file = '';
+  $svg_file = file_get_contents(esc_url($url));
 
-	if (!$svg_file) {
-		return;
-	}
+  if (!$svg_file) {
+    return;
+  }
 
-	$position = strpos($svg_file, '<svg');
-	$svg = substr($svg_file, $position);
+  $position = strpos($svg_file, '<svg');
+  $svg = substr($svg_file, $position);
 
-	$dom = new \DOMDocument();
+  $dom = new \DOMDocument();
 
-	libxml_use_internal_errors(true);
+  libxml_use_internal_errors(true);
 
-	$dom->loadHTML($svg);
+  $dom->loadHTML($svg);
 
-	libxml_clear_errors();
+  libxml_clear_errors();
 
-	//# remove <!DOCTYPE
-	$dom->removeChild($dom->doctype);
+  //# remove <!DOCTYPE
+  $dom->removeChild($dom->doctype);
 
-	// remove <html><body></body></html>
-	$dom->replaceChild($dom->firstChild->firstChild->firstChild, $dom->firstChild);
+  // remove <html><body></body></html>
+  $dom->replaceChild($dom->firstChild->firstChild->firstChild, $dom->firstChild);
 
-	foreach ($dom->getElementsByTagName('svg') as $element) {
-		$element->setAttribute('class', '_icon ' . esc_attr(wp_basename($url, '.svg') . ' ' . $css_classes));
-	}
+  foreach ($dom->getElementsByTagName('svg') as $element) {
+    $element->setAttribute('class', '_icon ' . esc_attr(wp_basename($url, '.svg') . ' ' . $css_classes));
+  }
 
-	$svg = $dom->saveHTML();
+  $svg = $dom->saveHTML();
 
-	return $svg;
+  return $svg;
 }
 
 
@@ -761,17 +761,18 @@ function canva_get_svg_icon_from_url($url = '', $css_classes = 'w-16')
 function canva_get_loading_img_url($size = '640-free')
 {
 
-	if ($size) {
-		if (file_exists(CANVA_PROJECT_IMG . 'loaders/loader-' . $size . '.svg')) {
-			$img = CANVA_PROJECT_IMG_URI . 'loaders/loader-' . $size . '.svg';
-		} elseif (file_exists(CANVA_CORE_IMG . 'loaders/loader-' . $size . '.svg')) {
-			$img = CANVA_CORE_IMG_URI . 'loaders/loader-' . $size . '.svg';;
-		} else {
-			$img = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-		}
-	}
+  if ($size) {
+    if (file_exists(CANVA_PROJECT_IMG . 'loaders/loader-' . $size . '.svg')) {
+      $img = CANVA_PROJECT_IMG_URI . 'loaders/loader-' . $size . '.svg';
+    } elseif (file_exists(CANVA_CORE_IMG . 'loaders/loader-' . $size . '.svg')) {
+      $img = CANVA_CORE_IMG_URI . 'loaders/loader-' . $size . '.svg';
+      ;
+    } else {
+      $img = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+    }
+  }
 
-	return $img;
+  return $img;
 }
 
 /**
@@ -793,136 +794,136 @@ function canva_get_loading_img_url($size = '640-free')
  */
 function canva_get_img($args = [])
 {
-	extract(shortcode_atts([
-		'img_id' => '',
-		'img_type' => 'img', // img, bg, url
-		'thumb_size' => '640-free',
-		'wrapper_class' => '',
-		'wrapper_style' => '',
-		'img_class' => '',
-		'img_style' => '',
-		'bg_content' => '',
-		'caption' => 'off',
-		'blazy' => 'on',
-		'srcset' => 'on',
-		'data_attr' => '',
-		'width' => '',
-		'height' => '',
-	], $args));
+  extract(shortcode_atts([
+    'img_id' => '',
+    'img_type' => 'img', // img, bg, url
+    'thumb_size' => '640-free',
+    'wrapper_class' => '',
+    'wrapper_style' => '',
+    'img_class' => '',
+    'img_style' => '',
+    'bg_content' => '',
+    'caption' => 'off',
+    'blazy' => 'on',
+    'srcset' => 'on',
+    'data_attr' => '',
+    'width' => '',
+    'height' => '',
+  ], $args));
 
 
-	if ($img_id && get_post_type($img_id) !== 'attachment') {
-		$img_id = get_post_thumbnail_id($img_id);
-	}
+  if ($img_id && get_post_type($img_id) !== 'attachment') {
+    $img_id = get_post_thumbnail_id($img_id);
+  }
 
-	$image = wp_get_attachment_image_src($img_id, $thumb_size);
-	$image_full = wp_get_attachment_image_src($img_id, 'full');
+  $image = wp_get_attachment_image_src($img_id, $thumb_size);
+  $image_full = wp_get_attachment_image_src($img_id, 'full');
 
-	//sostituisce i tagli di default di wordpress
-	if ('thumbnail' === $thumb_size) {
-		$thumb_size = '160-free';
-	} elseif ('large' === $thumb_size || 'medium' === $thumb_size) {
-		$thumb_size = '640-free';
-	}
+  //sostituisce i tagli di default di wordpress
+  if ('thumbnail' === $thumb_size) {
+    $thumb_size = '160-free';
+  } elseif ('large' === $thumb_size || 'medium' === $thumb_size) {
+    $thumb_size = '640-free';
+  }
 
-	$loading_img = canva_get_loading_img_url($thumb_size);
-	$image_type = @get_file_extension($image[0]);
+  $loading_img = canva_get_loading_img_url($thumb_size);
+  $image_type = @get_file_extension($image[0]);
 
-	if ('svg' === $image_type && !$width && !$height) {
-		$width = '100%';
-		$height = '100%';
-	} elseif (!$width && !$height) {
-		$width = @$image[1];
-		$height = @$image[2];
-		$width_full = @$image_full[1];
-		$height_full = @$image_full[2];
-	}
+  if ('svg' === $image_type && !$width && !$height) {
+    $width = '100%';
+    $height = '100%';
+  } elseif (!$width && !$height) {
+    $width = @$image[1];
+    $height = @$image[2];
+    $width_full = @$image_full[1];
+    $height_full = @$image_full[2];
+  }
 
-	switch (true) {
-		case '160-free' === $thumb_size:
-			$image_x2 = @wp_get_attachment_image_src($img_id, '320-free');
-			$image_x3 = @wp_get_attachment_image_src($img_id, '640-free');
-			$data_src = @esc_url($image[0]) . '|' . esc_url($image_x2[0]) . '|' . esc_url($image_x3[0]);
-			$srcset = @esc_url($image[0]) . ' 1x, ' . esc_url($image_x2[0]) . ' 2x, ' . esc_url($image_x3[0]) . ' 3x';
-			break;
-		case '160-11' === $thumb_size:
-			$image_x2 = @wp_get_attachment_image_src($img_id, '320-11');
-			$image_x3 = @wp_get_attachment_image_src($img_id, '640-11');
-			$data_src = @esc_url($image[0]) . '|' . esc_url($image_x2[0]) . '|' . esc_url($image_x3[0]);
-			$srcset = @esc_url($image[0]) . ' 1x, ' . esc_url($image_x2[0]) . ' 2x, ' . esc_url($image_x3[0]) . ' 3x';
-			break;
-		case '320-free' === $thumb_size:
-			$image_x2 = @wp_get_attachment_image_src($img_id, '640-free');
-			$image_x3 = @wp_get_attachment_image_src($img_id, '960-free');
-			$data_src = @esc_url($image[0]) . '|' . esc_url($image_x2[0]) . '|' . esc_url($image_x3[0]);
-			$srcset = @esc_url($image[0]) . ' 1x, ' . esc_url($image_x2[0]) . ' 2x, ' . esc_url($image_x3[0]) . ' 3x';
-			break;
-		case '320-11' === $thumb_size:
-			$image_x2 = @wp_get_attachment_image_src($img_id, '640-11');
-			$data_src = @esc_url($image[0]) . '|' . esc_url($image_x2[0]);
-			$srcset = @esc_url($image[0]) . ' 1x, ' . esc_url($image_x2[0]) . ' 2x';
-			break;
-		case '640-free' === $thumb_size:
-			$image_x2 = @wp_get_attachment_image_src($img_id, '1280-free');
-			$image_x3 = @wp_get_attachment_image_src($img_id, 'full');
-			$data_src = @esc_url($image[0]) . '|' . esc_url($image_x2[0]) . '|' . esc_url($image_x3[0]);
-			$srcset_src = @esc_url($image[0]) . ' 1x, ' . esc_url($image_x2[0]) . ' 2x, ' . esc_url($image_x3[0]) . ' 3x';
-			break;
-		case '960-free' === $thumb_size:
-			$image_x2 = @wp_get_attachment_image_src($img_id, '1280-free');
-			$image_x3 = @wp_get_attachment_image_src($img_id, 'full');
-			$data_src = @esc_url($image[0]) . '|' . esc_url($image_x2[0]) . '|' . esc_url($image_x3[0]);
-			$srcset_src = @esc_url($image[0]) . ' 1x, ' . esc_url($image_x2[0]) . ' 2x, ' . esc_url($image_x3[0]) . ' 3x';
-			break;
-		default:
-			$data_src = @esc_url($image[0]);
-			$srcset = @esc_url($image_full[0]);
-	}
+  switch (true) {
+    case '160-free' === $thumb_size:
+      $image_x2 = @wp_get_attachment_image_src($img_id, '320-free');
+      $image_x3 = @wp_get_attachment_image_src($img_id, '640-free');
+      $data_src = @esc_url($image[0]) . '|' . esc_url($image_x2[0]) . '|' . esc_url($image_x3[0]);
+      $srcset = @esc_url($image[0]) . ' 1x, ' . esc_url($image_x2[0]) . ' 2x, ' . esc_url($image_x3[0]) . ' 3x';
+      break;
+    case '160-11' === $thumb_size:
+      $image_x2 = @wp_get_attachment_image_src($img_id, '320-11');
+      $image_x3 = @wp_get_attachment_image_src($img_id, '640-11');
+      $data_src = @esc_url($image[0]) . '|' . esc_url($image_x2[0]) . '|' . esc_url($image_x3[0]);
+      $srcset = @esc_url($image[0]) . ' 1x, ' . esc_url($image_x2[0]) . ' 2x, ' . esc_url($image_x3[0]) . ' 3x';
+      break;
+    case '320-free' === $thumb_size:
+      $image_x2 = @wp_get_attachment_image_src($img_id, '640-free');
+      $image_x3 = @wp_get_attachment_image_src($img_id, '960-free');
+      $data_src = @esc_url($image[0]) . '|' . esc_url($image_x2[0]) . '|' . esc_url($image_x3[0]);
+      $srcset = @esc_url($image[0]) . ' 1x, ' . esc_url($image_x2[0]) . ' 2x, ' . esc_url($image_x3[0]) . ' 3x';
+      break;
+    case '320-11' === $thumb_size:
+      $image_x2 = @wp_get_attachment_image_src($img_id, '640-11');
+      $data_src = @esc_url($image[0]) . '|' . esc_url($image_x2[0]);
+      $srcset = @esc_url($image[0]) . ' 1x, ' . esc_url($image_x2[0]) . ' 2x';
+      break;
+    case '640-free' === $thumb_size:
+      $image_x2 = @wp_get_attachment_image_src($img_id, '1280-free');
+      $image_x3 = @wp_get_attachment_image_src($img_id, 'full');
+      $data_src = @esc_url($image[0]) . '|' . esc_url($image_x2[0]) . '|' . esc_url($image_x3[0]);
+      $srcset_src = @esc_url($image[0]) . ' 1x, ' . esc_url($image_x2[0]) . ' 2x, ' . esc_url($image_x3[0]) . ' 3x';
+      break;
+    case '960-free' === $thumb_size:
+      $image_x2 = @wp_get_attachment_image_src($img_id, '1280-free');
+      $image_x3 = @wp_get_attachment_image_src($img_id, 'full');
+      $data_src = @esc_url($image[0]) . '|' . esc_url($image_x2[0]) . '|' . esc_url($image_x3[0]);
+      $srcset_src = @esc_url($image[0]) . ' 1x, ' . esc_url($image_x2[0]) . ' 2x, ' . esc_url($image_x3[0]) . ' 3x';
+      break;
+    default:
+      $data_src = @esc_url($image[0]);
+      $srcset = @esc_url($image_full[0]);
+  }
 
-	$image_meta = get_post($img_id);
-	$alt = get_post_meta($img_id, '_wp_attachment_image_alt', true);
-	if (!$alt) {
-		$alt = $image_meta->post_title;
-	}
+  $image_meta = get_post($img_id);
+  $alt = get_post_meta($img_id, '_wp_attachment_image_alt', true);
+  if (!$alt) {
+    $alt = $image_meta->post_title;
+  }
 
-	if ('on' === $caption) {
-		$caption_content = '<figcaption class="image-caption block">' . $image_meta->post_excerpt . '</figcaption>';
-	} elseif ('off' === $caption) {
-		$caption_content = '<figcaption class="image-caption block"></figcaption>';
-	} else {
-		$caption_content = '<figcaption class="image-caption block">' . $caption . '</figcaption>';
-	}
+  if ('on' === $caption) {
+    $caption_content = '<figcaption class="image-caption block">' . $image_meta->post_excerpt . '</figcaption>';
+  } elseif ('off' === $caption) {
+    $caption_content = '<figcaption class="image-caption block"></figcaption>';
+  } else {
+    $caption_content = '<figcaption class="image-caption block">' . $caption . '</figcaption>';
+  }
 
-	if ('img' === $img_type) {
+  if ('img' === $img_type) {
 
-		if ('on' === $blazy) {
+    if ('on' === $blazy) {
 
-			$html = '<figure class="' . esc_attr($wrapper_class) . '" style="' . esc_attr($wrapper_style) . '" data-url="' . $image_full[0] . '" data-size="' . $width_full . 'x' . $height_full . '" ' . $data_attr . '  width="' . $width . '" height="' . $height . '"><img class="b-lazy ' . esc_attr($img_class) . '" src="' . esc_url($loading_img) . '" data-src="' . $data_src . '" alt="' . $alt . '" width="' . $width . '" height="' . $height . '" style="' . esc_attr($img_style) . '" />' . $caption_content . '</figure>';
-		} else {
+      $html = '<figure class="' . esc_attr($wrapper_class) . '" style="' . esc_attr($wrapper_style) . '" data-url="' . $image_full[0] . '" data-size="' . $width_full . 'x' . $height_full . '" ' . $data_attr . '  width="' . $width . '" height="' . $height . '"><img class="b-lazy ' . esc_attr($img_class) . '" src="' . esc_url($loading_img) . '" data-src="' . $data_src . '" alt="' . $alt . '" width="' . $width . '" height="' . $height . '" style="' . esc_attr($img_style) . '" />' . $caption_content . '</figure>';
+    } else {
 
-			if ('on' === $srcset) {
-				$html = '<figure class="' . esc_attr($wrapper_class) . '" style="' . esc_attr($wrapper_style) . '" data-url="' . $image_full[0] . '" data-size="' . $width_full . 'x' . $height_full . '" ' . $data_attr . '><img class="' . esc_attr($img_class) . '" src="' . $image[0] . '" srcset="' . $srcset_src . '" alt="' . $alt . '" width="' . $width . '" height="' . $height . '" style="' . esc_attr($img_style) . '" />' . $caption_content . '</figure>';
-			} else {
-				$html = '<figure class="' . esc_attr($wrapper_class) . '" style="' . esc_attr($wrapper_style) . '" data-url="' . $image_full[0] . '" data-size="' . $width_full . 'x' . $height_full . '" ' . $data_attr . '><img class="' . esc_attr($img_class) . '" src="' . $image[0] . '" alt="' . $alt . '" width="' . $width . '" height="' . $height . '" style="' . esc_attr($img_style) . '"/>' . $caption_content . '</figure>';
-			}
-		}
-	} elseif ('background' === $img_type || 'bg' === $img_type) {
+      if ('on' === $srcset) {
+        $html = '<figure class="' . esc_attr($wrapper_class) . '" style="' . esc_attr($wrapper_style) . '" data-url="' . $image_full[0] . '" data-size="' . $width_full . 'x' . $height_full . '" ' . $data_attr . '><img class="' . esc_attr($img_class) . '" src="' . $image[0] . '" srcset="' . $srcset_src . '" alt="' . $alt . '" width="' . $width . '" height="' . $height . '" style="' . esc_attr($img_style) . '" />' . $caption_content . '</figure>';
+      } else {
+        $html = '<figure class="' . esc_attr($wrapper_class) . '" style="' . esc_attr($wrapper_style) . '" data-url="' . $image_full[0] . '" data-size="' . $width_full . 'x' . $height_full . '" ' . $data_attr . '><img class="' . esc_attr($img_class) . '" src="' . $image[0] . '" alt="' . $alt . '" width="' . $width . '" height="' . $height . '" style="' . esc_attr($img_style) . '"/>' . $caption_content . '</figure>';
+      }
+    }
+  } elseif ('background' === $img_type || 'bg' === $img_type) {
 
-		if ('on' === $blazy) {
-			if ('1280-free' === $thumb_size || '1600-free' === $thumb_size || '1920-free' === $thumb_size) {
-				$image_small = wp_get_attachment_image_src($img_id, '960-free');
-				$html = '<div class="bg-img b-lazy bg-no-repeat ' . esc_attr($wrapper_class) . '" style="' . esc_attr($wrapper_style) . '" data-src="' . esc_url($image[0]) . '" data-src-small="' . esc_url($image_small[0]) . '" style="' . $img_class . '" ' . $data_attr . '>' . $bg_content . '</div>';
-			} else {
-				$html = '<div class="bg-img b-lazy bg-no-repeat ' . esc_attr($wrapper_class) . '" style="' . esc_attr($wrapper_style) . '" data-src="' . esc_url($image[0]) . '" style="' . $img_class . '" ' . $data_attr . '>' . $bg_content . '</div>';
-			}
-		} else {
-			$html = '<div class="bg-img bg-no-repeat ' . esc_attr($wrapper_class) . '" style="background-image:url(' . esc_url($image[0]) . '); ' . esc_attr($wrapper_style) . '"' . $data_attr . '>' . $bg_content . '</div>';
-		}
-	} else {
-		$html = @esc_url($image[0]);
-	}
+    if ('on' === $blazy) {
+      if ('1280-free' === $thumb_size || '1600-free' === $thumb_size || '1920-free' === $thumb_size) {
+        $image_small = wp_get_attachment_image_src($img_id, '960-free');
+        $html = '<div class="bg-img b-lazy bg-no-repeat ' . esc_attr($wrapper_class) . '" style="' . esc_attr($wrapper_style) . '" data-src="' . esc_url($image[0]) . '" data-src-small="' . esc_url($image_small[0]) . '" style="' . $img_class . '" ' . $data_attr . '>' . $bg_content . '</div>';
+      } else {
+        $html = '<div class="bg-img b-lazy bg-no-repeat ' . esc_attr($wrapper_class) . '" style="' . esc_attr($wrapper_style) . '" data-src="' . esc_url($image[0]) . '" style="' . $img_class . '" ' . $data_attr . '>' . $bg_content . '</div>';
+      }
+    } else {
+      $html = '<div class="bg-img bg-no-repeat ' . esc_attr($wrapper_class) . '" style="background-image:url(' . esc_url($image[0]) . '); ' . esc_attr($wrapper_style) . '"' . $data_attr . '>' . $bg_content . '</div>';
+    }
+  } else {
+    $html = @esc_url($image[0]);
+  }
 
-	return $html;
+  return $html;
 }
 
 /**
@@ -932,7 +933,7 @@ function canva_get_img($args = [])
  */
 function canva_get_no_image_id()
 {
-	return get_field('no_image_fallback', 'options');
+  return get_field('no_image_fallback', 'options');
 }
 
 /**
@@ -947,18 +948,18 @@ function canva_get_no_image_id()
 function canva_get_no_image($thumb_size = '640-free', $css_classes = '')
 {
 
-	$html = '';
-	if (get_field('no_image_fallback', 'options')) {
-		$html .=  canva_get_img([
-			'img_id' => get_field('no_image_fallback', 'options'),
-			'thumb_size' => $thumb_size,
-			'wrapper_class' => esc_attr($css_classes),
-		]);
-	} else {
-		$html .= canva_get_svg_icon('fontawesome/regular/image', 'icon' . esc_attr($css_classes));
-	}
+  $html = '';
+  if (get_field('no_image_fallback', 'options')) {
+    $html .= canva_get_img([
+      'img_id' => get_field('no_image_fallback', 'options'),
+      'thumb_size' => $thumb_size,
+      'wrapper_class' => esc_attr($css_classes),
+    ]);
+  } else {
+    $html .= canva_get_svg_icon('fontawesome/regular/image', 'icon' . esc_attr($css_classes));
+  }
 
-	return $html;
+  return $html;
 }
 
 
@@ -972,193 +973,193 @@ function canva_get_no_image($thumb_size = '640-free', $css_classes = '')
 function canva_render_core_image_block($block_content, $block)
 {
 
-	if (is_admin() && acf_is_block_editor()) {
-		return $block_content;
-	} else {
+  if (is_admin() && acf_is_block_editor()) {
+    return $block_content;
+  } else {
 
-		// modifica output html del blcco core/image
-		if ('core/image' === $block['blockName']) {
+    // modifica output html del blcco core/image
+    if ('core/image' === $block['blockName']) {
 
-			$block_id = '';
-			if ($block['id']) {
-				$block_id = $block['id'];
-			}
+      $block_id = '';
+      if ($block['id']) {
+        $block_id = $block['id'];
+      }
 
-			if (!empty($block['anchor'])) {
-				$block_id = $block['anchor'];
-			}
+      if (!empty($block['anchor'])) {
+        $block_id = $block['anchor'];
+      }
 
-			extract($block['attrs']);
+      extract($block['attrs']);
 
-			if ('center' == $align) {
-				$className = 'text-center ' . $className;
-			} elseif ('left' == $align) {
-				$className = 'text-left ' . $className;
-			} elseif ('right' == $align) {
-				$className = 'text-right ' . $className;
-			}
+      if ('center' == $align) {
+        $className = 'text-center ' . $className;
+      } elseif ('left' == $align) {
+        $className = 'text-left ' . $className;
+      } elseif ('right' == $align) {
+        $className = 'text-right ' . $className;
+      }
 
-			if (false !== strpos($className, '|')) {
-				$css_classes = explode('|', $className);
-			} else {
-				$css_classes = $className;
-			}
+      if (false !== strpos($className, '|')) {
+        $css_classes = explode('|', $className);
+      } else {
+        $css_classes = $className;
+      }
 
-			$parent_classes = '';
-			$child_classes = '';
+      $parent_classes = '';
+      $child_classes = '';
 
-			if (is_array($css_classes)) {
-				$parent_classes = $css_classes[0];
-				$child_classes = $css_classes[1];
-			} else {
-				$parent_classes = $className;
-			}
+      if (is_array($css_classes)) {
+        $parent_classes = $css_classes[0];
+        $child_classes = $css_classes[1];
+      } else {
+        $parent_classes = $className;
+      }
 
-			if ('thumbnail' == $sizeSlug) {
-				$sizeSlug = '160-free';
-			}
+      if ('thumbnail' == $sizeSlug) {
+        $sizeSlug = '160-free';
+      }
 
-			$DOM = new DOMDocument();
-			$DOM->loadHTML($block['innerHTML']);
-			$tag = $DOM->getElementsByTagName('img');
+      $DOM = new DOMDocument();
+      $DOM->loadHTML($block['innerHTML']);
+      $tag = $DOM->getElementsByTagName('img');
 
-			$img_width = '';
-			$img_height = '';
-			foreach ($tag as $element) {
-				$img_width = $element->getAttribute('width');
-				$img_height = $element->getAttribute('height');
-			}
+      $img_width = '';
+      $img_height = '';
+      foreach ($tag as $element) {
+        $img_width = $element->getAttribute('width');
+        $img_height = $element->getAttribute('height');
+      }
 
-			$caption = wp_strip_all_tags($block['innerHTML']);
-			$links = extract_links_from_html($block['innerHTML']);
+      $caption = wp_strip_all_tags($block['innerHTML']);
+      $links = extract_links_from_html($block['innerHTML']);
 
-			$figure_url = '';
-			$caption_url = '';
-			if (!empty($links)) {
-				if (count($links) > 1) {
-					$figure_url = $links[0]['href'];
-					$caption_url = $links[1]['href'];
-				} else {
-					$figure_url = $links[0]['href'];
-				}
-			}
+      $figure_url = '';
+      $caption_url = '';
+      if (!empty($links)) {
+        if (count($links) > 1) {
+          $figure_url = $links[0]['href'];
+          $caption_url = $links[1]['href'];
+        } else {
+          $figure_url = $links[0]['href'];
+        }
+      }
 
-			if (!$caption) {
-				$caption = 'off';
-			} elseif ($caption && null != $caption_url && '' != $caption_url) {
-				if (!is_url_local($caption_url)) {
-					$target_rel = 'target="_blank" rel="nofollow noopener"';
-				}
-				$caption = '<a href="' . $caption_url . '" ' . $target_rel . '>' . $caption . '</a>';
-			} else {
-				$caption = $caption;
-			}
+      if (!$caption) {
+        $caption = 'off';
+      } elseif ($caption && null != $caption_url && '' != $caption_url) {
+        if (!is_url_local($caption_url)) {
+          $target_rel = 'target="_blank" rel="nofollow noopener"';
+        }
+        $caption = '<a href="' . $caption_url . '" ' . $target_rel . '>' . $caption . '</a>';
+      } else {
+        $caption = $caption;
+      }
 
-			// rompe salvataggio common block
-			// ob_start();
-			if (is_single()) {
-				$img_output = canva_get_img(
-					[
-						'img_id' => $id, //'post_id','attachment_id',
-						'img_type' => 'img', //'img', 'bg', 'url'
-						'thumb_size' => $sizeSlug, //'640-free',
-						'wrapper_class' => $parent_classes,
-						'img_class' => 'photoswipe-item pointer gallery-item gallery-item-1 ' . $child_classes,
-						'bg_content' => '',
-						'caption' => $caption,
-						'blazy' => 'on',
-						'data_attr' => '',
-						'width' => $img_width,
-						'height' => $img_height,
-					]
-				);
-			} else {
-				$img_output = canva_get_img(
-					[
-						'img_id' => $id, //'post_id','attachment_id',
-						'img_type' => 'img', //'img', 'bg', 'url'
-						'thumb_size' => $sizeSlug, //'640-free',
-						'wrapper_class' => $parent_classes,
-						// 'img_class' => 'photoswipe-item pointer gallery-item gallery-item-1 ' . $child_classes,
-						'bg_content' => '',
-						'caption' => $caption,
-						'blazy' => 'on',
-						'data_attr' => '',
-						'width' => $img_width,
-						'height' => $img_height,
-					]
-				);
-			}
+      // rompe salvataggio common block
+      // ob_start();
+      if (is_single()) {
+        $img_output = canva_get_img(
+          [
+            'img_id' => $id, //'post_id','attachment_id',
+            'img_type' => 'img', //'img', 'bg', 'url'
+            'thumb_size' => $sizeSlug, //'640-free',
+            'wrapper_class' => $parent_classes,
+            'img_class' => 'photoswipe-item pointer gallery-item gallery-item-1 ' . $child_classes,
+            'bg_content' => '',
+            'caption' => $caption,
+            'blazy' => 'on',
+            'data_attr' => '',
+            'width' => $img_width,
+            'height' => $img_height,
+          ]
+        );
+      } else {
+        $img_output = canva_get_img(
+          [
+            'img_id' => $id, //'post_id','attachment_id',
+            'img_type' => 'img', //'img', 'bg', 'url'
+            'thumb_size' => $sizeSlug, //'640-free',
+            'wrapper_class' => $parent_classes,
+            // 'img_class' => 'photoswipe-item pointer gallery-item gallery-item-1 ' . $child_classes,
+            'bg_content' => '',
+            'caption' => $caption,
+            'blazy' => 'on',
+            'data_attr' => '',
+            'width' => $img_width,
+            'height' => $img_height,
+          ]
+        );
+      }
 
-			if ('' != $figure_url) {
-				return '<a href="' . esc_url($figure_url) . '" target="_blank" rel="nofollow noopener">' . $img_output . '</a>';
-			} else {
-				return $img_output;
-			}
-			// return ob_get_clean();
-		}
+      if ('' != $figure_url) {
+        return '<a href="' . esc_url($figure_url) . '" target="_blank" rel="nofollow noopener">' . $img_output . '</a>';
+      } else {
+        return $img_output;
+      }
+      // return ob_get_clean();
+    }
 
-		if ('core/gallery' === $block['blockName']) {
+    if ('core/gallery' === $block['blockName']) {
 
-			$innerBlocks = $block['innerBlocks'];
-			$ids = [];
-			foreach ($innerBlocks as $innerBlock) {
-				$ids[] = $innerBlock['attrs']['id'];
-			}
+      $innerBlocks = $block['innerBlocks'];
+      $ids = [];
+      foreach ($innerBlocks as $innerBlock) {
+        $ids[] = $innerBlock['attrs']['id'];
+      }
 
-			if (!empty($block['anchor'])) {
-				$block_id = $block['anchor'];
-			}
+      if (!empty($block['anchor'])) {
+        $block_id = $block['anchor'];
+      }
 
-			extract($block['attrs']);
+      extract($block['attrs']);
 
 
-			if (count($ids) <= 5) {
-				$columns = count($ids);
-			} else {
-				$columns = 4;
-			}
+      if (count($ids) <= 5) {
+        $columns = count($ids);
+      } else {
+        $columns = 4;
+      }
 
-			if ($align) {
-				$className = $align . ' ' . $className;
-			}
+      if ($align) {
+        $className = $align . ' ' . $className;
+      }
 
-			// Get Gallery Items
-			@$DOM = new DOMDocument();
-			@$DOM->loadHTML($block['innerHTML'], LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-			$figures = @$DOM->getElementsByTagName('figure');
+      // Get Gallery Items
+      @$DOM = new DOMDocument();
+      @$DOM->loadHTML($block['innerHTML'], LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+      $figures = @$DOM->getElementsByTagName('figure');
 
-			$img_captions = [];
-			foreach ($figures as $key => $figure) {
-				if (0 != $key) {
-					if ('' != $figure->textContent) {
-						$img_captions[] = $figure->textContent;
-					} else {
-						$img_captions[] = 'off';
-					}
-				}
-			}
+      $img_captions = [];
+      foreach ($figures as $key => $figure) {
+        if (0 != $key) {
+          if ('' != $figure->textContent) {
+            $img_captions[] = $figure->textContent;
+          } else {
+            $img_captions[] = 'off';
+          }
+        }
+      }
 
-			// Get Gallery Figcaption
-			@$FC = new DOMDocument();
-			@$FC->loadHTML($block['innerHTML'], LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-			$remove_items = @$FC->getElementsByTagName('ul');
+      // Get Gallery Figcaption
+      @$FC = new DOMDocument();
+      @$FC->loadHTML($block['innerHTML'], LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+      $remove_items = @$FC->getElementsByTagName('ul');
 
-			foreach ($remove_items as $remove_item) {
-				$remove_item->parentNode->removeChild($remove_item);
-			}
+      foreach ($remove_items as $remove_item) {
+        $remove_item->parentNode->removeChild($remove_item);
+      }
 
-			$gallery_caption = wp_strip_all_tags(@$FC->saveHTML());
+      $gallery_caption = wp_strip_all_tags(@$FC->saveHTML());
 
-			// ob_start();
+      // ob_start();
 
-			canva_get_template($template_name = 'block-gallery-flex', ['img_ids' => $ids, 'captions' => $captions, 'thumb_size' => $sizeSlug, 'size' => $sizeSlug, 'limit' => $limit, 'columns' => $columns, 'galleryID' => $block_id, 'css_class' => $className]);
+      canva_get_template($template_name = 'block-gallery-flex', ['img_ids' => $ids, 'captions' => $captions, 'thumb_size' => $sizeSlug, 'size' => $sizeSlug, 'limit' => $limit, 'columns' => $columns, 'galleryID' => $block_id, 'css_class' => $className]);
 
-			// return ob_get_clean();
-		}
+      // return ob_get_clean();
+    }
 
-		return $block_content;
-	}
+    return $block_content;
+  }
 }
 add_filter('render_block', 'canva_render_core_image_block', 10, 2);
 
@@ -1175,37 +1176,37 @@ add_filter('render_block', 'canva_render_core_image_block', 10, 2);
 function canva_set_meta_preload_url($post_id, $post, $update)
 {
 
-	//Check it's not an auto save routine
-	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-		return;
-	}
+  //Check it's not an auto save routine
+  if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+    return;
+  }
 
-	// If this is a revision, get real post ID
-	if ($parent_id = wp_is_post_revision($post_id)) {
-		$post_id = $parent_id;
-	}
+  // If this is a revision, get real post ID
+  if ($parent_id = wp_is_post_revision($post_id)) {
+    $post_id = $parent_id;
+  }
 
-	$post = get_post($post_id);
+  $post = get_post($post_id);
 
-	if (has_blocks($post->post_content)) {
+  if (has_blocks($post->post_content)) {
 
-		$blocks = parse_blocks($post->post_content);
+    $blocks = parse_blocks($post->post_content);
 
-		//HERO IMAGE LINK or HERO BASIC
-		if ($blocks[0]['blockName'] === 'acf/hero-image-link' || $blocks[0]['blockName'] === 'acf/hero-basic') {
+    //HERO IMAGE LINK or HERO BASIC
+    if ($blocks[0]['blockName'] === 'acf/hero-image-link' || $blocks[0]['blockName'] === 'acf/hero-basic') {
 
-			$bg_image = $blocks[0]['attrs']['data']['bg_image'];
-			$bg_image_small = $blocks[0]['attrs']['data']['bg_image_small'];
+      $bg_image = $blocks[0]['attrs']['data']['bg_image'];
+      $bg_image_small = $blocks[0]['attrs']['data']['bg_image_small'];
 
-			if ($bg_image) {
-				update_post_meta($post_id, 'hero_attachment_large_id', $bg_image);
-			}
+      if ($bg_image) {
+        update_post_meta($post_id, 'hero_attachment_large_id', $bg_image);
+      }
 
-			if ($bg_image_small) {
-				update_post_meta($post_id, 'hero_attachment_small_id', $bg_image_small);
-			}
-		}
-	}
+      if ($bg_image_small) {
+        update_post_meta($post_id, 'hero_attachment_small_id', $bg_image_small);
+      }
+    }
+  }
 }
 add_action('save_post', 'canva_set_meta_preload_url', 99, 3);
 
@@ -1216,54 +1217,54 @@ add_action('save_post', 'canva_set_meta_preload_url', 99, 3);
  */
 function canva_print_preload_heros_imgs()
 {
-	$post_id = get_the_id();
-	$hero_attachment_large_id = get_post_meta($post_id, 'hero_attachment_large_id', true);
-	$hero_attachment_small_id = get_post_meta($post_id, 'hero_attachment_small_id', true);
+  $post_id = get_the_id();
+  $hero_attachment_large_id = get_post_meta($post_id, 'hero_attachment_large_id', true);
+  $hero_attachment_small_id = get_post_meta($post_id, 'hero_attachment_small_id', true);
 
-	if ($hero_attachment_large_id) {
-		$hero_img_large_url = canva_get_img(
-			[
-				'img_id' => $hero_attachment_large_id, //'post_id','attachment_id',
-				'img_type' => 'url', //'img', 'bg', 'url'
-				'thumb_size' => '1600-free', //'640-free',
-				'wrapper_class' => '',
-				'img_class' => '',
-				'bg_content' => '',
-				'caption' => 'off',
-				'blazy' => 'off',
-				'srcset' => 'off',
-				'data_attr' => '',
-				'width' => '',
-				'height' => '',
-			]
-		);
+  if ($hero_attachment_large_id) {
+    $hero_img_large_url = canva_get_img(
+      [
+        'img_id' => $hero_attachment_large_id, //'post_id','attachment_id',
+        'img_type' => 'url', //'img', 'bg', 'url'
+        'thumb_size' => '1600-free', //'640-free',
+        'wrapper_class' => '',
+        'img_class' => '',
+        'bg_content' => '',
+        'caption' => 'off',
+        'blazy' => 'off',
+        'srcset' => 'off',
+        'data_attr' => '',
+        'width' => '',
+        'height' => '',
+      ]
+    );
 
-		echo '<link rel="preload" as="image" href="' . esc_url($hero_img_large_url) . '" media="(min-width: 640px)">';
-		if (!$hero_attachment_small_id) {
-			echo '<link rel="preload" as="image" href="' . esc_url($hero_img_large_url) . '" media="(max-width: 639px)">';
-		}
-	}
+    echo '<link rel="preload" as="image" href="' . esc_url($hero_img_large_url) . '" media="(min-width: 640px)">';
+    if (!$hero_attachment_small_id) {
+      echo '<link rel="preload" as="image" href="' . esc_url($hero_img_large_url) . '" media="(max-width: 639px)">';
+    }
+  }
 
-	if ($hero_attachment_small_id) {
-		$hero_img_small_url = canva_get_img(
-			[
-				'img_id' => $hero_attachment_small_id, //'post_id','attachment_id',
-				'img_type' => 'url', //'img', 'bg', 'url'
-				'thumb_size' => '640-free', //'640-free',
-				'wrapper_class' => '',
-				'img_class' => '',
-				'bg_content' => '',
-				'caption' => 'off',
-				'blazy' => 'off',
-				'srcset' => 'off',
-				'data_attr' => '',
-				'width' => '',
-				'height' => '',
-			]
-		);
+  if ($hero_attachment_small_id) {
+    $hero_img_small_url = canva_get_img(
+      [
+        'img_id' => $hero_attachment_small_id, //'post_id','attachment_id',
+        'img_type' => 'url', //'img', 'bg', 'url'
+        'thumb_size' => '640-free', //'640-free',
+        'wrapper_class' => '',
+        'img_class' => '',
+        'bg_content' => '',
+        'caption' => 'off',
+        'blazy' => 'off',
+        'srcset' => 'off',
+        'data_attr' => '',
+        'width' => '',
+        'height' => '',
+      ]
+    );
 
-		echo '<link rel="preload" as="image" href="' . esc_url($hero_img_small_url) . '" media="(max-width: 639px)">';
-	}
+    echo '<link rel="preload" as="image" href="' . esc_url($hero_img_small_url) . '" media="(max-width: 639px)">';
+  }
 }
 add_action('wp_head', 'canva_print_preload_heros_imgs', 1);
 
@@ -1276,25 +1277,25 @@ add_action('wp_head', 'canva_print_preload_heros_imgs', 1);
 function canva_media_library_set_meta($post_id)
 {
 
-	if (wp_attachment_is_image($post_id)) {
+  if (wp_attachment_is_image($post_id)) {
 
-		$image_title = get_post($post_id)->post_title;
+    $image_title = get_post($post_id)->post_title;
 
-		$image_title = preg_replace('%\s*[-_\s]+\s*%', ' ', $image_title);
+    $image_title = preg_replace('%\s*[-_\s]+\s*%', ' ', $image_title);
 
-		$image_title = ucwords(strtolower($image_title));
+    $image_title = ucwords(strtolower($image_title));
 
-		$image_meta = array(
-			'ID'            => $post_id,
-			'post_title'    => $image_title,
-			//'post_excerpt'  => $hap_image_title, // Set image Caption (Excerpt)
-			//'post_content'  => $hap_image_title, // Set image Description (Content)
-		);
+    $image_meta = array(
+      'ID' => $post_id,
+      'post_title' => $image_title,
+      //'post_excerpt'  => $hap_image_title, // Set image Caption (Excerpt)
+      //'post_content'  => $hap_image_title, // Set image Description (Content)
+    );
 
-		update_post_meta($post_id, '_wp_attachment_image_alt', $image_title);
+    update_post_meta($post_id, '_wp_attachment_image_alt', $image_title);
 
-		wp_update_post($image_meta);
-	}
+    wp_update_post($image_meta);
+  }
 }
 add_action('add_attachment', 'canva_media_library_set_meta');
 
@@ -1308,7 +1309,7 @@ add_action('add_attachment', 'canva_media_library_set_meta');
  */
 function canva_get_term_name($term_id)
 {
-	return get_term_field('name', $term_id);
+  return get_term_field('name', $term_id);
 }
 
 /**
@@ -1320,7 +1321,7 @@ function canva_get_term_name($term_id)
  */
 function canva_get_term_description($term_id)
 {
-	return get_term_field('description', $term_id);
+  return get_term_field('description', $term_id);
 }
 
 /**
@@ -1331,8 +1332,8 @@ function canva_get_term_description($term_id)
  */
 function canva_get_term_toptitle($term)
 {
-	// return get_field('term_logo', $taxonomy . '_' . $term_id);
-	return get_field('toptitle', $term);
+  // return get_field('term_logo', $taxonomy . '_' . $term_id);
+  return get_field('toptitle', $term);
 }
 
 /**
@@ -1343,8 +1344,8 @@ function canva_get_term_toptitle($term)
  */
 function canva_get_term_title($term)
 {
-	// return get_field('term_logo', $taxonomy . '_' . $term_id);
-	return get_field('title', $term);
+  // return get_field('term_logo', $taxonomy . '_' . $term_id);
+  return get_field('title', $term);
 }
 
 /**
@@ -1355,8 +1356,8 @@ function canva_get_term_title($term)
  */
 function canva_get_term_subtitle($term)
 {
-	// return get_field('term_logo', $taxonomy . '_' . $term_id);
-	return get_field('subtitle', $term);
+  // return get_field('term_logo', $taxonomy . '_' . $term_id);
+  return get_field('subtitle', $term);
 }
 
 /**
@@ -1366,8 +1367,8 @@ function canva_get_term_subtitle($term)
  */
 function canva_get_term_logo_id($term)
 {
-	// return get_field('term_logo', $taxonomy . '_' . $term_id);
-	return get_field('term_logo', $term);
+  // return get_field('term_logo', $taxonomy . '_' . $term_id);
+  return get_field('term_logo', $term);
 }
 
 /**
@@ -1379,8 +1380,8 @@ function canva_get_term_logo_id($term)
  */
 function canva_get_term_featured_img_id($term)
 {
-	// return get_field('term_featured_img', $taxonomy . '_' . $term_id);
-	return get_field('term_featured_img', $term);
+  // return get_field('term_featured_img', $taxonomy . '_' . $term_id);
+  return get_field('term_featured_img', $term);
 }
 
 /**
@@ -1392,8 +1393,8 @@ function canva_get_term_featured_img_id($term)
  */
 function canva_get_term_gallery_img_ids($term)
 {
-	// return get_field('term_featured_img', $taxonomy . '_' . $term_id);
-	return get_field('term_gallery', $term);
+  // return get_field('term_featured_img', $taxonomy . '_' . $term_id);
+  return get_field('term_gallery', $term);
 }
 
 /**
@@ -1405,8 +1406,8 @@ function canva_get_term_gallery_img_ids($term)
  */
 function canva_get_term_color($term)
 {
-	// return get_field('term_color', $taxonomy . '_' . $term_id);
-	return get_field('term_color', $term);
+  // return get_field('term_color', $taxonomy . '_' . $term_id);
+  return get_field('term_color', $term);
 }
 
 /**
@@ -1418,8 +1419,8 @@ function canva_get_term_color($term)
  */
 function canva_get_term_color_secondary($term)
 {
-	// return get_field('term_color', $taxonomy . '_' . $term_id);
-	return get_field('term_color_secondary', $term);
+  // return get_field('term_color', $taxonomy . '_' . $term_id);
+  return get_field('term_color_secondary', $term);
 }
 
 /**
@@ -1430,194 +1431,195 @@ function canva_get_term_color_secondary($term)
  */
 function canva_the_layer($args = [])
 {
-	extract(shortcode_atts([
-		'layer_type' => '_hero', // Classe semantica _hero, _card, _photobutton
-		'layer_id' => '',
-		'layer_class' => '', // Classi di aspetto
+  extract(shortcode_atts([
+    'layer_type' => '_hero', // Classe semantica _hero, _card, _photobutton
+    'layer_id' => '',
+    'layer_class' => '', // Classi di aspetto
 
-		'img_id' => '',
-		'img_small_id' => '',
-		'thumb_size' => '1920-free',
-		'thumb_small_size' => '1920-free',
-		'img_url' => '',
-		'img_small_url' => '',
-		'video_url' => '',
+    'img_id' => '',
+    'img_small_id' => '',
+    'thumb_size' => '1920-free',
+    'thumb_small_size' => '1920-free',
+    'img_url' => '',
+    'img_small_url' => '',
+    'video_url' => '',
 
-		'layer_visual_class' => '',
+    'layer_visual_class' => '',
 
-		'layer_bg' => 'on',
-		'layer_bg_class' => '',
+    'layer_bg' => 'on',
+    'layer_bg_class' => '',
 
-		'layer_picture' => 'on',
-		'layer_picture_class' => '',
-		'layer_picture_html' => '',
+    'layer_picture' => 'on',
+    'layer_picture_class' => '',
+    'layer_picture_html' => '',
 
-		'layer_filter' => 'on',
-		'layer_filter_class' => '',
+    'layer_filter' => 'on',
+    'layer_filter_class' => '',
 
-		'layer_graphics' => 'on',
-		'layer_graphics_class' => '',
-		'layer_graphics_html' => '',
+    'layer_graphics' => 'on',
+    'layer_graphics_class' => '',
+    'layer_graphics_html' => '',
 
-		'layer_date' => 'on',
-		'layer_date_class' => '',
-		'layer_date_html' => '',
+    'layer_date' => 'on',
+    'layer_date_class' => '',
+    'layer_date_html' => '',
 
-		'layer_status' => 'on',
-		'layer_status_class' => '',
-		'layer_status_html' => '',
+    'layer_status' => 'on',
+    'layer_status_class' => '',
+    'layer_status_html' => '',
 
-		'layer_info' => 'on',
-		'layer_info_class' => '',
-		'layer_info_html' => '',
+    'layer_info' => 'on',
+    'layer_info_class' => '',
+    'layer_info_html' => '',
 
-		'layer_content' => 'on',
-		'layer_content_class' => '',
-		'layer_content_output' => '',
+    'layer_content' => 'on',
+    'layer_content_class' => '',
+    'layer_content_output' => '',
 
-		'template_name' => '',
+    'template_name' => '',
 
-	], $args));
+  ], $args));
 
-	$bg_image = '';
+  $bg_image = '';
 
-	if ($img_id) {
-		$bg_image = canva_get_img([
-			'img_id' => intval($img_id),
-			'img_type' => 'url', // img, bg, url
-			'thumb_size' => esc_attr($thumb_size),
-			'wrapper_class' => '',
-			'img_class' => '',
-			'img_style' => '',
-			'bg_content' => '',
-			'caption' => 'off',
-			'blazy' => 'off',
-			'srcset' => 'off',
-			'data_attr' => '',
-			'width' => '',
-			'height' => '',
-		]);
+  if ($img_id) {
+    $bg_image = canva_get_img([
+      'img_id' => intval($img_id),
+      'img_type' => 'url', // img, bg, url
+      'thumb_size' => esc_attr($thumb_size),
+      'wrapper_class' => '',
+      'img_class' => '',
+      'img_style' => '',
+      'bg_content' => '',
+      'caption' => 'off',
+      'blazy' => 'off',
+      'srcset' => 'off',
+      'data_attr' => '',
+      'width' => '',
+      'height' => '',
+    ]);
 
-		$bg_img_small = '';
-		if ($img_small_id) {
-			$bg_img_small = canva_get_img([
-				'img_id' => intval($img_small_id),
-				'img_type' => 'url', // img, bg, url
-				'thumb_size' => esc_attr($thumb_small_size),
-				'wrapper_class' => '',
-				'img_class' => '',
-				'img_style' => '',
-				'bg_content' => '',
-				'caption' => 'off',
-				'blazy' => 'off',
-				'srcset' => 'off',
-				'data_attr' => '',
-				'width' => '',
-				'height' => '',
-			]);
-		}
+    $bg_img_small = '';
+    if ($img_small_id) {
+      $bg_img_small = canva_get_img([
+        'img_id' => intval($img_small_id),
+        'img_type' => 'url', // img, bg, url
+        'thumb_size' => esc_attr($thumb_small_size),
+        'wrapper_class' => '',
+        'img_class' => '',
+        'img_style' => '',
+        'bg_content' => '',
+        'caption' => 'off',
+        'blazy' => 'off',
+        'srcset' => 'off',
+        'data_attr' => '',
+        'width' => '',
+        'height' => '',
+      ]);
+    }
 
-		$image = '';
-		if ($bg_img_small) {
-			$blazy_class = 'b-lazy';
-			$image = 'data-src="' . $bg_image . '"';
-			$image_small = '';
-			$image_small = 'data-src-small="' . $bg_img_small . '"';
-		} else {
-			$image = 'style="background-image:url(' . $bg_image . ')";';
-		}
-	} else {
+    $image = '';
+    if ($bg_img_small) {
+      $blazy_class = 'b-lazy';
+      $image = 'data-src="' . $bg_image . '"';
+      $image_small = '';
+      $image_small = 'data-src-small="' . $bg_img_small . '"';
+    } else {
+      $image = 'style="background-image:url(' . $bg_image . ')";';
+    }
+  } else {
 
-		$bg_image = $img_url;
-		$bg_img_small = $img_small_url;
+    $bg_image = $img_url;
+    $bg_img_small = $img_small_url;
 
-		$image = '';
-		if ($bg_img_small) {
-			$blazy_class = 'b-lazy';
-			$image = 'data-src="' . $bg_image . '"';
-			$image_small = '';
-			$image_small = 'data-src-small="' . $bg_img_small . '"';
-		} else {
-			$image = 'style="background-image:url(' . $bg_image . ')";';
-		}
-	}
+    $image = '';
+    if ($bg_img_small) {
+      $blazy_class = 'b-lazy';
+      $image = 'data-src="' . $bg_image . '"';
+      $image_small = '';
+      $image_small = 'data-src-small="' . $bg_img_small . '"';
+    } else {
+      $image = 'style="background-image:url(' . $bg_image . ')";';
+    }
+  }
 
-	if (!$layer_id) {
-		$layer_id = wp_generate_password(12, false, false);
-	}
-?>
+  if (!$layer_id) {
+    $layer_id = wp_generate_password(12, false, false);
+  }
+  ?>
 
-	<?php if (!$template_name) : ?>
+  <?php if (!$template_name): ?>
 
-		<div id="<?php echo esc_attr($layer_id); ?>" class="<?php echo esc_attr($layer_type); ?> _layer-wrap <?php echo esc_attr($layer_class); ?>">
+    <div id="<?php echo esc_attr($layer_id); ?>"
+      class="<?php echo esc_attr($layer_type); ?> _layer-wrap <?php echo esc_attr($layer_class); ?>">
 
-			<div class="_layer-visual <?php echo esc_attr($layer_visual_class); ?>">
+      <div class="_layer-visual <?php echo esc_attr($layer_visual_class); ?>">
 
-				<?php if ('on' === $layer_bg) { ?>
-					<div class="_layer-bg <?php echo esc_attr($blazy_class . ' ' . $layer_bg_class); ?>" <?php echo $image . ' ' . $image_small; ?>></div>
-				<?php } ?>
+        <?php if ('on' === $layer_bg) { ?>
+          <div class="_layer-bg <?php echo esc_attr($blazy_class . ' ' . $layer_bg_class); ?>" <?php echo $image . ' ' . $image_small; ?>></div>
+        <?php } ?>
 
-				<?php if ('on' === $layer_picture) { ?>
-					<div class="_layer-picture <?php echo esc_attr($layer_picture_class); ?>">
-						<!-- Content child mixed img video -->
-						<video class="object-cover" preload="auto" loop="loop" autoplay="" muted="" playsinline="">
-							<source src="<?php echo esc_url($video_url); ?>" type="video/mp4">
-						</video>
-					</div>
-				<?php } ?>
+        <?php if ('on' === $layer_picture) { ?>
+          <div class="_layer-picture <?php echo esc_attr($layer_picture_class); ?>">
+            <!-- Content child mixed img video -->
+            <video class="object-cover" preload="auto" loop="loop" autoplay="" muted="" playsinline="">
+              <source src="<?php echo esc_url($video_url); ?>" type="video/mp4">
+            </video>
+          </div>
+        <?php } ?>
 
-				<?php if ('on' === $layer_filter) { ?>
-					<div class="_layer-filter <?php echo esc_attr($layer_filter_class); ?>">
-						<!-- Content child non previsto -->
-					</div>
-				<?php } ?>
+        <?php if ('on' === $layer_filter) { ?>
+          <div class="_layer-filter <?php echo esc_attr($layer_filter_class); ?>">
+            <!-- Content child non previsto -->
+          </div>
+        <?php } ?>
 
-				<?php if ('on' === $layer_graphics) { ?>
-					<div class="_layer-graphics <?php echo esc_attr($layer_graphics_class); ?>">
-						<!-- Content child mixed img svg-->
-						<?php echo $layer_graphics_html ?>
-					</div>
-				<?php } ?>
+        <?php if ('on' === $layer_graphics) { ?>
+          <div class="_layer-graphics <?php echo esc_attr($layer_graphics_class); ?>">
+            <!-- Content child mixed img svg-->
+            <?php echo $layer_graphics_html ?>
+          </div>
+        <?php } ?>
 
-				<?php if ('on' === $layer_date) { ?>
-					<div class="_layer-date <?php echo esc_attr($layer_date_class); ?>">
-						<!-- Content child mixed html php etc-->
-						<?php echo $layer_date_html ?>
-					</div>
-				<?php } ?>
+        <?php if ('on' === $layer_date) { ?>
+          <div class="_layer-date <?php echo esc_attr($layer_date_class); ?>">
+            <!-- Content child mixed html php etc-->
+            <?php echo $layer_date_html ?>
+          </div>
+        <?php } ?>
 
-				<?php if ('on' === $layer_status) { ?>
-					<div class="_layer-status <?php echo esc_attr($layer_status_class); ?>">
-						<!-- Content child mixed html php etc-->
-						<?php echo $layer_status_html ?>
-					</div>
-				<?php } ?>
+        <?php if ('on' === $layer_status) { ?>
+          <div class="_layer-status <?php echo esc_attr($layer_status_class); ?>">
+            <!-- Content child mixed html php etc-->
+            <?php echo $layer_status_html ?>
+          </div>
+        <?php } ?>
 
-				<?php if ('on' === $layer_info) { ?>
-					<div class="_layer-info <?php echo esc_attr($layer_info_class); ?>">
-						<!-- Content child mixed html php etc-->
-						<?php echo $layer_info_html ?>
-					</div>
-				<?php } ?>
+        <?php if ('on' === $layer_info) { ?>
+          <div class="_layer-info <?php echo esc_attr($layer_info_class); ?>">
+            <!-- Content child mixed html php etc-->
+            <?php echo $layer_info_html ?>
+          </div>
+        <?php } ?>
 
-			</div>
+      </div>
 
-			<?php if ('on' === $layer_content) { ?>
-				<div class="_layer-content <?php echo esc_attr($layer_content_class); ?>">
-					<!-- Content child mixed html php etc-->
-					<?php echo $layer_content_output; ?>
-				</div>
-			<?php } ?>
+      <?php if ('on' === $layer_content) { ?>
+        <div class="_layer-content <?php echo esc_attr($layer_content_class); ?>">
+          <!-- Content child mixed html php etc-->
+          <?php echo $layer_content_output; ?>
+        </div>
+      <?php } ?>
 
-		</div>
+    </div>
 
-	<?php else : ?>
+  <?php else: ?>
 
-		<?php echo canva_get_template($template_name, $args); ?>
+    <?php echo canva_get_template($template_name, $args); ?>
 
-	<?php endif; ?>
+  <?php endif; ?>
 
-<?php
+  <?php
 }
 
 
@@ -1631,5 +1633,5 @@ function canva_the_layer($args = [])
  */
 function canva_get_youtube_thumb($youtube_url = '', $gallery_item = 1, $template_name = 'fn-youtube-thumb-photoswipe')
 {
-	echo canva_get_template($template_name, ['url' => $youtube_url, 'gallery_item' => $gallery_item]);
+  echo canva_get_template($template_name, ['url' => $youtube_url, 'gallery_item' => $gallery_item]);
 }

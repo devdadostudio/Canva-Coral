@@ -1,6 +1,6 @@
 <?php
 if (!defined('ABSPATH')) {
-	exit; // Exit if accessed directly
+  exit; // Exit if accessed directly
 }
 
 
@@ -14,11 +14,11 @@ if (!defined('ABSPATH')) {
  */
 function remove_css_js_wp_version($src)
 {
-	if (strpos($src, 'ver=')) {
-		$src = remove_query_arg('ver', $src);
-	}
+  if (strpos($src, 'ver=')) {
+    $src = remove_query_arg('ver', $src);
+  }
 
-	return $src;
+  return $src;
 }
 
 add_filter('style_loader_src', 'remove_css_js_wp_version', 10, 2);
@@ -33,136 +33,138 @@ add_filter('script_loader_src', 'remove_css_js_wp_version', 10, 2);
 function canva_script_version($script)
 {
 
-	switch ($script) {
+  switch ($script) {
 
-		case 'modernizr':
-			return '2.8.3';
-			break;
-		case 'jquery':
-			return '3.6.1';
-			break;
-		// case 'jquery_migrate':
-		// 	return '3.3.2';
-		// 	break;
-		case 'photoswipe':
-			return '4.1.3';
-			// return '5.2.4'; // non funzionante
-			break;
-		case 'swiper':
-			// return '6.6.2';
-			// return '6.8.4';
-			return '8.4.5';
-			break;
-		case 'list':
-			return '2.3.1';
-			break;
-		case 'blazy':
-			return '1.8.2';
-			break;
-		case 'paroller':
-			return '1.4.6';
-			break;
-		case 'clipboard':
-			return '2.0.6';
-			break;
-		case 'lottie':
-			return '5.7.3';
-			break;
-	}
+    case 'modernizr':
+      return '2.8.3';
+      break;
+    case 'jquery':
+      return '3.6.1';
+      break;
+    // case 'jquery_migrate':
+    // 	return '3.3.2';
+    // 	break;
+    case 'photoswipe':
+      return '4.1.3';
+      // return '5.2.4'; // non funzionante
+      break;
+    case 'swiper':
+      // return '6.6.2';
+      // return '6.8.4';
+      return '8.4.5';
+      break;
+    case 'list':
+      return '2.3.1';
+      break;
+    case 'blazy':
+      return '1.8.2';
+      break;
+    case 'paroller':
+      return '1.4.6';
+      break;
+    case 'clipboard':
+      return '2.0.6';
+      break;
+    case 'lottie':
+      return '5.7.3';
+      break;
+  }
 }
 
 if (!function_exists('canva_register_scripts')) {
-	function canva_register_scripts()
-	{
+  function canva_register_scripts()
+  {
 
-		wp_deregister_script('wp-embed');
+    wp_deregister_script('wp-embed');
 
-		wp_deregister_script('jquery');
-		// header scripts
+    wp_deregister_script('jquery');
+    // header scripts
 
-		wp_register_script('photoswipe-async', '//cdnjs.cloudflare.com/ajax/libs/photoswipe/' . canva_script_version('photoswipe') . '/photoswipe.min.js', null, null, null);
-		wp_enqueue_script('photoswipe-async');
+    wp_register_script('photoswipe-async', '//cdnjs.cloudflare.com/ajax/libs/photoswipe/' . canva_script_version('photoswipe') . '/photoswipe.min.js', null, null, null);
+    wp_enqueue_script('photoswipe-async');
 
-		wp_register_script('photoswipeui-async', '//cdnjs.cloudflare.com/ajax/libs/photoswipe/' . canva_script_version('photoswipe') . '/photoswipe-ui-default.min.js', null, null, null);
-		wp_enqueue_script('photoswipeui-async');
+    wp_register_script('photoswipeui-async', '//cdnjs.cloudflare.com/ajax/libs/photoswipe/' . canva_script_version('photoswipe') . '/photoswipe-ui-default.min.js', null, null, null);
+    wp_enqueue_script('photoswipeui-async');
 
-		//wp_register_script('swiper', '//unpkg.com/swiper@' . canva_script_version('swiper') . '/swiper-bundle.min.js', null, null, null);
-		wp_register_script('swiper', '//cdn.jsdelivr.net/npm/swiper@'. canva_script_version('swiper') .'/swiper-bundle.min.js', null, null, null);
-		wp_enqueue_script('swiper');
+    //wp_register_script('swiper', '//unpkg.com/swiper@' . canva_script_version('swiper') . '/swiper-bundle.min.js', null, null, null);
+    wp_register_script('swiper', '//cdn.jsdelivr.net/npm/swiper@' . canva_script_version('swiper') . '/swiper-bundle.min.js', null, null, null);
+    wp_enqueue_script('swiper');
 
-		//footer scripts
-		wp_register_script('jquery', '//cdnjs.cloudflare.com/ajax/libs/jquery/' . canva_script_version('jquery') . '/jquery.min.js', null, null, null);
-		wp_enqueue_script('jquery');
+    //footer scripts
+    wp_register_script('jquery', '//cdnjs.cloudflare.com/ajax/libs/jquery/' . canva_script_version('jquery') . '/jquery.min.js', null, null, null);
+    wp_enqueue_script('jquery');
 
-		// if (get_field('script_jquery_migrate', 'options')) {
-		// 	wp_register_script('jquery-migrate', '//cdnjs.cloudflare.com/ajax/libs/jquery/' . canva_script_version('jquery_migrate') . '/jquery-migrate.min.js', null, null, true);
-		// 	wp_enqueue_script('jquery-migrate');
-		// }
+    // if (get_field('script_jquery_migrate', 'options')) {
+    // 	wp_register_script('jquery-migrate', '//cdnjs.cloudflare.com/ajax/libs/jquery/' . canva_script_version('jquery_migrate') . '/jquery-migrate.min.js', null, null, true);
+    // 	wp_enqueue_script('jquery-migrate');
+    // }
 
-		wp_register_script('blazy', '//cdnjs.cloudflare.com/ajax/libs/blazy/' . canva_script_version('blazy') . '/blazy.min.js', null, null, true);
-		wp_enqueue_script('blazy');
+    wp_register_script('blazy', '//cdnjs.cloudflare.com/ajax/libs/blazy/' . canva_script_version('blazy') . '/blazy.min.js', null, null, true);
+    wp_enqueue_script('blazy');
 
-		if (get_field('script_paroller', 'options')) {
-			wp_register_script('paroller', '//cdnjs.cloudflare.com/ajax/libs/paroller.js/' . canva_script_version('paroller') . '/jquery.paroller.min.js', ['jquery'], null, true);
-			wp_enqueue_script('paroller');
-		}
+    if (get_field('script_paroller', 'options')) {
+      wp_register_script('paroller', '//cdnjs.cloudflare.com/ajax/libs/paroller.js/' . canva_script_version('paroller') . '/jquery.paroller.min.js', ['jquery'], null, true);
+      wp_enqueue_script('paroller');
+    }
 
-		if (get_field('script_lottie', 'options')) {
-			wp_register_script('lottie', '//cdnjs.cloudflare.com/ajax/libs/bodymovin/' . canva_script_version('lottie') . '/lottie.min.js', null, null, null);
-			wp_enqueue_script('lottie');
-		}
+    if (get_field('script_lottie', 'options')) {
+      wp_register_script('lottie', '//cdnjs.cloudflare.com/ajax/libs/bodymovin/' . canva_script_version('lottie') . '/lottie.min.js', null, null, null);
+      wp_enqueue_script('lottie');
+    }
 
-		wp_register_script('clipboard', '//cdnjs.cloudflare.com/ajax/libs/clipboard.js/' . canva_script_version('clipboard') . '/clipboard.min.js', null, null, true);
-		wp_enqueue_script('clipboard');
+    wp_register_script('clipboard', '//cdnjs.cloudflare.com/ajax/libs/clipboard.js/' . canva_script_version('clipboard') . '/clipboard.min.js', null, null, true);
+    wp_enqueue_script('clipboard');
 
-		//Google Maps
-		if ('' != get_google_map_api_key()) {
-			wp_register_script('google-maps-api-asyncdefer', 'https://maps.googleapis.com/maps/api/js?key=' . get_google_map_api_key() . '&callback=initMap&v=weekly', [], null, true);
-			wp_enqueue_script('google-maps-api-asyncdefer');
-		}
+    //Google Maps
+    if ('' != get_google_map_api_key()) {
+      wp_register_script('google-maps-api-asyncdefer', 'https://maps.googleapis.com/maps/api/js?key=' . get_google_map_api_key() . '&callback=initMap&v=weekly', [], null, true);
+      wp_enqueue_script('google-maps-api-asyncdefer');
+    }
 
-		wp_register_script('canva-frontend',  CANVA_PROJECT_JS_URI . 'frontend.min.js?last_time=' . filemtime(CANVA_PROJECT_JS . 'frontend.min.js'), ['jquery'], false, true);
-		wp_enqueue_script('canva-frontend');
-		wp_set_script_translations('canva-frontend', 'canva'); // translation for js scripts
+    wp_register_script('canva-frontend', CANVA_PROJECT_JS_URI . 'frontend.min.js?last_time=' . filemtime(CANVA_PROJECT_JS . 'frontend.min.js'), ['jquery'], false, true);
+    wp_enqueue_script('canva-frontend');
+    wp_set_script_translations('canva-frontend', 'canva'); // translation for js scripts
 
-		// wc add to cart ajax Canva version
-		// if (is_woocommerce_activated()) {
-		// 	wp_deregister_script('wc-add-to-cart');
-		// 	wp_register_script('wc-add-to-cart', CANVA_CORE_JS_URI . 'add-to-cart.min.js?last_time=' . filemtime(CANVA_CORE_JS . 'add-to-cart.min.js'), ['jquery'], false, true);
-		// 	wp_enqueue_script('wc-add-to-cart');
-		// }
+    // wc add to cart ajax Canva version
+    // if (is_woocommerce_activated()) {
+    // 	wp_deregister_script('wc-add-to-cart');
+    // 	wp_register_script('wc-add-to-cart', CANVA_CORE_JS_URI . 'add-to-cart.min.js?last_time=' . filemtime(CANVA_CORE_JS . 'add-to-cart.min.js'), ['jquery'], false, true);
+    // 	wp_enqueue_script('wc-add-to-cart');
+    // }
 
-		//ajax stuff for canva-frontend
-		wp_localize_script(
-			'canva-frontend',
-			'WPURLS',
-			[
-				'homeurl' => esc_url(home_url()),
-				'ajaxurl' => esc_url(admin_url('admin-ajax.php')),
-				'nonce' => wp_create_nonce('nonce')
-			]
-		);
+    //ajax stuff for canva-frontend
+    wp_localize_script(
+      'canva-frontend',
+      'WPURLS',
+      [
+        'homeurl' => esc_url(home_url()),
+        'ajaxurl' => esc_url(admin_url('admin-ajax.php')),
+        'nonce' => wp_create_nonce('nonce')
+      ]
+    );
 
-		if (is_singular() && comments_open() && get_option('thread_comments')) {
-			wp_enqueue_script('comment-reply');
-		}
+    if (is_singular() && comments_open() && get_option('thread_comments')) {
+      wp_enqueue_script('comment-reply');
+    }
 
-		if (get_field('google_maps_style', 'options')) {
-			wp_add_inline_script(
-				'google-maps-api-asyncdefer',
-				'var google_maps_style = ' . canva_minifier(get_field('google_maps_style', 'options')) . ';',
-				'before'
-			);
-		} else {
-			wp_add_inline_script(
-				'google-maps-api-asyncdefer',
-				'var google_maps_style',
-				'before'
-			);
-		}
-	}
+    if (get_field('google_maps_style', 'options')) {
+      wp_add_inline_script(
+        'google-maps-api-asyncdefer',
+        'var google_maps_style = ' . canva_minifier(get_field('google_maps_style', 'options')) . ';',
+        'before'
+      );
+    } else {
+      wp_add_inline_script(
+        'google-maps-api-asyncdefer',
+        'var google_maps_style',
+        'before'
+      );
+    }
+  }
+  wp_register_style('canva-custom-catalogo-preload', CANVA_PROJECT_CSS_URI . 'custom-catalogo.css?last_time=' . filemtime(CANVA_PROJECT_CSS . 'custom-catalogo.css'), null, false);
+  wp_enqueue_style('canva-custom-catalogo-preload');
 
-	add_action('wp_enqueue_scripts', 'canva_register_scripts');
+  add_action('wp_enqueue_scripts', 'canva_register_scripts');
 }
 
 /**
@@ -172,7 +174,7 @@ if (!function_exists('canva_register_scripts')) {
  */
 function canva_js_dir_uri()
 {
-	echo '<script>var canvaCurrentPageUri = "' . esc_url(get_permalink()) . '"; var canvaCoreJsUri = "' . esc_attr(CANVA_CORE_JS_URI) . '"; var canvaProjectJsUri = "' . esc_attr(CANVA_PROJECT_JS_URI) . '";</script>';
+  echo '<script>var canvaCurrentPageUri = "' . esc_url(get_permalink()) . '"; var canvaCoreJsUri = "' . esc_attr(CANVA_CORE_JS_URI) . '"; var canvaProjectJsUri = "' . esc_attr(CANVA_PROJECT_JS_URI) . '";</script>';
 }
 add_action('wp_head', 'canva_js_dir_uri', PHP_INT_MAX);
 
@@ -188,21 +190,21 @@ add_action('wp_head', 'canva_js_dir_uri', PHP_INT_MAX);
  */
 function canva_add_async_defer_attr($tag, $handle)
 {
-	if (!is_admin()) {
-		if (false !== strpos($handle, 'asyncdefer')) {
-			// return the tag with the async attribute
-			return str_replace('<script ', '<script async defer ', $tag);
-		} elseif (false !== strpos($handle, 'async')) {
-			return str_replace('<script ', '<script async ', $tag);
-		} elseif (false !== strpos($handle, 'defer')) {
-			// return the tag with the defer attribute
-			return str_replace('<script ', '<script defer ', $tag);
-		} else {
-			return $tag;
-		}
-	} else {
-		return $tag;
-	}
+  if (!is_admin()) {
+    if (false !== strpos($handle, 'asyncdefer')) {
+      // return the tag with the async attribute
+      return str_replace('<script ', '<script async defer ', $tag);
+    } elseif (false !== strpos($handle, 'async')) {
+      return str_replace('<script ', '<script async ', $tag);
+    } elseif (false !== strpos($handle, 'defer')) {
+      // return the tag with the defer attribute
+      return str_replace('<script ', '<script defer ', $tag);
+    } else {
+      return $tag;
+    }
+  } else {
+    return $tag;
+  }
 }
 add_filter('script_loader_tag', 'canva_add_async_defer_attr', 10, 2);
 
@@ -215,18 +217,18 @@ add_filter('jetpack_implode_frontend_css', '__return_false', PHP_INT_MAX);
 //Disable extra styles e scripts
 function canva_deregister_styles()
 {
-	wp_dequeue_style('wp-block-library');
-	wp_dequeue_style('xpay-style');
-	wp_dequeue_style('contact-form-7');  // Dequeue CSS file.
+  wp_dequeue_style('wp-block-library');
+  wp_dequeue_style('xpay-style');
+  wp_dequeue_style('contact-form-7');  // Dequeue CSS file.
 
-	// Deregister Woocommerce Styles
-	wp_dequeue_style('wc-block-style');
-	wp_dequeue_style('wc-blocks-style');  // Dequeue CSS file.
-	wp_dequeue_style('wc-blocks-vendors-style');  // Dequeue CSS file.
+  // Deregister Woocommerce Styles
+  wp_dequeue_style('wc-block-style');
+  wp_dequeue_style('wc-blocks-style');  // Dequeue CSS file.
+  wp_dequeue_style('wc-blocks-vendors-style');  // Dequeue CSS file.
 
-	//removes new block style group flags
-	wp_dequeue_style('wp-block-columns');
-	wp_dequeue_style('wp-block-column');
+  //removes new block style group flags
+  wp_dequeue_style('wp-block-columns');
+  wp_dequeue_style('wp-block-column');
 }
 add_action('wp_enqueue_scripts', 'canva_deregister_styles', PHP_INT_MAX);
 
@@ -238,17 +240,17 @@ add_action('wp_enqueue_scripts', 'canva_deregister_styles', PHP_INT_MAX);
 remove_filter('render_block', 'wp_render_layout_support_flag', 10, 2);
 
 add_filter('render_block', function ($block_content, $block) {
-	if ($block['blockName'] === 'core/columns') {
-		return $block_content;
-	}
-	if ($block['blockName'] === 'core/column') {
-		return $block_content;
-	}
-	if ($block['blockName'] === 'core/group') {
-		return $block_content;
-	}
+  if ($block['blockName'] === 'core/columns') {
+    return $block_content;
+  }
+  if ($block['blockName'] === 'core/column') {
+    return $block_content;
+  }
+  if ($block['blockName'] === 'core/group') {
+    return $block_content;
+  }
 
-	return wp_render_layout_support_flag($block_content, $block);
+  return wp_render_layout_support_flag($block_content, $block);
 }, 10, 2);
 
 
@@ -258,11 +260,11 @@ add_filter('render_block', function ($block_content, $block) {
  */
 function canva_block_editor_assets()
 {
-	wp_enqueue_script('canva-blocks', CANVA_CORE_JS_URI . 'backend-blocks.min.js', ['wp-blocks', 'wp-element', 'wp-edit-post']);
+  wp_enqueue_script('canva-blocks', CANVA_CORE_JS_URI . 'backend-blocks.min.js', ['wp-blocks', 'wp-element', 'wp-edit-post']);
 
-	if (file_exists(CANVA_PROJECT_JS . 'backend-blocks.min.js')) {
-		wp_enqueue_script('canva-project-blocks', CANVA_PROJECT_JS_URI . 'backend-blocks.min.js', ['wp-blocks', 'wp-element', 'wp-edit-post']);
-	}
+  if (file_exists(CANVA_PROJECT_JS . 'backend-blocks.min.js')) {
+    wp_enqueue_script('canva-project-blocks', CANVA_PROJECT_JS_URI . 'backend-blocks.min.js', ['wp-blocks', 'wp-element', 'wp-edit-post']);
+  }
 }
 add_action('enqueue_block_editor_assets', 'canva_block_editor_assets', PHP_INT_MAX);
 
@@ -275,76 +277,76 @@ add_action('enqueue_block_editor_assets', 'canva_block_editor_assets', PHP_INT_M
 function canva_register_styles()
 {
 
-	$primary_font_google = get_field('primary_font_google', 'options');
-	$secondary_font_google = get_field('secondary_font_google', 'options');
-	$extra_font_google = get_field('extra_font_google', 'options');
+  $primary_font_google = get_field('primary_font_google', 'options');
+  $secondary_font_google = get_field('secondary_font_google', 'options');
+  $extra_font_google = get_field('extra_font_google', 'options');
 
-	if ($primary_font_google['url']) {
-		if ($primary_font_google['preload']) {
-			wp_register_style('primary-font-google-preload', $primary_font_google['url']);
-			wp_enqueue_style('primary-font-google-preload');
-		} else {
-			wp_register_style('primary-font-google', $primary_font_google['url']);
-			wp_enqueue_style('primary-font-google');
-		}
-	}
+  if ($primary_font_google['url']) {
+    if ($primary_font_google['preload']) {
+      wp_register_style('primary-font-google-preload', $primary_font_google['url']);
+      wp_enqueue_style('primary-font-google-preload');
+    } else {
+      wp_register_style('primary-font-google', $primary_font_google['url']);
+      wp_enqueue_style('primary-font-google');
+    }
+  }
 
-	if ($secondary_font_google['url']) {
-		if ($secondary_font_google['preload']) {
-			wp_register_style('secondary-font-google-preload', $secondary_font_google['url']);
-			wp_enqueue_style('secondary-font-google-preload');
-		} else {
-			wp_register_style('secondary-font-google', $secondary_font_google['url']);
-			wp_enqueue_style('secondary-font-google');
-		}
-	}
+  if ($secondary_font_google['url']) {
+    if ($secondary_font_google['preload']) {
+      wp_register_style('secondary-font-google-preload', $secondary_font_google['url']);
+      wp_enqueue_style('secondary-font-google-preload');
+    } else {
+      wp_register_style('secondary-font-google', $secondary_font_google['url']);
+      wp_enqueue_style('secondary-font-google');
+    }
+  }
 
-	if ($extra_font_google['url']) {
-		if ($extra_font_google['preload']) {
-			wp_register_style('extra-font-google-preload', $extra_font_google['url']);
-			wp_enqueue_style('extra-font-google-preload');
-		} else {
-			wp_register_style('extra-font-google', $extra_font_google['url']);
-			wp_enqueue_style('extra-font-google');
-		}
-	}
+  if ($extra_font_google['url']) {
+    if ($extra_font_google['preload']) {
+      wp_register_style('extra-font-google-preload', $extra_font_google['url']);
+      wp_enqueue_style('extra-font-google-preload');
+    } else {
+      wp_register_style('extra-font-google', $extra_font_google['url']);
+      wp_enqueue_style('extra-font-google');
+    }
+  }
 
 
-	$primary_font_woff = get_field('primary_font_woff', 'options');
-	$secondary_font_woff = get_field('secondary_font_woff', 'options');
-	$extra_font_woff = get_field('extra_font_woff', 'options');
+  $primary_font_woff = get_field('primary_font_woff', 'options');
+  $secondary_font_woff = get_field('secondary_font_woff', 'options');
+  $extra_font_woff = get_field('extra_font_woff', 'options');
 
-	if ($primary_font_woff['url']) {
-		if ($primary_font_woff['preload']) {
-			wp_register_style('primary-font-woff-preload', $primary_font_woff['url']);
-			wp_enqueue_style('primary-font-woff-preload');
-		} else {
-			wp_register_style('primary-font-woff', $primary_font_woff['url']);
-			wp_enqueue_style('primary-font-woff');
-		}
-	}
+  if ($primary_font_woff['url']) {
+    if ($primary_font_woff['preload']) {
+      wp_register_style('primary-font-woff-preload', $primary_font_woff['url']);
+      wp_enqueue_style('primary-font-woff-preload');
+    } else {
+      wp_register_style('primary-font-woff', $primary_font_woff['url']);
+      wp_enqueue_style('primary-font-woff');
+    }
+  }
 
-	if ($secondary_font_woff['url']) {
-		if ($secondary_font_woff['preload']) {
-			wp_register_style('secondary-font-woff-preload', $secondary_font_woff['url']);
-			wp_enqueue_style('secondary-font-woff-preload');
-		} else {
-			wp_register_style('secondary-font-woff', $secondary_font_woff['url']);
-			wp_enqueue_style('secondary-font-woff');
-		}
-	}
-	if ($extra_font_woff['url']) {
-		if ($extra_font_woff['preload']) {
-			wp_register_style('extra-font-woff-preload', $extra_font_woff['url']);
-			wp_enqueue_style('extra-font-woff-preload');
-		} else {
-			wp_register_style('extra-font-woff', $extra_font_woff['url']);
-			wp_enqueue_style('extra-font-woff');
-		}
-	}
+  if ($secondary_font_woff['url']) {
+    if ($secondary_font_woff['preload']) {
+      wp_register_style('secondary-font-woff-preload', $secondary_font_woff['url']);
+      wp_enqueue_style('secondary-font-woff-preload');
+    } else {
+      wp_register_style('secondary-font-woff', $secondary_font_woff['url']);
+      wp_enqueue_style('secondary-font-woff');
+    }
+  }
+  if ($extra_font_woff['url']) {
+    if ($extra_font_woff['preload']) {
+      wp_register_style('extra-font-woff-preload', $extra_font_woff['url']);
+      wp_enqueue_style('extra-font-woff-preload');
+    } else {
+      wp_register_style('extra-font-woff', $extra_font_woff['url']);
+      wp_enqueue_style('extra-font-woff');
+    }
+  }
 
-	wp_register_style('canva-frontend-min-preload', CANVA_PROJECT_CSS_URI . 'frontend.min.css?last_time=' . filemtime(CANVA_PROJECT_CSS . 'frontend.min.css'), null, false);
-	wp_enqueue_style('canva-frontend-min-preload');
+  wp_register_style('canva-frontend-min-preload', CANVA_PROJECT_CSS_URI . 'frontend.min.css?last_time=' . filemtime(CANVA_PROJECT_CSS . 'frontend.min.css'), null, false);
+  wp_enqueue_style('canva-frontend-min-preload');
 }
 add_action('wp_enqueue_scripts', 'canva_register_styles');
 
@@ -360,15 +362,15 @@ add_action('wp_enqueue_scripts', 'canva_register_styles');
 function canva_font_face()
 {
 
-	$primary_font_woff = get_field('primary_font_woff', 'options');
-	$secondary_font_woff = get_field('secondary_font_woff', 'options');
-	$extra_font_woff = get_field('extra_font_woff', 'options');
+  $primary_font_woff = get_field('primary_font_woff', 'options');
+  $secondary_font_woff = get_field('secondary_font_woff', 'options');
+  $extra_font_woff = get_field('extra_font_woff', 'options');
 
-	$html = '';
+  $html = '';
 
-	if ($primary_font_woff['url']) {
-		if (get_file_extension($primary_font_woff['url']) === 'woff2') {
-			$html .= '
+  if ($primary_font_woff['url']) {
+    if (get_file_extension($primary_font_woff['url']) === 'woff2') {
+      $html .= '
 			<style>
 			@font-face {
 				font-family: "Primary Font";
@@ -376,8 +378,8 @@ function canva_font_face()
 			}
 			</style>
 			';
-		} else {
-			$html .= '
+    } else {
+      $html .= '
 			<style>
 			@font-face {
 				font-family: "Primary Font";
@@ -385,12 +387,12 @@ function canva_font_face()
 			}
 			</style>
 			';
-		}
-	}
+    }
+  }
 
-	if ($secondary_font_woff['url']) {
-		if (get_file_extension($primary_font_woff['url']) === 'woff2') {
-			$html .= '
+  if ($secondary_font_woff['url']) {
+    if (get_file_extension($primary_font_woff['url']) === 'woff2') {
+      $html .= '
 			<style>
 			@font-face {
 				font-family: "Secondary Font";
@@ -398,8 +400,8 @@ function canva_font_face()
 			}
 			</style>
 			';
-		} else {
-			$html .= '
+    } else {
+      $html .= '
 			<style>
 			@font-face {
 				font-family: "Secondary Font";
@@ -407,12 +409,12 @@ function canva_font_face()
 			}
 			</style>
 			';
-		}
-	}
+    }
+  }
 
-	if ($extra_font_woff['url']) {
-		if (get_file_extension($extra_font_woff['url']) === 'woff2') {
-			$html .= '
+  if ($extra_font_woff['url']) {
+    if (get_file_extension($extra_font_woff['url']) === 'woff2') {
+      $html .= '
 			<style>
 			@font-face {
 				font-family: "Extra Font";
@@ -420,8 +422,8 @@ function canva_font_face()
 			}
 			</style>
 			';
-		} else {
-			$html .= '
+    } else {
+      $html .= '
 			<style>
 			@font-face {
 				font-family: "Extra Font";
@@ -429,9 +431,9 @@ function canva_font_face()
 			}
 			</style>
 			';
-		}
-	}
-	echo $html;
+    }
+  }
+  echo $html;
 }
 add_action('wp_head', 'canva_font_face');
 
@@ -450,18 +452,18 @@ add_action('wp_head', 'canva_font_face');
 
 function canva_webfonts_add_preload_attr($tag, $handle)
 {
-	if (!is_admin()) {
-		if (false !== strpos($handle, 'preload')) {
-			return str_replace("rel='stylesheet'", "rel='stylesheet preload' crossorigin='true' as='font'", $tag);
-		} elseif (false !== strpos($handle, 'woff')) {
-			$clean = str_replace("type='text/css' media='all'", "", $tag);
-			return str_replace("rel='stylesheet'", "rel='preload' crossorigin='true' as='font' type='font/woff2'", $clean);
-		} else {
-			return $tag;
-		}
-	} else {
-		return $tag;
-	}
+  if (!is_admin()) {
+    if (false !== strpos($handle, 'preload')) {
+      return str_replace("rel='stylesheet'", "rel='stylesheet preload' crossorigin='true' as='font'", $tag);
+    } elseif (false !== strpos($handle, 'woff')) {
+      $clean = str_replace("type='text/css' media='all'", "", $tag);
+      return str_replace("rel='stylesheet'", "rel='preload' crossorigin='true' as='font' type='font/woff2'", $clean);
+    } else {
+      return $tag;
+    }
+  } else {
+    return $tag;
+  }
 }
 add_filter('style_loader_tag', 'canva_webfonts_add_preload_attr', 10, 2);
 
@@ -473,16 +475,16 @@ add_filter('style_loader_tag', 'canva_webfonts_add_preload_attr', 10, 2);
  */
 function canva_preconnections()
 {
-	$html = '';
+  $html = '';
 
-	$html .= '<link rel="preconnect" href="//cdnjs.cloudflare.com" crossorigin />';
-	$html .= '<link rel="preconnect" href="//unpkg.com" crossorigin />';
-	$html .= '<link rel="preconnect" href="//connect.facebook.net" crossorigin />';
-	$html .= '<link rel="preconnect" href="//www.google-analytics.com" crossorigin />';
-	$html .= '<link rel="preconnect" href="//fonts.gstatic.com" crossorigin />';
-	$html .= '<link rel="preconnect" href="//maps.googleapis.com" crossorigin />';
+  $html .= '<link rel="preconnect" href="//cdnjs.cloudflare.com" crossorigin />';
+  $html .= '<link rel="preconnect" href="//unpkg.com" crossorigin />';
+  $html .= '<link rel="preconnect" href="//connect.facebook.net" crossorigin />';
+  $html .= '<link rel="preconnect" href="//www.google-analytics.com" crossorigin />';
+  $html .= '<link rel="preconnect" href="//fonts.gstatic.com" crossorigin />';
+  $html .= '<link rel="preconnect" href="//maps.googleapis.com" crossorigin />';
 
-	echo $html;
+  echo $html;
 }
 add_action('wp_head', 'canva_preconnections', 1);
 
@@ -497,26 +499,26 @@ add_action('wp_head', 'canva_preconnections', 1);
 
 function canva_admin_theme_style()
 {
-	if (is_user_role('administrator')) {
-		if (file_exists(CANVA_CORE_CSS . 'backend-admin.css')) {
-			wp_register_style('canva-admin-backend', CANVA_CORE_CSS_URI . 'backend-admin.css', filemtime(CANVA_CORE_CSS . 'backend-admin.css'));
-			wp_enqueue_style('canva-admin-backend');
-		}
-	} else {
-		if (file_exists(CANVA_CORE_CSS . 'backend-admin.css')) {
-			wp_register_style('canva-admin-backend', CANVA_CORE_CSS_URI . 'backend-admin.css', filemtime(CANVA_CORE_CSS . 'backend-admin.css'));
-			wp_enqueue_style('canva-admin-backend');
-		}
-		if (file_exists(CANVA_CORE_CSS . 'backend-editor.css')) {
-			wp_register_style('canva-editor-backend', CANVA_CORE_CSS_URI . 'backend-editor.css', filemtime(CANVA_CORE_CSS . 'backend-editor.css'));
-			wp_enqueue_style('canva-editor-backend');
-		}
-	}
+  if (is_user_role('administrator')) {
+    if (file_exists(CANVA_CORE_CSS . 'backend-admin.css')) {
+      wp_register_style('canva-admin-backend', CANVA_CORE_CSS_URI . 'backend-admin.css', filemtime(CANVA_CORE_CSS . 'backend-admin.css'));
+      wp_enqueue_style('canva-admin-backend');
+    }
+  } else {
+    if (file_exists(CANVA_CORE_CSS . 'backend-admin.css')) {
+      wp_register_style('canva-admin-backend', CANVA_CORE_CSS_URI . 'backend-admin.css', filemtime(CANVA_CORE_CSS . 'backend-admin.css'));
+      wp_enqueue_style('canva-admin-backend');
+    }
+    if (file_exists(CANVA_CORE_CSS . 'backend-editor.css')) {
+      wp_register_style('canva-editor-backend', CANVA_CORE_CSS_URI . 'backend-editor.css', filemtime(CANVA_CORE_CSS . 'backend-editor.css'));
+      wp_enqueue_style('canva-editor-backend');
+    }
+  }
 
-	if (file_exists(CANVA_PROJECT_CSS . 'backend-editor.css')) {
-		wp_register_style('canva-project-editor-backend', CANVA_PROJECT_CSS_URI . 'backend-editor.css', filemtime(CANVA_PROJECT_CSS . 'backend-editor.css'));
-		wp_enqueue_style('canva-project-editor-backend');
-	}
+  if (file_exists(CANVA_PROJECT_CSS . 'backend-editor.css')) {
+    wp_register_style('canva-project-editor-backend', CANVA_PROJECT_CSS_URI . 'backend-editor.css', filemtime(CANVA_PROJECT_CSS . 'backend-editor.css'));
+    wp_enqueue_style('canva-project-editor-backend');
+  }
 }
 add_action('admin_enqueue_scripts', 'canva_admin_theme_style');
 add_action('login_enqueue_scripts', 'canva_admin_theme_style');
@@ -524,21 +526,21 @@ add_action('login_enqueue_scripts', 'canva_admin_theme_style');
 function canva_admin_project_colors()
 {
 
-	if (get_field('primary_color', 'options')) {
+  if (get_field('primary_color', 'options')) {
 
-		echo '<style>';
+    echo '<style>';
 
-		echo ':root {';
+    echo ':root {';
 
-		echo '--wp-admin-theme-color: ' . get_field('primary_color', 'options') . ';';
-		echo '--color-accent: ' . get_field('secondary_color', 'options') . ';';
+    echo '--wp-admin-theme-color: ' . get_field('primary_color', 'options') . ';';
+    echo '--color-accent: ' . get_field('secondary_color', 'options') . ';';
 
-		echo '}';
+    echo '}';
 
-		echo '.canva-icon-accent{ fill: ' . get_field('primary_color', 'options') . ' !important; }';
+    echo '.canva-icon-accent{ fill: ' . get_field('primary_color', 'options') . ' !important; }';
 
-		echo '</style>';
-	}
+    echo '</style>';
+  }
 }
 add_action('admin_head', 'canva_admin_project_colors');
 
@@ -551,8 +553,8 @@ add_action('admin_head', 'canva_admin_project_colors');
 function canva_custom_admin_js()
 {
 
-	wp_register_script('canva-admin-js', CANVA_CORE_JS_URI . 'backend-admin.js', ['jquery-core'], filemtime(CANVA_CORE_JS . 'backend-admin.js'));
-	wp_enqueue_script('canva-admin-js');
+  wp_register_script('canva-admin-js', CANVA_CORE_JS_URI . 'backend-admin.js', ['jquery-core'], filemtime(CANVA_CORE_JS . 'backend-admin.js'));
+  wp_enqueue_script('canva-admin-js');
 }
 add_action('admin_enqueue_scripts', 'canva_custom_admin_js');
 
@@ -567,28 +569,28 @@ add_action('admin_enqueue_scripts', 'canva_custom_admin_js');
 
 function canva_login_logo()
 {
-	if (get_field('logo_light_mode', 'options')) {
+  if (get_field('logo_light_mode', 'options')) {
 
-		$image = get_field('logo_light_mode', 'options');
+    $image = get_field('logo_light_mode', 'options');
 
-		$bg_size = '';
+    $bg_size = '';
 
-		if (get_field('logo_login_sizes', 'options')) {
-			$sizes = get_field('logo_login_sizes', 'options');
-			$bg_size = 'background-size:' . $sizes['width'] . 'px ' . $sizes['heigth'] . 'px';
-		}
+    if (get_field('logo_login_sizes', 'options')) {
+      $sizes = get_field('logo_login_sizes', 'options');
+      $bg_size = 'background-size:' . $sizes['width'] . 'px ' . $sizes['heigth'] . 'px';
+    }
 
-		$img = $image['sizes']['640-free']; ?>
+    $img = $image['sizes']['640-free']; ?>
 
-		<style type="text/css">
-			body.login div#login h1 a {
-				background-image: url(<?php echo $img; ?>);
-				<?php echo $bg_size; ?>
-			}
-		</style>
+    <style type="text/css">
+      body.login div#login h1 a {
+        background-image: url(<?php echo $img; ?>);
+        <?php echo $bg_size; ?>
+      }
+    </style>
 
-<?php
-	}
+    <?php
+  }
 }
 // add_action('login_enqueue_scripts', 'canva_login_logo');
 
@@ -601,7 +603,7 @@ function canva_login_logo()
 
 function canva_login_logo_url()
 {
-	return home_url();
+  return home_url();
 }
 add_filter('login_headerurl', 'canva_login_logo_url');
 
@@ -613,13 +615,13 @@ add_filter('login_headerurl', 'canva_login_logo_url');
  */
 function canva_enqueue_code_to_wp_footer($code)
 {
-	global $canva_enqueue_code_to_wp_footer;
+  global $canva_enqueue_code_to_wp_footer;
 
-	if (empty($canva_enqueue_code_to_wp_footer)) {
-		$canva_enqueue_code_to_wp_footer = '';
-	}
+  if (empty($canva_enqueue_code_to_wp_footer)) {
+    $canva_enqueue_code_to_wp_footer = '';
+  }
 
-	$canva_enqueue_code_to_wp_footer .= "\n" . $code . "\n";
+  $canva_enqueue_code_to_wp_footer .= "\n" . $code . "\n";
 }
 
 /**
@@ -627,59 +629,59 @@ function canva_enqueue_code_to_wp_footer($code)
  */
 function canva_print_code_to_wp_footer()
 {
-	global $canva_enqueue_code_to_wp_footer;
+  global $canva_enqueue_code_to_wp_footer;
 
-	if (!empty($canva_enqueue_code_to_wp_footer)) {
-		// Sanitize.
-		$canva_enqueue_code_to_wp_footer = wp_check_invalid_utf8($canva_enqueue_code_to_wp_footer);
-		$canva_enqueue_code_to_wp_footer = preg_replace('/&#(x)?0*(?(1)27|39);?/i', "'", $canva_enqueue_code_to_wp_footer);
-		$canva_enqueue_code_to_wp_footer = str_replace("\r", '', $canva_enqueue_code_to_wp_footer);
+  if (!empty($canva_enqueue_code_to_wp_footer)) {
+    // Sanitize.
+    $canva_enqueue_code_to_wp_footer = wp_check_invalid_utf8($canva_enqueue_code_to_wp_footer);
+    $canva_enqueue_code_to_wp_footer = preg_replace('/&#(x)?0*(?(1)27|39);?/i', "'", $canva_enqueue_code_to_wp_footer);
+    $canva_enqueue_code_to_wp_footer = str_replace("\r", '', $canva_enqueue_code_to_wp_footer);
 
-		$code = "\n{$canva_enqueue_code_to_wp_footer}\n";
+    $code = "\n{$canva_enqueue_code_to_wp_footer}\n";
 
-		/**
-		 * Queued codefilter.
-		 *
-		 * @since 2.6.0
-		 *
-		 * @param string $code javaScript code
-		 */
-		echo apply_filters('canva_queued_code_to_wp_footer', $code); // WPCS: XSS ok.
+    /**
+     * Queued codefilter.
+     *
+     * @since 2.6.0
+     *
+     * @param string $code javaScript code
+     */
+    echo apply_filters('canva_queued_code_to_wp_footer', $code); // WPCS: XSS ok.
 
-		unset($canva_enqueue_code_to_wp_footer);
-	}
+    unset($canva_enqueue_code_to_wp_footer);
+  }
 }
 //hooked in canva-actions.php
 
 
 function canva_header_scripts()
 {
-	if (get_field('scripts_head', 'options')) {
-		echo canva_minifier(get_field('scripts_head', 'options'));
-	}
+  if (get_field('scripts_head', 'options')) {
+    echo canva_minifier(get_field('scripts_head', 'options'));
+  }
 }
 //hooked in canva-actions.php
 
 function canva_body_scripts()
 {
-	if (get_field('scripts_body', 'options')) {
-		echo canva_minifier(get_field('scripts_body', 'options'));
-	}
+  if (get_field('scripts_body', 'options')) {
+    echo canva_minifier(get_field('scripts_body', 'options'));
+  }
 }
 //hooked in canva-actions.php
 
 function canva_footer_scripts()
 {
-	if (get_field('scripts_footer', 'options')) {
-		echo canva_minifier(get_field('scripts_footer', 'options'));
-	}
+  if (get_field('scripts_footer', 'options')) {
+    echo canva_minifier(get_field('scripts_footer', 'options'));
+  }
 }
 //hooked in canva-actions.php
 
 function canva_css_inline()
 {
-	if (get_field('css_inline', 'options')) {
-		echo '<style>' . canva_minifier(get_field('css_inline', 'options')) . '</style>';
-	}
+  if (get_field('css_inline', 'options')) {
+    echo '<style>' . canva_minifier(get_field('css_inline', 'options')) . '</style>';
+  }
 }
 //hooked in canva-actions.php
