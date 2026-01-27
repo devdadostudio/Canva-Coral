@@ -48,7 +48,7 @@ get_header();
             $child_args = array(
               'taxonomy' => 'catalogo',
               'orderby' => 'term_id',
-              'order' => 'ASC',
+              'order' => 'DESC',
               'hide_empty' => false,
               'parent' => $parent_cats[$i]->term_id
             );
@@ -67,7 +67,7 @@ get_header();
                   <a href="<?php echo esc_url($child_cat_link); ?>"
                     class="catalogo-child-link flex flex-col justify-between h-full gap-2">
                     <?php echo esc_html($child_cat_name); ?>
-                    <figure class="">
+                    <figure class="figure-100 figure-img-h-100">
                       <?php
                       if (!$child_cat_thumbnail_id) {
                         ?>

@@ -37,11 +37,6 @@ $term_parent = get_term($ancestors[1], $taxonomy);
 $term = get_term($term_id, $taxonomy);
 // $childs = get_term_children($term_parent->term_id, $taxonomy);
 
-//MT page-header inclusion
-echo canva_get_template('page-header-catalogo', ['term_name' => $term->name, 'css_classes' => '_page-header-catalogo', 'nav_magellan' => ['Panoramica', 'Prodotti']]);
-
-//MT Hero inclusion
-echo canva_get_template('hero-applicazione', ['term' => $term, 'css_classes' => '_hero-applicazione']);
 
 // MT Loop Catalogo
 echo canva_get_template('tax-catalogo-loop', ['term_id' => $term_id, 'css_classes' => '_loop-catalogo']);

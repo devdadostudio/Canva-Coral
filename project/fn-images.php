@@ -112,7 +112,7 @@ add_image_size('1280-free', 1280);
 // add_image_size('1600-free', 1600);
 add_image_size('1920-free', 1920);
 
-add_image_size('catalog-child', 400, 300, true);
+add_image_size('catalog-child', 400, 300, false);
 
 /**
  * custom_sizes($sizes)
