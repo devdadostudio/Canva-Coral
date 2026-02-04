@@ -30,14 +30,24 @@ $ancestors = array_reverse($ancestors);
 
 $term_top_parent = get_term($ancestors[0], $taxonomy);
 // $term_top_parent_name = $term_top_parent->name;
-
-$term_parent = get_term($ancestors[1], $taxonomy);
 // $term_parent_name = $term_parent->name;
 
 $term = get_term($term_id, $taxonomy);
+$term_parent = get_term($term->parent, $taxonomy);
 // $childs = get_term_children($term_parent->term_id, $taxonomy);
-
-
+?>
+<section class="title-taxonomy-catalogo _main__section pb-4 border-bottom mb-6">
+  <div class="wp-block-columns">
+    <div class="col-span-12">
+      <h1 class="mb-0">
+        <?php
+        echo $term->name . " " . __("per") . " " . $term_parent->name;
+        ?>
+      </h1>
+    </div>
+  </div>
+</section>
+<?php
 // MT Loop Catalogo
 echo canva_get_template('tax-catalogo-loop', ['term_id' => $term_id, 'css_classes' => '_loop-catalogo']);
 

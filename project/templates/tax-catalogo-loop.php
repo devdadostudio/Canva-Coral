@@ -25,8 +25,7 @@ $wp_query = new WP_Query(array(
     <div class="wp-block-column col-span-12">
       <div class="wp-block-columns md:gap-8">
         <div class="wp-block-column col-span-12 md:col-span-12 xxl:col-span-12">
-
-          <div class="facetwp-template grid grid-cols-1 md:grid-cols-2 xxl:grid-cols-3 gap-y-8 gap-x-4 mb-4">
+          <div class="facetwp-template grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-4 mb-4">
             <?php
             while ($wp_query->have_posts()) {
               $wp_query->the_post();
