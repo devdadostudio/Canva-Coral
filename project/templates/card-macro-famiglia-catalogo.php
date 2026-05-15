@@ -11,7 +11,7 @@ if (!$post_id) {
   <div
     class="_card _card-macro-famiglia _card-macro-famiglia-catalogo border border-gray-200 group flex flex-row-reverse md:flex-col p-4 md:py-10 md:px-5 md:gap-0 gap-4">
     <div class="_card-info flex-1">
-      <h3 class="_title _no-translate fw-700 md:mb-4 mb-6 break-all">
+      <h3 class="_title _no-translate fw-700 md:mb-4 mb-6">
         <?php echo get_the_title($post_id); ?>
       </h3>
       <p class="line-clamp-3 _description md:mb-0 mb-6 md:fs-p fs-xs">

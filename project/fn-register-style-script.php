@@ -87,11 +87,12 @@ if (!function_exists('canva_register_scripts')) {
     wp_enqueue_script('photoswipeui-async');
 
     //wp_register_script('swiper', '//unpkg.com/swiper@' . canva_script_version('swiper') . '/swiper-bundle.min.js', null, null, null);
-    wp_register_script('swiper', '//cdn.jsdelivr.net/npm/swiper@' . canva_script_version('swiper') . '/swiper-bundle.min.js', null, null, null);
+    wp_register_script('swiper', get_template_directory_uri() . '/core/assets/js/lib/swiper-bundle.min.js', null, null, null);
     wp_enqueue_script('swiper');
 
     //footer scripts
-    wp_register_script('jquery', '//cdnjs.cloudflare.com/ajax/libs/jquery/' . canva_script_version('jquery') . '/jquery.min.js', null, null, null);
+    /* wp_register_script('jquery', '//cdnjs.cloudflare.com/ajax/libs/jquery/' . canva_script_version('jquery') . '/jquery.min.js', null, null, null); */
+    wp_register_script('jquery', get_template_directory_uri() . '/core/assets/js/lib/jquery.min.js', null, null, null);
     wp_enqueue_script('jquery');
 
     // if (get_field('script_jquery_migrate', 'options')) {

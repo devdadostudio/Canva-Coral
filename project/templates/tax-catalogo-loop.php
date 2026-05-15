@@ -47,3 +47,54 @@ $wp_query = new WP_Query(array(
     </div>
   </div>
 </div>
+<script>
+  function equalizeSpanHeights() {
+    // Controlla se la larghezza della finestra è sopra 639px
+    if (window.innerWidth <= 639) {
+      // Se siamo sotto 639px, resetta le altezze
+      const container = document.querySelector('#filtri-prodotti');
+      if (container) {
+        const spans = container.querySelectorAll('._title');
+        spans.forEach(span => {
+          span.style.height = 'auto';
+        });
+      }
+      return;
+    }
+
+    // Trova il div principale
+    const container = document.querySelector('#filtri-prodotti');
+
+    if (!container) return;
+
+    // Trova tutti gli span con classe cat-title
+    const spans = container.querySelectorAll('._title');
+
+    if (spans.length === 0) return;
+
+    // Reset delle altezze per ricalcolare correttamente
+    spans.forEach(span => {
+      span.style.height = 'auto';
+    });
+
+    // Trova l'altezza massima
+    let maxHeight = 0;
+    spans.forEach(span => {
+      const height = span.offsetHeight;
+      if (height > maxHeight) {
+        maxHeight = height;
+      }
+    });
+
+    // Applica l'altezza massima a tutti gli span
+    spans.forEach(span => {
+      span.style.height = maxHeight + 'px';
+    });
+  }
+
+  // Esegui al caricamento della pagina
+  window.addEventListener('load', equalizeSpanHeights);
+
+  // Esegui al resize della finestra
+  window.addEventListener('resize', equalizeSpanHeights);
+</script>

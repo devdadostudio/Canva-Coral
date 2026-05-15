@@ -1,5 +1,6 @@
 <?php
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
+if (!defined('ABSPATH'))
+  exit; // Exit if accessed directly
 
 /* * *********************************************************************** */
 /* Remove Action For Hooks TUTTI ******************************************* */
@@ -101,7 +102,7 @@ remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrap
 
 function filter_woocommerce_get_item_data($item_data, $cart_item)
 {
-	return $item_data;
+  return $item_data;
 }
 add_filter('woocommerce_get_item_data', 'filter_woocommerce_get_item_data', 10, 2);
 
@@ -115,18 +116,18 @@ add_filter('woocommerce_get_item_data', 'filter_woocommerce_get_item_data', 10, 
 
 if (!function_exists('canva_wooc_ajax_update_menu_cart_fragment')) {
 
-	function canva_wooc_ajax_update_menu_cart_fragment($fragments)
-	{
-		global $woocommerce;
+  function canva_wooc_ajax_update_menu_cart_fragment($fragments)
+  {
+    global $woocommerce;
 
-		ob_start();
+    ob_start();
 
-		echo '<span class="_cart-items" > ' . WC()->cart->get_cart_contents_count() . '</span>';
+    echo '<span class="_cart-items" > ' . WC()->cart->get_cart_contents_count() . '</span>';
 
-		$fragments['.menu-item-icon-cart ._cart-items'] = ob_get_clean();
+    $fragments['.menu-item-icon-cart ._cart-items'] = ob_get_clean();
 
-		return $fragments;
-	}
+    return $fragments;
+  }
 }
 add_filter('woocommerce_add_to_cart_fragments', 'canva_wooc_ajax_update_menu_cart_fragment');
 
@@ -141,18 +142,18 @@ add_filter('woocommerce_add_to_cart_fragments', 'canva_wooc_ajax_update_menu_car
  */
 function wc_check_coupon_is_valid($result, $coupon)
 {
-	$user = wp_get_current_user();
-	$restricted_emails = $coupon->get_email_restrictions();
+  $user = wp_get_current_user();
+  $restricted_emails = $coupon->get_email_restrictions();
 
-	if (count($restricted_emails) > 0) {
-		if (in_array($user->user_email, $restricted_emails)) {
-			return $result;
-		} else {
-			return false;
-		}
-	} else {
-		return $result;
-	}
+  if (count($restricted_emails) > 0) {
+    if (in_array($user->user_email, $restricted_emails)) {
+      return $result;
+    } else {
+      return false;
+    }
+  } else {
+    return $result;
+  }
 }
 add_filter('woocommerce_coupon_is_valid', 'wc_check_coupon_is_valid', 10, 2);
 
@@ -167,14 +168,14 @@ add_filter('woocommerce_coupon_is_valid', 'wc_check_coupon_is_valid', 10, 2);
 
 add_filter('woocommerce_catalog_orderby', function ($options) {
 
-	unset($options['popularity']);
-	//unset( $options[ 'menu_order' ] );
-	unset($options['rating']);
-	//unset( $options[ 'date' ] );
-	//unset( $options[ 'price' ] );
-	//unset( $options[ 'price-desc' ] );
+  unset($options['popularity']);
+  //unset( $options[ 'menu_order' ] );
+  unset($options['rating']);
+  //unset( $options[ 'date' ] );
+  //unset( $options[ 'price' ] );
+  //unset( $options[ 'price-desc' ] );
 
-	return $options;
+  return $options;
 });
 
 
@@ -182,17 +183,17 @@ add_filter('woocommerce_catalog_orderby', function ($options) {
 
 function canva_wooc_ajax_update_modal_cart_fragment()
 {
-	$cart = WC()->cart;
+  $cart = WC()->cart;
 
-	// ob_start();
+  // ob_start();
 
-	$fragments = '(' . $cart->get_cart_contents_count() . ' pz - sub.tot. ' . $cart->get_total() . ')';
+  $fragments = '(' . $cart->get_cart_contents_count() . ' pz - sub.tot. ' . $cart->get_total() . ')';
 
-	echo $fragments;
+  echo $fragments;
 
-	// ob_get_clean();
+  // ob_get_clean();
 
-	wp_die();
+  wp_die();
 }
 add_action('wp_ajax_canva_wooc_ajax_update_modal_cart_fragment', 'canva_wooc_ajax_update_modal_cart_fragment');
 add_action('wp_ajax_nopriv_canva_wooc_ajax_update_modal_cart_fragment', 'canva_wooc_ajax_update_modal_cart_fragment');
@@ -209,10 +210,10 @@ add_action('wp_ajax_nopriv_canva_wooc_ajax_update_modal_cart_fragment', 'canva_w
  */
 function get_product_variation_id_by_attributes($product_id, $attributes = [])
 {
-	return (new \WC_Product_Data_Store_CPT())->find_matching_product_variation(
-		new \WC_Product($product_id),
-		$attributes
-	);
+  return (new \WC_Product_Data_Store_CPT())->find_matching_product_variation(
+    new \WC_Product($product_id),
+    $attributes
+  );
 }
 
 
@@ -224,126 +225,134 @@ function get_product_variation_id_by_attributes($product_id, $attributes = [])
  */
 function canva_wooc_cart_ajax()
 {
-	$cart = WC()->cart;
+  $cart = WC()->cart;
 
-	if (!$cart->is_empty()) {
+  if (!$cart->is_empty()) {
 
-?>
-		<div class="_modal-cart-top p-4 shadow">
-			<div class="_cart-modal-title flex items-center gap-4">
-				<div class="_cart-icon">
-					<?php echo canva_get_svg_icon('fontawesome/regular/shopping-cart', 'fill-current w-6'); ?>
-				</div>
-				<div class="_cart-text">
-					<span class="block h3 fs-h2 mb-1">
-						<?php _e('Your Cart', 'woocommerce'); ?>
-					</span>
-					<span class="_cart-sub-totals block fs-sm fw-300">
-						<?php echo  $cart->get_cart_contents_count(); ?> <?php _e('pezzi - Sub Totale', 'canva-woocommerce'); ?> <?php echo $cart->get_total() ?>
-					</span>
-				</div>
-			</div>
-		</div>
+    ?>
+    <div class="_modal-cart-top p-4 shadow">
+      <div class="_cart-modal-title flex items-center gap-4">
+        <div class="_cart-icon">
+          <?php echo canva_get_svg_icon('fontawesome/regular/shopping-cart', 'fill-current w-6'); ?>
+        </div>
+        <div class="_cart-text">
+          <span class="block h3 fs-h2 mb-1">
+            <?php _e('Your Cart', 'woocommerce'); ?>
+          </span>
+          <span class="_cart-sub-totals block fs-sm fw-300">
+            <?php echo $cart->get_cart_contents_count(); ?>     <?php _e('pezzi - Sub Totale', 'canva-woocommerce'); ?>
+            <?php echo $cart->get_total() ?>
+          </span>
+        </div>
+      </div>
+    </div>
 
-		<div class="_modal-cart-items flex-1 overflow-y-auto">
-			<?php
+    <div class="_modal-cart-items flex-1 overflow-y-auto">
+      <?php
 
-			foreach ($cart->get_cart() as $cart_item_key => $cart_item) {
-				$_product   = apply_filters('woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key);
-				// $product_id = apply_filters('woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key);
-				$product_id = $cart_item['product_id'];
-				$product = $cart_item['data'];
-				$delete_item = apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-					'woocommerce_cart_item_remove_link',
-					sprintf(
-						'<a href="%s" class="remove remove_from_cart_button" aria-label="%s" data-product_id="%s" data-cart_item_key="%s" data-product_sku="%s">' . __('Delete', 'woocommerce') . '</a>',
-						esc_url(wc_get_cart_remove_url($cart_item_key)),
-						esc_attr__('Delete', 'woocommerce'),
-						esc_attr($product_id),
-						esc_attr($cart_item_key),
-						esc_attr($_product->get_sku())
-					),
-					$cart_item_key
-				);
+      foreach ($cart->get_cart() as $cart_item_key => $cart_item) {
+        $_product = apply_filters('woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key);
+        // $product_id = apply_filters('woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key);
+        $product_id = $cart_item['product_id'];
+        $product = $cart_item['data'];
+        $delete_item = apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+          'woocommerce_cart_item_remove_link',
+          sprintf(
+            '<a href="%s" class="remove remove_from_cart_button" aria-label="%s" data-product_id="%s" data-cart_item_key="%s" data-product_sku="%s">' . __('Delete', 'woocommerce') . '</a>',
+            esc_url(wc_get_cart_remove_url($cart_item_key)),
+            esc_attr__('Delete', 'woocommerce'),
+            esc_attr($product_id),
+            esc_attr($cart_item_key),
+            esc_attr($_product->get_sku())
+          ),
+          $cart_item_key
+        );
 
-			?>
-				<div class="_cart-item flex gap-4 px-4 py-6 border-b border-gray-200">
+        ?>
+        <div class="_cart-item flex gap-4 px-4 py-6 border-b border-gray-200">
 
-					<div class="_product-img">
-						<a href="<?php echo $product->get_permalink($cart_item); ?>">
-							<?php
-							// $thumbnail = apply_filters('woocommerce_cart_item_thumbnail', $_product->get_image('160-free',array('class' => 'w-24')), $cart_item, $cart_item_key);
-							if (!$product_permalink) {
-								// echo $thumbnail; // PHPCS: XSS ok.
-								echo $_product->get_image('160-free', array('class' => 'w-20'));
-							} else {
-								echo canva_get_img([
-									'img_id'   =>  $cart_item['product_id'],
-									'img_type' => 'img', // img, bg, url
-									'thumb_size' =>  '320-11',
-									'img_class' =>  '',
-									'wrapper_class' =>  '',
-									'blazy' => 'off',
-								]);
-							}
-							?>
-						</a>
-					</div>
+          <div class="_product-img">
+            <a href="<?php echo $product->get_permalink($cart_item); ?>">
+              <?php
+              // $thumbnail = apply_filters('woocommerce_cart_item_thumbnail', $_product->get_image('160-free',array('class' => 'w-24')), $cart_item, $cart_item_key);
+              if (!$product_permalink) {
+                // echo $thumbnail; // PHPCS: XSS ok.
+                echo $_product->get_image('160-free', array('class' => 'w-20'));
+              } else {
+                echo canva_get_img([
+                  'img_id' => $cart_item['product_id'],
+                  'img_type' => 'img', // img, bg, url
+                  'thumb_size' => '320-11',
+                  'img_class' => '',
+                  'wrapper_class' => '',
+                  'blazy' => 'off',
+                ]);
+              }
+              ?>
+            </a>
+          </div>
 
-					<div class="_product-data flex-1 pr-8">
-						<a href="<?php echo $product->get_permalink($cart_item); ?>">
-							<span class="_title block fs-xs uppercase fw-400 mb-1"><?php echo get_the_title($product_id); ?></span>
-						</a>
-						<span class="_price block fw-700 mb-4"><?php echo $cart->get_product_subtotal($product, $cart_item['quantity']); ?></span>
-						<span class="_quantity flex items-center gap-8 fs-xxs lh-10">
-							<span class="_quantity text-gray-400 inline-flex gap-2 items-center mr-8"><?php _e('Quantity', 'woocommerce'); ?>
-								<span class="fw-700 text-black w-10 h-6 flex items-center justify-center rounded-full border border-black"><?php echo $cart_item['quantity']; ?></span>
-							</span>
-							<span class="_delete-item block"><?php echo $delete_item; ?></span>
-						</span>
-					</div>
-					<div class="_product-item-delete self-end hide">
-						<?php echo $delete_item; ?>
-					</div>
+          <div class="_product-data flex-1 pr-8">
+            <a href="<?php echo $product->get_permalink($cart_item); ?>">
+              <span class="_title block fs-xs uppercase fw-400 mb-1"><?php echo get_the_title($product_id); ?></span>
+            </a>
+            <span
+              class="_price block fw-700 mb-4"><?php echo $cart->get_product_subtotal($product, $cart_item['quantity']); ?></span>
+            <span class="_quantity flex items-center gap-8 fs-xxs lh-10">
+              <span
+                class="_quantity text-gray-400 inline-flex gap-2 items-center mr-8"><?php _e('Quantity', 'woocommerce'); ?>
+                <span
+                  class="fw-700 text-black w-10 h-6 flex items-center justify-center rounded-full border border-black"><?php echo $cart_item['quantity']; ?></span>
+              </span>
+              <span class="_delete-item block"><?php echo $delete_item; ?></span>
+            </span>
+          </div>
+          <div class="_product-item-delete self-end hide">
+            <?php echo $delete_item; ?>
+          </div>
 
-				</div>
+        </div>
 
 
-		<?php
-			}
-		} else { ?>
-		<div class="_modal-cart-top p-4 shadow">
-			<div class="_cart-modal-title flex items-center gap-4">
-				<div class="_cart-icon">
-					<?php echo canva_get_svg_icon('fontawesome/regular/shopping-cart', 'fill-current w-6'); ?>
-				</div>
-				<div class="_cart-text">
-					<span class="block h3 fs-h2 mb-1">
-						<?php _e('Your cart', 'woocommerce'); ?>
-					</span>
-					<span class="_cart-sub-totals block fs-sm fw-300">
-						<?php echo  $cart->get_cart_contents_count(); ?> <?php _e('pezzi - Sub Totale', 'canva-woocommerce'); ?> <?php echo $cart->get_total() ?>
-					</span>
-				</div>
-			</div>
-		</div>
-		<div class="_modal-cart-items flex-1 overflow-y-auto p-8">
+        <?php
+      }
+  } else { ?>
+      <div class="_modal-cart-top p-4 shadow">
+        <div class="_cart-modal-title flex items-center gap-4">
+          <div class="_cart-icon">
+            <?php echo canva_get_svg_icon('fontawesome/regular/shopping-cart', 'fill-current w-6'); ?>
+          </div>
+          <div class="_cart-text">
+            <span class="block h3 fs-h2 mb-1">
+              <?php _e('Your cart', 'woocommerce'); ?>
+            </span>
+            <span class="_cart-sub-totals block fs-sm fw-300">
+              <?php echo $cart->get_cart_contents_count(); ?>     <?php _e('pezzi - Sub Totale', 'canva-woocommerce'); ?>
+              <?php echo $cart->get_total() ?>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="_modal-cart-items flex-1 overflow-y-auto p-8">
 
-			<?php _e('Your cart is currently empty', 'woocommerce'); ?>
+        <?php _e('Your cart is currently empty', 'woocommerce'); ?>
 
-		</div>
-		<?php
-		}
-		?>
-		</div>
+      </div>
+      <?php
+  }
+  ?>
+  </div>
 
-		<div class="_modal-cart-bottom p-4 text-center">
-			<a class="button hollow w-64 mb-4" href="<?php echo wc_get_cart_url(); ?>"><?php _e('Gestisci carrello', 'woocommerce'); ?></a>
-			<a class="button w-64 mb-0" href="<?php echo wc_get_checkout_url(); ?>"><?php _e('Paga ordine', 'woocommerce'); ?></a>
-		</div>
-	<?php
+  <div class="_modal-cart-bottom p-4 text-center">
+    <a class="button hollow w-64 mb-4"
+      href="<?php echo wc_get_cart_url(); ?>"><?php _e('Gestisci carrello', 'woocommerce'); ?></a>
+    <a class="button w-64 mb-0" href="<?php echo wc_get_checkout_url(); ?>"><?php _e('Paga ordine', 'woocommerce'); ?></a>
+  </div>
+  <?php
 
-	wp_die();
+  wp_die();
 }
 add_action('wp_ajax_canva_wooc_cart_ajax', 'canva_wooc_cart_ajax');
 add_action('wp_ajax_nopriv_canva_wooc_cart_ajax', 'canva_wooc_cart_ajax');
+
+add_filter('should_load_separate_core_block_assets', '__return_false');

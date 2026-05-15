@@ -36,7 +36,7 @@ get_header();
               <?php echo $cat_name; ?>
             </h2>
             <div>
-              <figure class="figure-60 figure-cat-thumbnail overflow-hidden">
+              <figure class="figure-cat-thumbnail overflow-hidden">
                 <?php
                 echo wp_get_attachment_image($thumbnail_id, "full", false, ['class' => 'object-cover h-full w-full', 'title' => $cat_name, 'alt' => $cat_name]);
                 ?>
@@ -47,8 +47,9 @@ get_header();
             <?php
             $child_args = array(
               'taxonomy' => 'catalogo',
-              'orderby' => 'term_id',
-              'order' => 'DESC',
+              'meta_key'  => 'order_catalog',
+              'orderby'   => 'meta_value_num',
+              'order' => 'ASC',
               'hide_empty' => false,
               'parent' => $parent_cats[$i]->term_id
             );
@@ -66,8 +67,10 @@ get_header();
                 <div class="catalogo-child-container">
                   <a href="<?php echo esc_url($child_cat_link); ?>"
                     class="catalogo-child-link flex flex-col justify-between h-full gap-2">
-                    <?php echo esc_html($child_cat_name); ?>
-                    <figure class="figure-100 figure-img-h-100">
+                    <span class="cat-title">
+                      <?php echo esc_html($child_cat_name); ?>
+                    </span>
+                    <figure class="figure-4x3 figure-img-h-100">
                       <?php
                       if (!$child_cat_thumbnail_id) {
                         ?>
@@ -93,6 +96,44 @@ get_header();
     ?>
   </div>
 </section>
+<script>
+  function equalizeSpanHeights() {
+    // Trova il div principale
+    const container = document.querySelector('.catalogo-parent-cats-container');
+
+    if (!container) return;
+
+    // Trova tutti gli span con classe cat-title
+    const spans = container.querySelectorAll('span.cat-title');
+
+    if (spans.length === 0) return;
+
+    // Reset delle altezze per ricalcolare correttamente
+    spans.forEach(span => {
+      span.style.height = 'auto';
+    });
+
+    // Trova l'altezza massima
+    let maxHeight = 0;
+    spans.forEach(span => {
+      const height = span.offsetHeight;
+      if (height > maxHeight) {
+        maxHeight = height;
+      }
+    });
+
+    // Applica l'altezza massima a tutti gli span
+    spans.forEach(span => {
+      span.style.height = maxHeight + 'px';
+    });
+  }
+
+  // Esegui al caricamento della pagina
+  window.addEventListener('load', equalizeSpanHeights);
+
+  // Esegui al resize della finestra
+  window.addEventListener('resize', equalizeSpanHeights);
+</script>
 <?php
 echo canva_get_template('form-footer', ['post_id' => $post_id]);
 get_footer();

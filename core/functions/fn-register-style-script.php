@@ -90,7 +90,8 @@ if (!function_exists('canva_register_scripts')) {
     wp_enqueue_script('swiper');
 
     //footer scripts
-    wp_register_script('jquery', '//cdnjs.cloudflare.com/ajax/libs/jquery/' . canva_script_version('jquery') . '/jquery.min.js', null, null, null);
+    /* wp_register_script('jquery', '//cdnjs.cloudflare.com/ajax/libs/jquery/' . canva_script_version('jquery') . '/jquery.min.js', null, null, null); */
+    wp_register_script('jquery', get_template_directory_uri() . '/core/assets/js/lib/jquery.min.js', null, null, null);
     wp_enqueue_script('jquery');
 
     // if (get_field('script_jquery_migrate', 'options')) {
@@ -120,7 +121,7 @@ if (!function_exists('canva_register_scripts')) {
       wp_enqueue_script('google-maps-api-asyncdefer');
     }
 
-    wp_register_script('canva-frontend', CANVA_PROJECT_JS_URI . 'frontend.min.js?last_time=' . filemtime(CANVA_PROJECT_JS . 'frontend.min.js'), ['jquery'], false, true);
+    wp_register_script('canva-frontend', CANVA_PROJECT_JS_URI . 'frontend.min.js', ['jquery'], false, true);
     wp_enqueue_script('canva-frontend');
     wp_set_script_translations('canva-frontend', 'canva'); // translation for js scripts
 
